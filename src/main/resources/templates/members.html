@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Members</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+
+
+    <link href="../static/css/makertracker.css"
+          th:href="@{css/makertracker.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <h1>Members</h1>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="member : ${members}">
+                        <td th:text="${member.id}"></td>
+                        <td th:text="${member.firstName}"></td>
+                        <td th:text="${member.lastName}"></td>
+                        <td th:text="${member.email}"></td>
+                        <td th:id="${member.id}"><button class="btn btn-danger delete-member">Delete</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+            <form>
+                <div class="form-group">
+                    <label for="member_firstName">First Name:</label>
+                    <input type="text" class="form-control" id="member_firstName"/>
+                </div>
+                <div class="form-group">
+                    <label for="member_lastName">Last Name:</label>
+                    <input type="text" class="form-control" id="member_lastName"/>
+                </div>
+                <div class="form-group">
+                    <label for="member_email">Email:</label>
+                    <input type="text" class="form-control" id="member_email"/>
+                </div>
+                <button type="submit" class="btn btn-default" id="btn_submit">Add New Member</button>
+            </form>
+        </div>
+    </div>
+    <br />
+</div>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.0/jquery.min.js"
+        th:src="@{/webjars/jquery/3.2.0/jquery.min.js}"></script>
+    <script src="../static/script/member.js"  th:src="@{script/member.js}" type="application/javascript"></script>
+
+</body>
+</html>
