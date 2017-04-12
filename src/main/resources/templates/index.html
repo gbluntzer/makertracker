@@ -15,22 +15,38 @@
           th:href="@{css/makertracker.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
-<div class="container">
-    <div class="jumbotron">
-        <img src="../static/images/10bitworkslogo.png" width="255"
-             th:src="@{images/10bitworkslogo.png}"/>
-        <h1>Hello 1</h1>
+<!--<div class="container">-->
+    <!--<div class="jumbotron">-->
+        <!--<img src="../static/images/10bitworkslogo.png" width="255"-->
+             <!--th:src="@{images/10bitworkslogo.png}"/>-->
+        <!--<h1>Hello 1</h1>-->
 
-        <h2>Maker Tracker</h2>
+        <!--<h2>Maker Tracker</h2>-->
+    <!--</div>-->
+<!--</div>-->
+<div id="mainContainer" class="flexBoxContainer">
+    <div id="header" class="header" >
+        <div id="logo" class="logo">
+            <img src="../static/images/10bitworkslogo.png" width="255"
+            th:src="@{images/10bitworkslogo.png}"/>
+        </div>
+    </div>
+    <div id="content" class="content">
+        <div  id="menu" class="menu">
+            <div class="menuItem"><a href="/greeting">Greeting</a></div>
+            <div class="menuItem"><a href="/members">Members</a></div>
+            <div class="menuItem"><a href="/trainings">Trainings</a></div>
+            <div class="menuItem"><a href="/assets">Assets</a></div>
+        </div>
+        <div id="screen" class="screen">
+            Screen
+        </div>
+    </div>
+    <div id="footer" class="footer">
+        <div>Footer1</div>
+        <div>Footer2</div>
+        <div>Footer3</div>
     </div>
 </div>
-<div>
-    <p><a href="/greeting">Greeting</a></p>
-    <p><a href="/members">Members</a></p>
-    <p><a href="/trainings">Trainings</a></p>
-    <p><a href="/assets">Assets</a></p>
-</div>
-
-
 </body>
 </html>

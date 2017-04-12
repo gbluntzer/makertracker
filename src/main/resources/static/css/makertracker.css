@@ -1,0 +1,47 @@
+.flexBoxContainer{
+    display:flex;
+    flex-direction: column;
+    height: 100vh;
+
+}
+.header {
+  background-color:pink;
+  min-height:100px;
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex: 0 2 auto;
+}
+.logo {
+  margin:10px 0px;
+}
+
+.content {
+    flex: 1 0 auto;
+    display:flex;
+    flex-direction: row;
+
+    align-items:  stretch;
+}
+.menu {
+    display:flex;
+    flex-direction: column;
+    width:120px;
+    justify-content: flex-start
+}
+.menuItem {
+   margin : 0 10px;
+}
+.screen {
+   flex-grow:1;
+   background-color:green;
+}
+.footer {
+   min-height:100px;
+   background-color:gray;
+   display:flex;
+   flex-direction: row;
+   justify-content: space-around;
+   align-items: center;
+   flex: 0 2 auto;
+}
