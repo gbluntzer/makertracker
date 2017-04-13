@@ -25,12 +25,8 @@
     <!--</div>-->
 <!--</div>-->
 <div id="mainContainer" class="flexBoxContainer">
-    <div id="header" class="header" >
-        <div id="logo" class="logo">
-            <img src="../static/images/10bitworkslogo.png" width="255"
-            th:src="@{images/10bitworkslogo.png}"/>
-        </div>
-    </div>
+    <!--HEADER-->
+    <div th:replace="fragments/header :: header"></div>
     <div id="content" class="content">
         <div  id="menu" class="menu">
             <div class="menuItem"><a href="/greeting">Greeting</a></div>
@@ -42,11 +38,7 @@
             Screen
         </div>
     </div>
-    <div id="footer" class="footer">
-        <div>Footer1</div>
-        <div>Footer2</div>
-        <div>Footer3</div>
-    </div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>
