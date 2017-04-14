@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Example of Using thymelead to do a save</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<form action="#" th:action="@{/savegreeting}" th:object="${greeting}" method="post">
+    <p>Id: <input type="text" th:field="*{id}" /></p>
+    <p>Message: <input type="text" th:field="*{content}" /></p>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+
+<div class="row">
+    <div class="col-lg-8 col-md-7 col-sm-6">
+        <h1>Greetings</h1>
+
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="greetingVal : ${greetings}">
+                <td th:text="${greetingVal.id}"></td>
+                <td th:text="${greetingVal.content}"></td>
+                <!--<td th:id="${greeting.id}"><button class="btn btn-danger delete-greeting">Delete</button></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

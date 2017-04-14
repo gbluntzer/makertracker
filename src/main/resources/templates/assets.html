@@ -1,70 +1,62 @@
-<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Assets</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen" />
-
-
-    <link href="../static/css/makertracker.css"
-          th:href="@{css/makertracker.css}" rel="stylesheet" media="screen"/>
-</head>
+<head th:replace="fragments/header :: header" lang="en"/>
 <body>
-<div class="container">
-
-    <div class="page-header" id="banner">
+<div id="mainContainer" class="flexBoxContainer">
+    <div th:replace="fragments/menu :: menu"></div>
+    <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-7 col-sm-6">
-                <h1>Assets</h1>
+                <form>
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" id="title"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea  class="form-control" id="description"/>
+                    </div>
 
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Delete</th>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                    <tr th:each="asset : ${assets}">
-                        <td th:text="${asset.id}"></td>
-                        <td th:text="${asset.title}"></td>
-                        <td th:text="${asset.description}"></td>
-                        <td th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <button type="submit" class="btn btn-default" id="btn_submit">Add New Asset</button>
+                </form>
             </div>
         </div>
+        <br />
+        <div class="page-header" id="banner">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1>Assets</h1>
 
-    </div>
-    <div class="row">
-        <div class="col-lg-8 col-md-7 col-sm-6">
-            <form>
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" class="form-control" id="title"/>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="asset : ${assets}">
+                            <td th:text="${asset.id}"></td>
+                            <td th:text="${asset.title}"></td>
+                            <td th:text="${asset.description}"></td>
+                            <td th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea  class="form-control" id="description"/>
-                </div>
+            </div>
 
-
-                <button type="submit" class="btn btn-default" id="btn_submit">Add New Asset</button>
-            </form>
         </div>
+
+
     </div>
-    <br />
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.0/jquery.min.js"
-        th:src="@{/webjars/jquery/3.2.0/jquery.min.js}"></script>
-    <script src="../static/script/asset.js"  th:src="@{script/asset.js}" type="application/javascript"></script>
+<script src="../static/script/asset.js"  th:src="@{script/asset.js}" type="application/javascript"></script>
 
 </body>
 </html>
+

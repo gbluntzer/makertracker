@@ -1,9 +1,18 @@
-<html>
-<div id="header" class="header" th:fragment="header">
-    <div id="logo" class="logo">
-        <img src="../static/images/10bitworkslogo.png" width="255"
-             th:src="@{images/10bitworkslogo.png}"/>
-    </div>
-    <div><H1>MAKER TRACKER</H1></div>
-</div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head id="header" class="header" th:fragment="header">
+
+    <title>Maker Tracker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.0/jquery.min.js"
+            th:src="@{/webjars/jquery/3.2.0/jquery.min.js}"></script>
+
+    <link href="../static/css/makertracker.css"
+          th:href="@{css/makertracker.css}" rel="stylesheet" media="screen"/>
+</head>
 </html>

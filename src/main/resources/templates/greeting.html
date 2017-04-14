@@ -1,10 +1,18 @@
-<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<head th:replace="fragments/header :: header" lang="en"/>
 <body>
-<p th:text="'Hello, ' + ${name} + '!'" />
+<div id="mainContainer" class="flexBoxContainer">
+    <div th:replace="fragments/menu :: menu"></div>
+    <div class="container">
+        <div id="logo" class="logo">
+        <img src="../static/images/10bitworkslogo.png" width="255"
+        th:src="@{images/10bitworkslogo.png}"/>
+        </div>
+
+
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+<!--Unique Java Script Goes Here-->
 </body>
 </html>

@@ -6,7 +6,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.tenbitworks.model.Greeting;
 import org.tenbitworks.model.Member;
+import org.tenbitworks.repositories.GreetingRepository;
 import org.tenbitworks.repositories.MemberRepository;
 
 import java.util.Optional;
@@ -49,6 +51,30 @@ public class MakertrackerApplication {
 			} catch (Exception e){
 				e.printStackTrace();
 			}
+
+
+		};
+	}
+
+	@Bean
+	public CommandLineRunner greetingDemo(GreetingRepository repository) {
+		return (args) -> {
+			// save a couple of Greeting
+			repository.save(new Greeting("Content One"));
+			repository.save(new Greeting("Content Two"));
+
+
+
+			// fetch all customers
+			log.info("Greeting found with findAll():");
+			log.info("-------------------------------");
+			for (Greeting greeting : repository.findAll()) {
+				log.info(greeting.toString());
+			}
+			log.info("");
+
+
+
 
 
 		};
