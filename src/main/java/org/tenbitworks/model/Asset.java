@@ -22,6 +22,11 @@ public class Asset {
     public Asset() {
     }
 
+    public Asset(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
     public Asset(long id, String title, String description) {
         this.id = id;
         this.title = title;
@@ -53,4 +58,12 @@ public class Asset {
     }
 
 
+    @Override
+    public String toString() {
+        return "Asset{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
