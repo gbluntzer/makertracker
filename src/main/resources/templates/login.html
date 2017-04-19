@@ -9,7 +9,7 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<div class="container">
+<div id="loginDiv" class="container">
     <form th:action="@{/login}" method="post">
         <div class="form-group">
             <label for="username">User Name :</label>
@@ -19,7 +19,7 @@
             <label for="password">Password:</label>
             <input type="text" class="form-control" name="password" id="password"/>
         </div>
-        <div><input class="btn btn-default" type="submit" value="Sign In"/></div>
+        <div><input class="btn btn-primary" type="submit" value="Sign In"/></div>
     </form>
 </div>
 </body>

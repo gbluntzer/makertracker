@@ -13,7 +13,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+
                 .antMatchers( "/webjars/**", "/css/**").permitAll()
+                .antMatchers("/savemember").access("hasRole('ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -22,12 +24,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
+
+
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("root").password("root").roles("USER");
+                .withUser("root").password("root").roles("ADMIN")
+                    .and()
+                .withUser("guest").password("guest").roles("GUEST");
     }
 }

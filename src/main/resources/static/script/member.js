@@ -19,7 +19,9 @@
            }
            else {
                var data = {};
-               data["id"] = memberId;
+               if(memberId){
+                data["id"] = memberId;
+               }
                data["firstName"] = memberFirstName;
                data["lastName"] = memberLastName;
                data["email"] = memberEmail;
