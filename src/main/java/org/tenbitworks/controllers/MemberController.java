@@ -19,6 +19,12 @@ public class MemberController {
         model.addAttribute("member", memberRepository.findOne(id));
         return "member";
     }
+    @RequestMapping("/getmember")
+    @ResponseBody
+    public Member getMember(@RequestParam Long Id, Model model){
+        Member member = memberRepository.findOne(Id);
+        return member;
+    }
 
     @RequestMapping(value = "/members",method = RequestMethod.GET)
     public String membersList(Model model){

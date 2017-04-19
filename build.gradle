@@ -33,6 +33,7 @@ dependencies {
 //	compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:1.2.9')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.springframework.boot:spring-boot-devtools")
+	compile("org.springframework.boot:spring-boot-starter-security")
 
 	
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java

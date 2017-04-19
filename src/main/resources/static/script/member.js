@@ -3,7 +3,8 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var memberFirstName, memberLastName, memberEmail;
+           var memberId, memberFirstName, memberLastName, memberEmail;
+           memberId = $('#member_id').val();
            memberFirstName = $('#member_firstName').val();
            memberLastName = $('#member_lastName').val();
            memberEmail = $('#member_email').val();
@@ -18,9 +19,11 @@
            }
            else {
                var data = {};
+               data["id"] = memberId;
                data["firstName"] = memberFirstName;
                data["lastName"] = memberLastName;
                data["email"] = memberEmail;
+
                $.ajax({
                    type: "POST",
                    contentType: "application/json",
@@ -54,5 +57,24 @@
                    }
                });
            }
+       });
+
+       $('.edit-member').on("click", function(e){
+           e.preventDefault();
+
+               var Id = parseInt($(this).closest("td").attr("id"));
+               $.ajax({
+                   type:"GET",
+                   url:"/getmember",
+                   data:{Id:Id},
+                   success:function (data) {
+                       $('#member_id').val(data.id);
+                       $('#member_firstName').val(data.firstName);
+                        $('#member_lastName').val(data.lastName);
+                         $('#member_email').val(data.email);
+
+                   }
+               });
+
        });
     });

@@ -8,6 +8,10 @@
         <div class="row">
             <div class="col-lg-8 col-md-7 col-sm-6">
                 <form>
+                    <div class="form-group" style="display:hidden">
+                        <label for="member_id">Id:</label>
+                        <input type="text" class="form-control" id="member_id"/>
+                    </div>
                     <div class="form-group">
                         <label for="member_firstName">First Name:</label>
                         <input type="text" class="form-control" id="member_firstName"/>
@@ -38,6 +42,7 @@
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Delete</th>
+                            <th>Edit</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -48,6 +53,7 @@
                             <td th:text="${member.lastName}"></td>
                             <td th:text="${member.email}"></td>
                             <td th:id="${member.id}"><button class="btn btn-danger delete-member">Delete</button></td>
+                            <td th:id="${member.id}"><button class="btn edit-member">Edit</button></td>
                         </tr>
                         </tbody>
                     </table>
