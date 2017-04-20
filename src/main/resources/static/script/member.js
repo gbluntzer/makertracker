@@ -3,11 +3,12 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var memberId, memberFirstName, memberLastName, memberEmail;
+           var memberId, memberFirstName, memberLastName, memberEmail, csrf;
            memberId = $('#member_id').val();
            memberFirstName = $('#member_firstName').val();
            memberLastName = $('#member_lastName').val();
            memberEmail = $('#member_email').val();
+           csrf = $("[name='_csrf']").val();
            if($.trim(memberFirstName) === ""){
                alert("Member First name cannot be empty");
            }
@@ -27,6 +28,7 @@
                data["email"] = memberEmail;
 
                $.ajax({
+                   headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",
                    contentType: "application/json",
                    url: "/savemember",
