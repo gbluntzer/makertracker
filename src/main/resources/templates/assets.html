@@ -7,17 +7,25 @@
         <div class="row">
             <div class="col-lg-8 col-md-7 col-sm-6">
                 <form>
-                    <div class="form-group">
-                        <label for="title">Title:</label>
-                        <input type="text" class="form-control" id="title"/>
+                    <div class="form-group" style="display:none">
+                        <label for="assetId">Id:</label>
+                        <input type="text" class="form-control" id="assetId"/>
                     </div>
+                    <div th:replace="fragments/formField :: formField(field='title', type='text' , label='Title')" ></div>
                     <div class="form-group">
                         <label for="description">Description:</label>
                         <textarea  class="form-control" id="description"/>
                     </div>
-
-
-                    <button type="submit" class="btn btn-default" id="btn_submit">Add New Asset</button>
+                    <div th:replace="fragments/formField :: formField(field='dateAquired', type='date' , label='Date Auquired')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='dateRemoved', type='date' , label='Date Removed')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='brand', type='text' , label='Brand')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='modelNumber', type='text' , label='Model Number')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='serialNumber', type='text' , label='Serial Number')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='retailValue', type='text' , label='Retail Value')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='webLink', type='text' , label='Web Link')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='operator', type='text' , label='Operator')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='donator', type='text' , label='Donator')" ></div>
+                    <button type="submit" class="btn btn-default" id="btn_submit">Add / Update Asset</button>
                 </form>
             </div>
         </div>
@@ -34,6 +42,7 @@
                             <th>Title</th>
                             <th>Description</th>
                             <th>Delete</th>
+                            <th>Edit</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -43,6 +52,7 @@
                             <td th:text="${asset.title}"></td>
                             <td th:text="${asset.description}"></td>
                             <td th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
+                            <td th:id="${asset.id}"><button class="btn edit-asset">Edit</button></td>
                         </tr>
                         </tbody>
                     </table>

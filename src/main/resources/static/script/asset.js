@@ -3,18 +3,42 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var title, description;
+           var csrf, assetId, title, description, dateAquired, dateRemoved, brand, modelNumber, serialNumber, retailValue, webLink, operator, donator;
+           assetId = $('#assetId').val();
            title = $('#title').val();
            description = $('#description').val();
+           dateAquired = $('#dateAquired').val();
+           dateRemoved = $('#dateRemoved').val();
+           brand = $('#brand').val();
+           modelNumber = $('#modelNumber').val();
+           serialNumber = $('#serialNumber').val();
+           retailValue = $('#retailValue').val();
+           webLink = $('#webLink').val();
+           operator = $('#operator').val();
+           donator = $('#donator').val();
+           csrf = $("[name='_csrf']").val();
            if($.trim(title) === ""){
                alert("Asset Title cannot be empty");
            }
 
            else {
                var data = {};
+                if(assetId){
+                               data["id"] = assetId;
+                              }
                data["title"] = title;
                data["description"] = description;
+               data["dateAquired"] = dateAquired;
+               data["dateRemoved"] = dateRemoved;
+               data["brand"] = brand;
+               data["modelNumber"] = modelNumber;
+               data["serialNumber"] = serialNumber;
+               data["retailValue"] = retailValue;
+               data["webLink"] = webLink;
+               data["operator"] = operator;
+               data["donator"] = donator;
                $.ajax({
+                 headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",
                    contentType: "application/json",
                    url: "/saveasset",
@@ -48,4 +72,32 @@
                });
            }
        });
+
+              $('.edit-asset').on("click", function(e){
+                  e.preventDefault();
+
+                      var Id = parseInt($(this).closest("td").attr("id"));
+                      $.ajax({
+                          type:"GET",
+                          url:"/getasset",
+                          data:{Id:Id},
+                          success:function (data) {
+                            $('#assetId').val(data.id);
+                            $('#title').val(data.title);
+                            $('#description').val(data.description);
+                            $('#dateAquired').val(data.dateAquired);
+                            $('#dateRemoved').val(data.dateRemoved);
+                            $('#brand').val(data.brand);
+                            $('#modelNumber').val(data.modelNumber);
+                            $('#serialNumber').val(data.serialNumber);
+                            $('#retailValue').val(data.retailValue);
+                            $('#webLink').val(data.webLink);
+                            $('#operator').val(data.operator);
+                            $('#donator').val(data.donator);
+
+                          }
+                      });
+
+              });
+
     });

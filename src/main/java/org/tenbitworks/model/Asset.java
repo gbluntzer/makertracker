@@ -2,6 +2,8 @@ package org.tenbitworks.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.sql.Date;
 
 @Entity
 @Table(name="asset")
@@ -16,6 +18,23 @@ public class Asset {
     String title;
 
     String description;
+
+    Date dateAquired;
+    Date dateRemoved;
+
+    String brand;
+    String modelNumber;
+    String serialNumber;
+
+    BigDecimal retailValue;
+
+    String webLink;
+    String operator;  //Member
+    String donator;   //Member
+
+
+
+
 
 
 
@@ -57,6 +76,78 @@ public class Asset {
         this.description = description;
     }
 
+
+    public Date getDateAquired() {
+        return dateAquired;
+    }
+
+    public void setDateAquired(Date dateAquired) {
+        this.dateAquired = dateAquired;
+    }
+
+    public Date getDateRemoved() {
+        return dateRemoved;
+    }
+
+    public void setDateRemoved(Date dateRemoved) {
+        this.dateRemoved = dateRemoved;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModelNumber() {
+        return modelNumber;
+    }
+
+    public void setModelNumber(String modelNumber) {
+        this.modelNumber = modelNumber;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public BigDecimal getRetailValue() {
+        return retailValue;
+    }
+
+    public void setRetailValue(BigDecimal retailValue) {
+        this.retailValue = retailValue;
+    }
+
+    public String getWebLink() {
+        return webLink;
+    }
+
+    public void setWebLink(String webLink) {
+        this.webLink = webLink;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getDonator() {
+        return donator;
+    }
+
+    public void setDonator(String donator) {
+        this.donator = donator;
+    }
 
     @Override
     public String toString() {
