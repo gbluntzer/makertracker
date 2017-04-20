@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<div class="form-group" th:fragment="formField">
+    <label th:text="${label}+ ':'" th:for="${field}" for="title">Label</label>
+    <input th:id="${field}" th:type="${type}" type="text" class="form-control" id="title"/>
+</div>
+</body>
+</html>
+
+
