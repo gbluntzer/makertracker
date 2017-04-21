@@ -23,6 +23,12 @@ public class Member {
   @NotNull
   private String lastName;
 
+  private String phoneNumber;
+
+  private String description;
+
+  private String zipCode;
+
   // Public methods
   
   public Member() { }
@@ -67,6 +73,30 @@ public class Member {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getZipCode() {
+    return zipCode;
+  }
+
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
   }
 
   @Override

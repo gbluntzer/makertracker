@@ -20,10 +20,18 @@
                         <label for="member_lastName">Last Name:</label>
                         <input type="text" class="form-control" id="member_lastName"/>
                     </div>
+
+
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea  class="form-control" id="description"/>
+                    </div>
                     <div class="form-group">
                         <label for="member_email">Email:</label>
                         <input type="text" class="form-control" id="member_email"/>
                     </div>
+                    <div th:replace="fragments/formField :: formField(field='phoneNumber', type='text' , label='Phone Number')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='zipCode', type='text' , label='Zip Code')" ></div>
                     <button type="submit" class="btn btn-default" id="btn_submit">Add / Update Member</button>
                 </form>
             </div>

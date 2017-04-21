@@ -3,11 +3,14 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var memberId, memberFirstName, memberLastName, memberEmail, csrf;
+           var memberId, memberFirstName, memberLastName, memberEmail, phoneNumber, description, zipCode, csrf;
            memberId = $('#member_id').val();
            memberFirstName = $('#member_firstName').val();
            memberLastName = $('#member_lastName').val();
            memberEmail = $('#member_email').val();
+           phoneNumber = $('#phoneNumber').val();
+           description = $('#description').val();
+           zipCode = $('#zipCode').val();
            csrf = $("[name='_csrf']").val();
            if($.trim(memberFirstName) === ""){
                alert("Member First name cannot be empty");
@@ -26,6 +29,9 @@
                data["firstName"] = memberFirstName;
                data["lastName"] = memberLastName;
                data["email"] = memberEmail;
+               data["phoneNumber"] = phoneNumber;
+               data["description"] = description;
+               data["zipCode"] = zipCode;
 
                $.ajax({
                    headers: { 'X-CSRF-TOKEN': csrf},
@@ -74,8 +80,11 @@
                    success:function (data) {
                        $('#member_id').val(data.id);
                        $('#member_firstName').val(data.firstName);
-                        $('#member_lastName').val(data.lastName);
-                         $('#member_email').val(data.email);
+                       $('#member_lastName').val(data.lastName);
+                       $('#member_email').val(data.email);
+                       $('#phoneNumber').val(data.phoneNumber);
+                       $('#description').val(data.description);
+                       $('#zipCode').val(data.zipCode);
 
                    }
                });
