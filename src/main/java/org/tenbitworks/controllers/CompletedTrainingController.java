@@ -33,6 +33,13 @@ public class CompletedTrainingController {
         return "completedtraining";
     }
 
+    @RequestMapping("/getcompletedtraining")
+    @ResponseBody
+    public CompletedTraining getCompletedtraining(@RequestParam Long Id, Model model){
+        CompletedTraining completedTraining = completedTrainingRepository.findOne(Id);
+        return completedTraining;
+    }
+
     @RequestMapping(value = "/completedtrainings", method = RequestMethod.GET)
     public String trainingsList(Model model) {
         Iterable<Training> trainingIterable =  trainingRepository.findAll();

@@ -19,6 +19,9 @@ public class Training {
 
     long assetId;
 
+    @Transient
+    String assetTitle;
+
     public Training() {
     }
 
@@ -67,5 +70,13 @@ public class Training {
 
     public void setAssetId(long assetId) {
         this.assetId = assetId;
+    }
+
+    public String getAssetTitle() {
+        return assetTitle;
+    }
+
+    public void setAssetTitle(String assetTitle) {
+        this.assetTitle = assetTitle;
     }
 }

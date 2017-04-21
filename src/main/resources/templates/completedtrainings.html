@@ -7,16 +7,19 @@
         <div class="row">
             <div class="col-lg-8 col-md-7 col-sm-6">
                 <form>
-
+                    <div class="form-group" style="display:none">
+                        <label for="completedTrainingId">Id:</label>
+                        <input type="text" class="form-control" id="completedTrainingId"/>
+                    </div>
                     <div class="form-group">
-                        <label for="training_date">Date:</label>
-                        <input type="date" class="form-control date" id="training_date"/>
+                        <label for="trainingDate">Date:</label>
+                        <input type="date" class="form-control date" id="trainingDate"/>
                     </div>
 
 
                     <div class="form-group">
-                        <label for="member_id">Member:</label>
-                        <select class="form-control" id="member_id" >
+                        <label for="memberId">Member:</label>
+                        <select class="form-control" id="memberId" >
                             <option value="">Select Member</option>
                             <option th:each="member : ${members}"
                                     th:value="${member.id}"
@@ -25,8 +28,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="training_id">Training:</label>
-                        <select class="form-control" id="training_id" >
+                        <label for="trainingId">Training:</label>
+                        <select class="form-control" id="trainingId" >
                             <option value="">Select Training</option>
                             <option th:each="training : ${trainings}"
                                     th:value="${training.id}"
@@ -34,7 +37,7 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-default" id="btn_submit">Add New Completed Training</button>
+                    <button type="submit" class="btn btn-default" id="btn_submit">Add / Update Completed Training</button>
                 </form>
             </div>
         </div>
@@ -52,6 +55,7 @@
                             <th>Training</th>
                             <th>Date</th>
                             <th>Delete</th>
+                            <th>Edit</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -62,6 +66,7 @@
                             <td th:text="${completedtraining.trainingTitle}"></td>
                             <td th:text="${completedtraining.trainingDate}"></td>
                             <td th:id="${completedtraining.id}"><button class="btn btn-danger delete-training">Delete</button></td>
+                            <td th:id="${completedtraining.id}"><button class="btn btn-danger edit-training">Edit</button></td>
                         </tr>
                         </tbody>
                     </table>

@@ -3,20 +3,27 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var trainingTitle, trainingDescription, assetId;
-           trainingTitle = $('#training_title').val();
-           trainingDescription = $('#training_description').val();
-           assetId = $('#asset_id').val();
-           if($.trim(trainingTitle) === ""){
+           var csrf, assetId, trainingId, title, description, assetId;
+           title = $('#title').val();
+           description = $('#description').val();
+           trainingId = $('#trainingId').val();
+           assetId = $('#assetId').val();
+            csrf = $("[name='_csrf']").val();
+           if($.trim(title) === ""){
                alert("Training Title cannot be empty");
            }
 
            else {
                var data = {};
-               data["title"] = trainingTitle;
-               data["description"] = trainingDescription;
+                if(trainingId){
+                    data["id"] = trainingId;
+                }
+               data["title"] = title;
+               data["description"] = description;
                data["assetId"] = assetId;
+
                $.ajax({
+                   headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",
                    contentType: "application/json",
                    url: "/savetraining",
@@ -50,4 +57,24 @@
                });
            }
        });
+
+              $('.edit-training').on("click", function(e){
+                         e.preventDefault();
+
+                             var Id = parseInt($(this).closest("td").attr("id"));
+                             $.ajax({
+                                 type:"GET",
+                                 url:"/gettraining",
+                                 data:{Id:Id},
+                                 success:function (data) {
+                                   $('#trainingId').val(data.id);
+                                   $('#assetId').val(data.assetId);
+                                   $('#title').val(data.title);
+                                   $('#description').val(data.description);
+
+
+                                 }
+                             });
+
+                     });
     });

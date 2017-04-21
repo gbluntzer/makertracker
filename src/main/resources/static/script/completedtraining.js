@@ -3,24 +3,29 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var trainingId, memberId, trainingDate;
-           trainingId = $('#training_id').val();
-           memberId = $('#member_id').val();
-           trainingDate = $('#training_date').val();
-
+           var csrf, completedTrainingId, trainingId, memberId, trainingDate;
+           completedTrainingId = $('#completedTrainingId').val();
+           trainingId = $('#trainingId').val();
+           memberId = $('#memberId').val();
+           trainingDate = $('#trainingDate').val();
+           csrf = $("[name='_csrf']").val();
            if($.trim(trainingId) === ""){
                alert("Training Id cannot be empty");
            }
             if($.trim(memberId) === ""){
-                          alert("Member id cannot be empty");
+                alert("Member id cannot be empty");
             }
 
            else {
                var data = {};
+               if(completedTrainingId){
+                data["id"] = completedTrainingId;
+               }
                data["trainingId"] = trainingId;
                data["memberId"] = memberId;
                data["trainingDate"] = trainingDate;
                $.ajax({
+                   headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",
                    contentType: "application/json",
                    url: "/savecompletedtraining",
@@ -55,10 +60,21 @@
            }
        });
 
-//       $('#training_date').datepicker(
-//           {
-//               format: 'yyyy-MM-dd',
-//               todayHighlight: true,
-//               autoclose: true,
-//             });
+        $('.edit-training').on("click", function(e){
+                         e.preventDefault();
+
+                             var Id = parseInt($(this).closest("td").attr("id"));
+                             $.ajax({
+                                 type:"GET",
+                                 url:"/getcompletedtraining",
+                                 data:{Id:Id},
+                                 success:function (data) {
+                                   $('#completedTrainingId').val(data.id);
+                                   $('#trainingId').val(data.trainingId);
+                                   $('#memberId').val(data.memberId);
+                                   $('#trainingDate').val(data.trainingDate);
+                                }
+                             });
+
+         });
     });
