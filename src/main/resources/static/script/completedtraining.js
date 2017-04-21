@@ -23,7 +23,8 @@
                }
                data["trainingId"] = trainingId;
                data["memberId"] = memberId;
-               data["trainingDate"] = trainingDate;
+               var tdate = new Date(trainingDate);
+               data["trainingDate"] = new Date(tdate.valueOf() + tdate.getTimezoneOffset() * 60000);
                $.ajax({
                    headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",

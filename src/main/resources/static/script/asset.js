@@ -28,8 +28,10 @@
                               }
                data["title"] = title;
                data["description"] = description;
-               data["dateAquired"] = dateAquired;
-               data["dateRemoved"] = dateRemoved;
+               var adate = new Date(dateAquired);
+               data["dateAquired"] = new Date(adate.valueOf() + adate.getTimezoneOffset() * 60000);
+               var rdate = new Date(dateRemoved);
+               data["dateRemoved"] = new Date(rdate.valueOf() + rdate.getTimezoneOffset() * 60000);
                data["brand"] = brand;
                data["modelNumber"] = modelNumber;
                data["serialNumber"] = serialNumber;
