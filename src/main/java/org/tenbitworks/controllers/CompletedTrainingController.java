@@ -52,7 +52,7 @@ public class CompletedTrainingController {
             for(Member member : memberIterable){
                 long id = member.getId();
                 if(memberId == id){
-                    completedTraining.setMemberName(member.getFirstName()+" "+member.getLastName());
+                    completedTraining.setMemberName(member.getMemberName());
                     break;
                 }
             }

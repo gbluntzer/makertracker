@@ -44,7 +44,9 @@
            e.preventDefault();
            if(confirm("Delete?")){
                var Id = parseInt($(this).closest("td").attr("id"));
+               var csrf = $("[name='_csrf']").val();
                $.ajax({
+                    headers: { 'X-CSRF-TOKEN': csrf},
                    type:"POST",
                    url:"/removetraining",
                    data:{Id:Id},

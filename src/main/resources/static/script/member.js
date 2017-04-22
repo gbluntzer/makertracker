@@ -3,21 +3,18 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var memberId, memberFirstName, memberLastName, memberEmail, phoneNumber, description, zipCode, csrf;
+           var memberId, memberName, memberEmail, phoneNumber, paymentMethod, description, zipCode, csrf;
            memberId = $('#member_id').val();
-           memberFirstName = $('#member_firstName').val();
-           memberLastName = $('#member_lastName').val();
+           memberName = $('#memberName').val();
            memberEmail = $('#member_email').val();
            status = $('#status').val();
            phoneNumber = $('#phoneNumber').val();
            description = $('#description').val();
+           paymentMethod = $('#paymentMethod').val();
            zipCode = $('#zipCode').val();
            csrf = $("[name='_csrf']").val();
-           if($.trim(memberFirstName) === ""){
-               alert("Member First name cannot be empty");
-           }
-           if($.trim(memberLastName) === ""){
-               alert("Member Last name cannot be empty");
+           if($.trim(memberName) === ""){
+               alert("Membername cannot be empty");
            }
            else if($.trim(memberEmail) === ""){
                alert("Member email cannot be empty");
@@ -27,11 +24,11 @@
                if(memberId){
                 data["id"] = memberId;
                }
-               data["firstName"] = memberFirstName;
-               data["lastName"] = memberLastName;
+               data["memberName"] = memberName;
                data["email"] = memberEmail;
                data["status"] = status;
                data["phoneNumber"] = phoneNumber;
+               data["paymentMethod"] = paymentMethod;
                data["description"] = description;
                data["zipCode"] = zipCode;
 
@@ -57,7 +54,9 @@
            e.preventDefault();
            if(confirm("Delete?")){
                var Id = parseInt($(this).closest("td").attr("id"));
+               var csrf = $("[name='_csrf']").val();
                $.ajax({
+                    headers: { 'X-CSRF-TOKEN': csrf},
                    type:"POST",
                    url:"/removemember",
                    data:{Id:Id},
@@ -81,11 +80,11 @@
                    data:{Id:Id},
                    success:function (data) {
                        $('#member_id').val(data.id);
-                       $('#member_firstName').val(data.firstName);
-                       $('#member_lastName').val(data.lastName);
+                       $('#memberName').val(data.memberName);
                        $('#status').val(data.status);
                        $('#member_email').val(data.email);
                        $('#phoneNumber').val(data.phoneNumber);
+                       $('#paymentMethod').val(data.paymentMethod);
                        $('#description').val(data.description);
                        $('#zipCode').val(data.zipCode);
 

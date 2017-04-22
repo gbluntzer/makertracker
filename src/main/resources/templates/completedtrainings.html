@@ -23,7 +23,7 @@
                             <option value="">Select Member</option>
                             <option th:each="member : ${members}"
                                     th:value="${member.id}"
-                                    th:text="${member.firstName} + ${member.lastName}"></option>
+                                    th:text="${member.memberName}"></option>
                         </select>
                     </div>
 
@@ -34,6 +34,15 @@
                             <option th:each="training : ${trainings}"
                                     th:value="${training.id}"
                                     th:text="${training.title}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select  class="form-control" id="status">
+                            <option>Select One</option>
+                            <option>Completed Training</option>
+                            <option>Verified</option>
                         </select>
                     </div>
 

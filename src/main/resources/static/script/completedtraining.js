@@ -3,10 +3,11 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var csrf, completedTrainingId, trainingId, memberId, trainingDate;
+           var csrf, completedTrainingId, status, trainingId, memberId, trainingDate;
            completedTrainingId = $('#completedTrainingId').val();
            trainingId = $('#trainingId').val();
            memberId = $('#memberId').val();
+           status = $('#status').val();
            trainingDate = $('#trainingDate').val();
            csrf = $("[name='_csrf']").val();
            if($.trim(trainingId) === ""){
@@ -23,6 +24,7 @@
                }
                data["trainingId"] = trainingId;
                data["memberId"] = memberId;
+               data["status"] = status;
                var tdate = new Date(trainingDate);
                data["trainingDate"] = new Date(tdate.valueOf() + tdate.getTimezoneOffset() * 60000);
                $.ajax({
@@ -47,7 +49,9 @@
            e.preventDefault();
            if(confirm("Delete?")){
                var Id = parseInt($(this).closest("td").attr("id"));
+               var csrf = $("[name='_csrf']").val();
                $.ajax({
+                    headers: { 'X-CSRF-TOKEN': csrf},
                    type:"POST",
                    url:"/removecompletedtraining",
                    data:{Id:Id},
@@ -72,6 +76,7 @@
                                  success:function (data) {
                                    $('#completedTrainingId').val(data.id);
                                    $('#trainingId').val(data.trainingId);
+                                   $('#status').val(data.status);
                                    $('#memberId').val(data.memberId);
                                    $('#trainingDate').val(data.trainingDate);
                                 }

@@ -44,6 +44,10 @@ public class Asset {
 
     public Asset() {
     }
+    public Asset(String title) {
+        this.title = title;
+
+    }
 
     public Asset(String title, String description) {
         this.title = title;

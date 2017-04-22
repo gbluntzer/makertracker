@@ -19,6 +19,8 @@ public class CompletedTraining {
     @NotNull
     long memberId;
 
+    String status;
+
     @Transient
     String trainingTitle;
 
@@ -89,5 +91,13 @@ public class CompletedTraining {
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

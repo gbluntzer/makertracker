@@ -22,9 +22,9 @@
            if($.trim(title) === ""){
                alert("Asset Title cannot be empty");
            }
-           else if($.trim(tenbitId){
-                          //TODO tenbitId  needs formatting validated
-            }
+//            if($.trim(tenbitId)!= undefined){
+//                          //TODO tenbitId  needs formatting validated
+//            }
 
            else {
                var data = {};
@@ -68,7 +68,9 @@
            e.preventDefault();
            if(confirm("Delete?")){
                var Id = parseInt($(this).closest("td").attr("id"));
+               var csrf = $("[name='_csrf']").val();
                $.ajax({
+                   headers: { 'X-CSRF-TOKEN': csrf},
                    type:"POST",
                    url:"/removeasset",
                    data:{Id:Id},

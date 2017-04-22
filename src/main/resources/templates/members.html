@@ -13,12 +13,8 @@
                         <input type="text" class="form-control" id="member_id"/>
                     </div>
                     <div class="form-group">
-                        <label for="member_firstName">First Name:</label>
-                        <input type="text" class="form-control" id="member_firstName"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="member_lastName">Last Name:</label>
-                        <input type="text" class="form-control" id="member_lastName"/>
+                        <label for="memberName">Name:</label>
+                        <input type="text" class="form-control" id="memberName"/>
                     </div>
                     <div class="form-group">
                         <label for="status">Status:</label>
@@ -40,8 +36,18 @@
                         <label for="member_email">Email:</label>
                         <input type="text" class="form-control" id="member_email"/>
                     </div>
+                    <div class="form-group">
+                        <label for="status">Payment Method:</label>
+                        <select  class="form-control" id="paymentMethod">
+                            <option>Select One</option>
+                            <option>Paypal</option>
+                            <option>Dwolla</option>
+                            <option>Cash</option>
+                        </select>
+                    </div>
                     <div th:replace="fragments/formField :: formField(field='phoneNumber', type='text' , label='Phone Number')" ></div>
                     <div th:replace="fragments/formField :: formField(field='zipCode', type='text' , label='Zip Code')" ></div>
+
                     <button type="submit" class="btn btn-default" id="btn_submit">Add / Update Member</button>
                 </form>
             </div>
@@ -56,8 +62,7 @@
                         <thead>
                         <tr>
                             <th class="hidden-xs hidden-sm">Id</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Name</th>
                             <th>Delete</th>
                             <th>Edit</th>
                         </tr>
@@ -66,8 +71,7 @@
 
                         <tr th:each="member : ${members}">
                             <td class="hidden-xs hidden-sm" th:text="${member.id}"></td>
-                            <td th:text="${member.firstName}"></td>
-                            <td th:text="${member.lastName}"></td>
+                            <td th:text="${member.memberName}"></td>
                             <td th:id="${member.id}"><button class="btn btn-danger delete-member">Delete</button></td>
                             <td th:id="${member.id}"><button class="btn edit-member">Edit</button></td>
                         </tr>
