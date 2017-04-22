@@ -3,8 +3,10 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var csrf, assetId, title, description, dateAquired, dateRemoved, brand, modelNumber, serialNumber, retailValue, webLink, operator, donator;
+           var csrf, tenbitId, assetId, status, title, description, dateAquired, dateRemoved, brand, modelNumber, serialNumber, retailValue, webLink, operator, donator;
+           tenbitId = $('#tenbitId').val();
            assetId = $('#assetId').val();
+           status = $('#status').val();
            title = $('#title').val();
            description = $('#description').val();
            dateAquired = $('#dateAquired').val();
@@ -20,14 +22,19 @@
            if($.trim(title) === ""){
                alert("Asset Title cannot be empty");
            }
+           else if($.trim(tenbitId){
+                          //TODO tenbitId  needs formatting validated
+            }
 
            else {
                var data = {};
                 if(assetId){
                                data["id"] = assetId;
                               }
+               data["tenbitId"] = tenbitId;
                data["title"] = title;
                data["description"] = description;
+               data["status"] = status;
                var adate = new Date(dateAquired);
                data["dateAquired"] = new Date(adate.valueOf() + adate.getTimezoneOffset() * 60000);
                var rdate = new Date(dateRemoved);
@@ -85,7 +92,9 @@
                           data:{Id:Id},
                           success:function (data) {
                             $('#assetId').val(data.id);
+                            $('#tenbitId').val(data.tenbitId);
                             $('#title').val(data.title);
+                            $('#status').val(data.status);
                             $('#description').val(data.description);
                             $('#dateAquired').val(data.dateAquired);
                             $('#dateRemoved').val(data.dateRemoved);

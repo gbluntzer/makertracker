@@ -16,6 +16,8 @@ public class Member {
   
   @NotNull
   private String email;
+
+  private String status;
   
   @NotNull
   private String firstName;
@@ -97,6 +99,14 @@ public class Member {
 
   public void setZipCode(String zipCode) {
     this.zipCode = zipCode;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
   @Override

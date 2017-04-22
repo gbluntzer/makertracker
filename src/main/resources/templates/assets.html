@@ -7,6 +7,7 @@
         <div class="row">
             <div class="col-lg-8 col-md-7 col-sm-6">
                 <form>
+                    <div th:replace="fragments/formField :: formField(field='tenbitId', type='text' , label='Asset Id')" ></div>
                     <div class="form-group" style="display:none">
                         <label for="assetId">Id:</label>
                         <input type="text" class="form-control" id="assetId"/>
@@ -16,8 +17,18 @@
                         <label for="description">Description:</label>
                         <textarea  class="form-control" id="description"/>
                     </div>
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select  class="form-control" id="status">
+                            <option>Select One</option>
+                            <option>Owned</option>
+                            <option>Loaned</option>
+                            <option>Removed</option>
+                            <option>Borrowed</option>
+                        </select>
+                    </div>
                     <div th:replace="fragments/formField :: formField(field='dateAquired', type='date' , label='Date Auquired')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='dateRemoved', type='date' , label='Date Removed')" ></div>
+
                     <div th:replace="fragments/formField :: formField(field='brand', type='text' , label='Brand')" ></div>
                     <div th:replace="fragments/formField :: formField(field='modelNumber', type='text' , label='Model Number')" ></div>
                     <div th:replace="fragments/formField :: formField(field='serialNumber', type='text' , label='Serial Number')" ></div>
@@ -25,6 +36,7 @@
                     <div th:replace="fragments/formField :: formField(field='webLink', type='text' , label='Web Link')" ></div>
                     <div th:replace="fragments/formField :: formField(field='operator', type='text' , label='Operator')" ></div>
                     <div th:replace="fragments/formField :: formField(field='donator', type='text' , label='Donator')" ></div>
+                    <div th:replace="fragments/formField :: formField(field='dateRemoved', type='date' , label='Date Removed')" ></div>
                     <button type="submit" class="btn btn-default" id="btn_submit">Add / Update Asset</button>
                 </form>
             </div>

@@ -14,6 +14,8 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    String tenbitId;
+
     @NotNull
     String title;
 
@@ -31,6 +33,8 @@ public class Asset {
     String webLink;
     String operator;  //Member
     String donator;   //Member
+
+    String status;  //Owned, Loaned , Removed, Borrowed
 
 
 
@@ -76,6 +80,14 @@ public class Asset {
         this.description = description;
     }
 
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Date getDateAquired() {
         return dateAquired;
@@ -147,6 +159,14 @@ public class Asset {
 
     public void setDonator(String donator) {
         this.donator = donator;
+    }
+
+    public String getTenbitId() {
+        return tenbitId;
+    }
+
+    public void setTenbitId(String tenbitId) {
+        this.tenbitId = tenbitId;
     }
 
     @Override

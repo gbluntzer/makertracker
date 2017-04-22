@@ -8,6 +8,7 @@
            memberFirstName = $('#member_firstName').val();
            memberLastName = $('#member_lastName').val();
            memberEmail = $('#member_email').val();
+           status = $('#status').val();
            phoneNumber = $('#phoneNumber').val();
            description = $('#description').val();
            zipCode = $('#zipCode').val();
@@ -29,6 +30,7 @@
                data["firstName"] = memberFirstName;
                data["lastName"] = memberLastName;
                data["email"] = memberEmail;
+               data["status"] = status;
                data["phoneNumber"] = phoneNumber;
                data["description"] = description;
                data["zipCode"] = zipCode;
@@ -81,6 +83,7 @@
                        $('#member_id').val(data.id);
                        $('#member_firstName').val(data.firstName);
                        $('#member_lastName').val(data.lastName);
+                       $('#status').val(data.status);
                        $('#member_email').val(data.email);
                        $('#phoneNumber').val(data.phoneNumber);
                        $('#description').val(data.description);
