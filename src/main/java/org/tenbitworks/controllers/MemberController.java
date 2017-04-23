@@ -29,8 +29,10 @@ public class MemberController {
     @RequestMapping(value = "/members",method = RequestMethod.GET)
     public String membersList(Model model){
         model.addAttribute("members", memberRepository.findAll());
+        model.addAttribute("membercount", memberRepository.count());
         return "members";
     }
+
 
     @RequestMapping(value = "/savemember", method = RequestMethod.POST)
     @ResponseBody

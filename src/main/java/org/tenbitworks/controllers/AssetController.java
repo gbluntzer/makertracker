@@ -29,6 +29,7 @@ public class AssetController {
     @RequestMapping(value = "/assets",method = RequestMethod.GET)
     public String assetsList(Model model){
         model.addAttribute("assets", assetRepository.findAll());
+        model.addAttribute("assetcount", assetRepository.count());
         return "assets";
     }
 

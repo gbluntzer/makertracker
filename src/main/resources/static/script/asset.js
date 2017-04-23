@@ -108,6 +108,8 @@
                             $('#operator').val(data.operator);
                             $('#donator').val(data.donator);
 
+                            window.scrollTo(0, 0);
+
                           }
                       });
 
