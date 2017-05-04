@@ -16,6 +16,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers( "/webjars/**", "/css/**").permitAll()
                 .antMatchers("/savemember").access("hasRole('ADMIN')")
+                .antMatchers("/removemember").access("hasRole('ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
