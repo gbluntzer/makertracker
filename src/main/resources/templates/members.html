@@ -32,15 +32,15 @@
                 <form>
                     <div class="form-group" style="display:none">
                         <label for="member_id">Id:</label>
-                        <input type="text" class="form-control" id="member_id"/>
+                        <input type="text" class="form-control" id="member_id" th:value="${member?.id}"/>
                     </div>
                     <div class="form-group">
                         <label for="memberName">Name:</label>
-                        <input type="text" class="form-control" id="memberName"/>
+                        <input type="text" class="form-control" id="memberName" th:value="${member?.memberName}" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"> <!-- fix drop down -->
                         <label for="status">Status:</label>
-                        <select  class="form-control" id="status">
+                        <select  class="form-control" id="status" >
                             <option>Select One</option>
                             <option>Visitor</option>
                             <option>Paying Member</option>
@@ -52,13 +52,13 @@
 
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea class="form-control" id="description"/>
+                        <textarea class="form-control" id="description" th:text="${member?.description}" />
                     </div>
                     <div class="form-group">
                         <label for="member_email">Email:</label>
-                        <input type="text" class="form-control" id="member_email"/>
+                        <input type="text" class="form-control" id="member_email" th:value="${member?.email}" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"> <!-- fix drop down -->
                         <label for="status">Payment Method:</label>
                         <select  class="form-control" id="paymentMethod">
                             <option>Select One</option>
@@ -66,7 +66,7 @@
                             <option>Dwolla</option>
                             <option>Cash</option>
                         </select>
-                    </div>
+                    </div> <!-- load values to form fields -->
                     <div th:replace="fragments/formField :: formField(field='phoneNumber', type='text' , label='Phone Number')" ></div>
                     <div th:replace="fragments/formField :: formField(field='zipCode', type='text' , label='Zip Code')" ></div>
 
@@ -77,7 +77,7 @@
     </div>
     <div th:replace="fragments/footer :: footer"></div>
 </div>
-<script src="../static/script/member.js"  th:src="@{script/member.js}" type="application/javascript"></script>
+<script th:src="@{~/script/member.js}" type="application/javascript"></script>
 
 </body>
 </html>
