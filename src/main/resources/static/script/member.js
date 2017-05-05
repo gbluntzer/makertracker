@@ -76,8 +76,8 @@
                var Id = parseInt($(this).closest("td").attr("id"));
                $.ajax({
                    type:"GET",
-                   url:"/getmember",
-                   data:{Id:Id},
+                   headers: { 'accept': 'application/json'},
+                   url:"/members/" + Id,
                    success:function (data) {
                        $('#member_id').val(data.id);
                        $('#memberName').val(data.memberName);
