@@ -1,7 +1,8 @@
 package org.tenbitworks.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,24 +18,32 @@ public class MemberController {
 
     @Autowired
     MemberRepository memberRepository;
-
+    
     @RequestMapping(value="/members/{id}", method = RequestMethod.GET, produces = { "application/json" })
     @ResponseBody
-    public Member getMemberJson(@PathVariable Long id, Model model, Authentication authentication){
-    	System.out.println("authoritites: " + authentication.getAuthorities());
-    	Member member = memberRepository.findOne(id);
-        return member;
+    public Member getMemberJson(@PathVariable Long id, Model model, SecurityContextHolderAwareRequestWrapper security) {
+    	if (security.isUserInRole("ADMIN")) {
+	    	Member member = memberRepository.findOne(id);
+	        return member;
+    	} else { //TODO Add returning self for non-admins
+    		throw new AccessDeniedException("The user is not authorized to view this member");
+    	}
     }
     
     @RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
-    public String getMember(@PathVariable Long id, Model model){
-        model.addAttribute("member", memberRepository.findOne(id));
-        model.addAttribute("membercount", memberRepository.count());
-        return "members";
+    public String getMember(@PathVariable Long id, Model model, SecurityContextHolderAwareRequestWrapper security) {
+    	if (security.isUserInRole("ADMIN")) {
+    		model.addAttribute("members", memberRepository.findAll());
+	        model.addAttribute("membercount", memberRepository.count());
+	        model.addAttribute("member", memberRepository.findOne(id));
+	        return "members";
+    	} else { //TODO Add returning self for non-admins
+    		throw new AccessDeniedException("The user is not authorized to view this member");
+    	}
     }
 
     @RequestMapping(value = "/members", method = RequestMethod.GET)
-    public String membersList(Model model){
+    public String membersList(Model model) {
         model.addAttribute("members", memberRepository.findAll());
         model.addAttribute("membercount", memberRepository.count());
         return "members";
