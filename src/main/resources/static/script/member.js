@@ -36,7 +36,7 @@
                    headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",
                    contentType: "application/json",
-                   url: "/savemember",
+                   url: "/members",
                    data: JSON.stringify(data),
                    dataType: 'json',
                    timeout: 6000,
@@ -57,9 +57,8 @@
                var csrf = $("[name='_csrf']").val();
                $.ajax({
                     headers: { 'X-CSRF-TOKEN': csrf},
-                   type:"POST",
-                   url:"/removemember",
-                   data:{Id:Id},
+                   type:"DELETE",
+                   url:"/members/" + Id,
                    success:function (data) {
                        $(".delete-order").closest("td#"+data).parent("tr").fadeOut("slow",function(){
                            $(".delete-order").closest("td#"+data).parent("tr").remove();

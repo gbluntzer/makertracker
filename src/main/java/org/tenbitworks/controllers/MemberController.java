@@ -1,13 +1,13 @@
 package org.tenbitworks.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tenbitworks.model.Member;
 import org.tenbitworks.repositories.MemberRepository;
@@ -20,7 +20,8 @@ public class MemberController {
 
     @RequestMapping(value="/members/{id}", method = RequestMethod.GET, produces = { "application/json" })
     @ResponseBody
-    public Member getMemberJson(@PathVariable Long id, Model model){
+    public Member getMemberJson(@PathVariable Long id, Model model, Authentication authentication){
+    	System.out.println("authoritites: " + authentication.getAuthorities());
     	Member member = memberRepository.findOne(id);
         return member;
     }
@@ -40,18 +41,18 @@ public class MemberController {
     }
 
 
-    @RequestMapping(value = "/savemember", method = RequestMethod.POST)
+    @RequestMapping(value = "/members", method = RequestMethod.POST)
     @ResponseBody
     public Long saveMember(@RequestBody Member member) {
         memberRepository.save(member);
         return member.getId();
     }
 
-    @RequestMapping(value = "/removemember", method = RequestMethod.POST)
+    @RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String removeMemeber(@RequestParam Long Id){
-        memberRepository.delete(Id);
-        return Id.toString();
+    public String removeMemeber(@PathVariable Long id){
+        memberRepository.delete(id);
+        return id.toString();
     }
 
 }
