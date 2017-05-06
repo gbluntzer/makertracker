@@ -1,5 +1,7 @@
 package org.tenbitworks.controllers;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
@@ -21,7 +23,7 @@ public class MemberController {
     
     @RequestMapping(value="/members/{id}", method = RequestMethod.GET, produces = { "application/json" })
     @ResponseBody
-    public Member getMemberJson(@PathVariable Long id, Model model, SecurityContextHolderAwareRequestWrapper security) {
+    public Member getMemberJson(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
     	if (security.isUserInRole("ADMIN")) {
 	    	Member member = memberRepository.findOne(id);
 	        return member;
@@ -31,7 +33,7 @@ public class MemberController {
     }
     
     @RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
-    public String getMember(@PathVariable Long id, Model model, SecurityContextHolderAwareRequestWrapper security) {
+    public String getMember(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
     	if (security.isUserInRole("ADMIN")) {
     		model.addAttribute("members", memberRepository.findAll());
 	        model.addAttribute("membercount", memberRepository.count());
@@ -52,14 +54,14 @@ public class MemberController {
 
     @RequestMapping(value = "/members", method = RequestMethod.POST)
     @ResponseBody
-    public Long saveMember(@RequestBody Member member) {
+    public UUID saveMember(@RequestBody Member member) {
         memberRepository.save(member);
         return member.getId();
     }
 
     @RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String removeMemeber(@PathVariable Long id){
+    public String removeMemeber(@PathVariable UUID id){
         memberRepository.delete(id);
         return id.toString();
     }

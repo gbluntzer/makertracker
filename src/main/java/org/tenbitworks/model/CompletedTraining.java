@@ -1,8 +1,15 @@
 package org.tenbitworks.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.UUID;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="completedtraining")
@@ -13,11 +20,11 @@ public class CompletedTraining {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-
     @NotNull
     long trainingId;
+    
     @NotNull
-    long memberId;
+    UUID memberId;
 
     String status;
 
@@ -38,7 +45,7 @@ public class CompletedTraining {
         this.id = id;
     }
 
-    public CompletedTraining(long trainingId, long memberId, Date trainingDate) {
+    public CompletedTraining(long trainingId, UUID memberId, Date trainingDate) {
 
         this.trainingId = trainingId;
         this.memberId = memberId;
@@ -69,11 +76,11 @@ public class CompletedTraining {
         this.trainingId = trainingId;
     }
 
-    public long getMemberId() {
+    public UUID getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(long memberId) {
+    public void setMemberId(UUID memberId) {
         this.memberId = memberId;
     }
 

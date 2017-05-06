@@ -1,18 +1,22 @@
 package org.tenbitworks.controllers;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.tenbitworks.model.CompletedTraining;
 import org.tenbitworks.model.Member;
 import org.tenbitworks.model.Training;
-import org.tenbitworks.repositories.AssetRepository;
 import org.tenbitworks.repositories.CompletedTrainingRepository;
 import org.tenbitworks.repositories.MemberRepository;
 import org.tenbitworks.repositories.TrainingRepository;
-
-import java.util.List;
 
 @Controller
 public class CompletedTrainingController {
@@ -47,10 +51,10 @@ public class CompletedTrainingController {
         Iterable<CompletedTraining> completedTrainingIterable =  completedTrainingRepository.findAll();
         //TODO replace this with a Join SQL for performance
         for(CompletedTraining completedTraining : completedTrainingIterable){
-            long memberId = completedTraining.getMemberId();
+            UUID memberId = completedTraining.getMemberId();
             long trainingId = completedTraining.getTrainingId();
             for(Member member : memberIterable){
-                long id = member.getId();
+                UUID id = member.getId();
                 if(memberId == id){
                     completedTraining.setMemberName(member.getMemberName());
                     break;
