@@ -1,6 +1,7 @@
 package org.tenbitworks.model;
 
 public enum PaymentMethod {
+	NONE("None"),
 	PAYPAL("Paypal"),
     DWOLLA("Dwolla"),
     CASH("Cash");

@@ -60,7 +60,6 @@
                     <div class="form-group">
                         <label for="status">Payment Method:</label>
                         <select class="form-control" id="paymentMethod">
-							<option>Select One</option>
 							<option th:each="paymentMethod : ${T(org.tenbitworks.model.PaymentMethod).values()}"
 								th:value="${paymentMethod}" 
 								th:text="${paymentMethod.text}" th:selected="${member?.paymentMethod} == ${paymentMethod}">
