@@ -8,7 +8,7 @@
            description = $('#description').val();
            trainingId = $('#trainingId').val();
            assetId = $('#assetId').val();
-            csrf = $("[name='_csrf']").val();
+           csrf = $("[name='_csrf']").val();
            if($.trim(title) === ""){
                alert("Training Title cannot be empty");
            }
@@ -26,7 +26,7 @@
                    headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",
                    contentType: "application/json",
-                   url: "/savetraining",
+                   url: "/trainings",
                    data: JSON.stringify(data),
                    dataType: 'json',
                    timeout: 6000,
@@ -46,10 +46,9 @@
                var Id = parseInt($(this).closest("td").attr("id"));
                var csrf = $("[name='_csrf']").val();
                $.ajax({
-                    headers: { 'X-CSRF-TOKEN': csrf},
-                   type:"POST",
-                   url:"/removetraining",
-                   data:{Id:Id},
+                   headers: { 'X-CSRF-TOKEN': csrf},
+                   type:"DELETE",
+                   url:"/trainings/" + Id,
                    success:function (data) {
                        $(".delete-order").closest("td#"+data).parent("tr").fadeOut("slow",function(){
                            $(".delete-order").closest("td#"+data).parent("tr").remove();
@@ -60,23 +59,22 @@
            }
        });
 
-              $('.edit-training').on("click", function(e){
-                         e.preventDefault();
+       $('.edit-training').on("click", function(e){
+    	   e.preventDefault();
 
-                             var Id = parseInt($(this).closest("td").attr("id"));
-                             $.ajax({
-                                 type:"GET",
-                                 url:"/gettraining",
-                                 data:{Id:Id},
-                                 success:function (data) {
-                                   $('#trainingId').val(data.id);
-                                   $('#assetId').val(data.assetId);
-                                   $('#title').val(data.title);
-                                   $('#description').val(data.description);
+    	   var Id = parseInt($(this).closest("td").attr("id"));
+    	   $.ajax({
+    		   type:"GET",
+    		   headers: { 'accept': 'application/json'},
+    		   url:"/trainings/" + Id,
+    		   success:function (data) {
+    			   $('#trainingId').val(data.id);
+                   $('#assetId').val(data.assetId);
+                   $('#title').val(data.title);
+                   $('#description').val(data.description);
 
-
-                                 }
-                             });
-
-                     });
-    });
+                   window.history.pushState('Edit Training ' + data.id, 'MakerTracker', '/trainings/' + data.id);
+    		   }
+    	   });
+       });
+});
