@@ -53,7 +53,7 @@
        $('.delete-member').on("click", function(e){
            e.preventDefault();
            if(confirm("Delete?")){
-               var Id = parseInt($(this).closest("td").attr("id"));
+               var Id = $(this).closest("td").attr("id");
                var csrf = $("[name='_csrf']").val();
                $.ajax({
                     headers: { 'X-CSRF-TOKEN': csrf},
@@ -72,7 +72,7 @@
        $('.edit-member').on("click", function(e){
            e.preventDefault();
 
-               var Id = parseInt($(this).closest("td").attr("id"));
+               var Id = $(this).closest("td").attr("id");
                $.ajax({
                    type:"GET",
                    headers: { 'accept': 'application/json'},
