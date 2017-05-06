@@ -86,6 +86,8 @@
                        $('#paymentMethod').val(data.paymentMethod);
                        $('#description').val(data.description);
                        $('#zipCode').val(data.zipCode);
+                       
+                       window.history.pushState('Edit Member ' + data.memberName, 'MakerTracker', '/members/' + data.id);
                    }
                });
 
