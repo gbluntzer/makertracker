@@ -55,7 +55,7 @@ public class CompletedTrainingController {
             long trainingId = completedTraining.getTrainingId();
             for(Member member : memberIterable){
                 UUID id = member.getId();
-                if(memberId == id){
+                if(memberId.equals(id)){
                     completedTraining.setMemberName(member.getMemberName());
                     break;
                 }
