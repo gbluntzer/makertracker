@@ -86,9 +86,6 @@
                        $('#paymentMethod').val(data.paymentMethod);
                        $('#description').val(data.description);
                        $('#zipCode').val(data.zipCode);
-
-                       window.scrollTo(0, 0);
-
                    }
                });
 

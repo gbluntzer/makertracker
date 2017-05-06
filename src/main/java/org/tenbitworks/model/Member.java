@@ -29,8 +29,10 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private MemberStatus status;
 	
+	@Enumerated(EnumType.STRING)
+	private PaymentMethod paymentMethod;
+	
 	private String phoneNumber;
-	private String paymentMethod;
 	private String description;
 	private String zipCode;
 
@@ -53,10 +55,6 @@ public class Member {
 		this.id = id;
 	}
 	
-	public void setId(String id) {
-		this.id = UUID.fromString(id);
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -97,11 +95,11 @@ public class Member {
 		this.zipCode = zipCode;
 	}
 
-	public String getPaymentMethod() {
+	public PaymentMethod getPaymentMethod() {
 		return paymentMethod;
 	}
 
-	public void setPaymentMethod(String paymentMethod) {
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
 
