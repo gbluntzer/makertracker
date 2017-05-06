@@ -7,16 +7,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.tenbitworks.model.Asset;
-import org.tenbitworks.model.Greeting;
 import org.tenbitworks.model.Member;
 import org.tenbitworks.model.Training;
 import org.tenbitworks.repositories.AssetRepository;
-import org.tenbitworks.repositories.GreetingRepository;
 import org.tenbitworks.repositories.MemberRepository;
 import org.tenbitworks.repositories.TrainingRepository;
-
-import java.util.Optional;
-
 
 @SpringBootApplication
 public class MakertrackerApplication {
