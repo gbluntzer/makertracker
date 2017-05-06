@@ -41,10 +41,10 @@
                     <div class="form-group">
                         <label for="status">Status:</label>
                         <select  class="form-control" id="status">
-                        	<option>Select One</option>
                         	<option th:each="status : ${T(org.tenbitworks.model.MemberStatus).values()}"
 						          th:value="${status}" 
-						          th:text="${status.text}" th:selected="${member?.status} == ${status}">
+						          th:text="${status.text}" 
+						          th:selected="${member?.status} == ${status}">
 						   </option>
 						</select>
                     </div>
@@ -60,9 +60,10 @@
                     <div class="form-group">
                         <label for="status">Payment Method:</label>
                         <select class="form-control" id="paymentMethod">
-							<option th:each="paymentMethod : ${T(org.tenbitworks.model.PaymentMethod).values()}"
-								th:value="${paymentMethod}" 
-								th:text="${paymentMethod.text}" th:selected="${member?.paymentMethod} == ${paymentMethod}">
+                        	<option th:each="paymentMethod : ${T(org.tenbitworks.model.PaymentMethod).values()}"
+								th:value="${paymentMethod}"
+								th:text="${paymentMethod.text}" 
+								th:selected="${member?.paymentMethod} == ${paymentMethod}">
 							</option>
 						</select>
                     </div>
