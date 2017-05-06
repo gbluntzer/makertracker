@@ -44,7 +44,7 @@
                         	<option>Select One</option>
                         	<option th:each="status : ${T(org.tenbitworks.model.MemberStatus).values()}"
 						          th:value="${status}" 
-						          th:text="${status.text}">
+						          th:text="${status.text}" th:selected="${member?.status} == ${status}">
 						   </option>
 						</select>
                     </div>
@@ -63,7 +63,7 @@
 							<option>Select One</option>
 							<option th:each="paymentMethod : ${T(org.tenbitworks.model.PaymentMethod).values()}"
 								th:value="${paymentMethod}" 
-								th:text="${paymentMethod.text}">
+								th:text="${paymentMethod.text}" th:selected="${member?.paymentMethod} == ${paymentMethod}">
 							</option>
 						</select>
                     </div>
