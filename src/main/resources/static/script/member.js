@@ -15,11 +15,11 @@
            csrf = $("[name='_csrf']").val();
            if($.trim(memberName) === ""){
                alert("Membername cannot be empty");
-           }
-           else if($.trim(memberEmail) === ""){
+           } else if($.trim(memberEmail) === ""){
                alert("Member email cannot be empty");
-           }
-           else {
+           } else if ($.trim(status) === "Select One") {
+        	   alert("Select a status");
+           } else {
                var data = {};
                if(memberId){
                 data["id"] = memberId;
@@ -41,7 +41,7 @@
                    dataType: 'json',
                    timeout: 6000,
                    success: function (data) {
-                       if (confirm("Member with Id " +data + " Saved")){
+                       if (confirm("Member Saved")) {
                            window.location.reload();
                        }
                    }

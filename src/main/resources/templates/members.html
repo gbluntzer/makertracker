@@ -38,16 +38,15 @@
                         <label for="memberName">Name:</label>
                         <input type="text" class="form-control" id="memberName" th:value="${member?.memberName}" />
                     </div>
-                    <div class="form-group"> <!-- fix drop down -->
+                    <div class="form-group">
                         <label for="status">Status:</label>
                         <select  class="form-control" id="status" >
-                            <option>Select One</option>
-                            <option>VISITOR</option>
-                            <option>Paying Member</option>
-                            <option>Paying Member 24 Access</option>
-                            <option>Super Member</option>
-                            <option>Board / Officer Member</option>
-                        </select>
+                        <option>Select One</option>
+                           <option th:each="status : ${T(org.tenbitworks.model.MemberStatus).values()}"
+						          th:value="${status}" 
+						          th:text="${status.text}">
+						   </option>
+						</select>
                     </div>
 
                     <div class="form-group">

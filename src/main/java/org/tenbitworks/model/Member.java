@@ -4,6 +4,8 @@ package org.tenbitworks.model;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,7 +26,9 @@ public class Member {
 	@NotNull
 	private String memberName;
 
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private MemberStatus status;
+	
 	private String phoneNumber;
 	private String paymentMethod;
 	private String description;
@@ -101,11 +105,11 @@ public class Member {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public String getStatus() {
+	public MemberStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(MemberStatus status) {
 		this.status = status;
 	}
 
