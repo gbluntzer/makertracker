@@ -66,9 +66,15 @@
 								th:text="${paymentMethod.text}">
 							</option>
 						</select>
-                    </div> <!-- load values to form fields -->
-                    <div th:replace="fragments/formField :: formField(field='phoneNumber', type='text' , label='Phone Number')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='zipCode', type='text' , label='Zip Code')" ></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number:</label>
+                        <input type="text" class="form-control" id="phoneNumber" th:value="${member?.phoneNumber}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="zipCode">Zip Code:</label>
+                        <input type="text" class="form-control" id="zipCode" th:value="${member?.zipCode}" />
+                    </div>
 
                     <button type="submit" class="btn btn-default" id="btn_submit">Add / Update Member</button>
                 </form>
