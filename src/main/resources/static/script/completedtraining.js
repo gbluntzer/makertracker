@@ -31,7 +31,7 @@
                    headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",
                    contentType: "application/json",
-                   url: "/savecompletedtraining",
+                   url: "/completedtrainings",
                    data: JSON.stringify(data),
                    dataType: 'json',
                    timeout: 6000,
@@ -52,9 +52,8 @@
                var csrf = $("[name='_csrf']").val();
                $.ajax({
                     headers: { 'X-CSRF-TOKEN': csrf},
-                   type:"POST",
-                   url:"/removecompletedtraining",
-                   data:{Id:Id},
+                   type:"DELETE",
+                   url:"/completedtrainings/" + Id,
                    success:function (data) {
                        $(".delete-order").closest("td#"+data).parent("tr").fadeOut("slow",function(){
                            $(".delete-order").closest("td#"+data).parent("tr").remove();
@@ -66,21 +65,22 @@
        });
 
         $('.edit-training').on("click", function(e){
-                         e.preventDefault();
-
-                             var Id = parseInt($(this).closest("td").attr("id"));
-                             $.ajax({
-                                 type:"GET",
-                                 url:"/getcompletedtraining",
-                                 data:{Id:Id},
-                                 success:function (data) {
-                                   $('#completedTrainingId').val(data.id);
-                                   $('#trainingId').val(data.trainingId);
-                                   $('#status').val(data.status);
-                                   $('#memberId').val(data.memberId);
-                                   $('#trainingDate').val(data.trainingDate);
-                                }
-                             });
-
+	         e.preventDefault();
+	
+             var Id = parseInt($(this).closest("td").attr("id"));
+             $.ajax({
+                 type:"GET",
+                 url:"/completedtrainings/" + Id,
+                 headers: { 'accept': 'application/json'},
+                 success:function (data) {
+                   $('#completedTrainingId').val(data.id);
+                   $('#trainingId').val(data.trainingId);
+                   $('#status').val(data.status);
+                   $('#memberId').val(data.memberId);
+                   $('#trainingDate').val(data.trainingDate);
+                   
+                   window.history.pushState('Edit Completed Training ' + data.id, 'MakerTracker', '/completedtrainings/' + data.id);
+                }
+             });
          });
     });

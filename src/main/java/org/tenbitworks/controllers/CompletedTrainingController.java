@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tenbitworks.model.CompletedTraining;
 import org.tenbitworks.model.Member;
@@ -31,16 +30,42 @@ public class CompletedTrainingController {
     MemberRepository memberRepository;
 
 
-    @RequestMapping("/completedtraining/{id}")
+    @RequestMapping(value="/completedtrainings/{id}", method=RequestMethod.GET)
     public String product(@PathVariable Long id, Model model) {
+    	Iterable<Training> trainingIterable =  trainingRepository.findAll();
+        Iterable<Member> memberIterable =  memberRepository.findAll();
+        Iterable<CompletedTraining> completedTrainingIterable =  completedTrainingRepository.findAll();
+        //TODO replace this with a Join SQL for performance
+        for(CompletedTraining completedTraining : completedTrainingIterable){
+            UUID memberId = completedTraining.getMemberId();
+            long trainingId = completedTraining.getTrainingId();
+            for(Member member : memberIterable){
+                UUID uuid = member.getId();
+                if(memberId.equals(uuid)){
+                    completedTraining.setMemberName(member.getMemberName());
+                    break;
+                }
+            }
+
+            for(Training training : trainingIterable){
+                long tid = training.getId();
+                if(trainingId == tid){
+                    completedTraining.setTrainingTitle(training.getTitle());
+                    break;
+                }
+            }
+        }
+        model.addAttribute("trainings", trainingIterable);
+        model.addAttribute("members",memberIterable);
+        model.addAttribute("completedtrainings", completedTrainingRepository.findAll());
         model.addAttribute("completedtraining", completedTrainingRepository.findOne(id));
-        return "completedtraining";
+        return "completedtrainings";
     }
 
-    @RequestMapping("/getcompletedtraining")
+    @RequestMapping(value="/completedtrainings/{id}", method=RequestMethod.GET, produces={"application/json"})
     @ResponseBody
-    public CompletedTraining getCompletedtraining(@RequestParam Long Id, Model model){
-        CompletedTraining completedTraining = completedTrainingRepository.findOne(Id);
+    public CompletedTraining getCompletedtraining(@PathVariable Long id, Model model){
+        CompletedTraining completedTraining = completedTrainingRepository.findOne(id);
         return completedTraining;
     }
 
@@ -76,18 +101,18 @@ public class CompletedTrainingController {
         return "completedtrainings";
     }
 
-    @RequestMapping(value = "/savecompletedtraining", method = RequestMethod.POST)
+    @RequestMapping(value = "/completedtrainings", method = RequestMethod.POST)
     @ResponseBody
     public Long saveTraining(@RequestBody CompletedTraining completedTraining) {
         completedTrainingRepository.save(completedTraining);
         return completedTraining.getId();
     }
 
-    @RequestMapping(value = "/removecompletedtraining", method = RequestMethod.POST)
+    @RequestMapping(value = "/completedtrainings/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String removeMemeber(@RequestParam Long Id) {
-        completedTrainingRepository.delete(Id);
-        return Id.toString();
+    public String removeMemeber(@PathVariable Long id) {
+        completedTrainingRepository.delete(id);
+        return id.toString();
     }
 
 
