@@ -1,5 +1,4 @@
-    $(document).ready(function () {
-
+$(document).ready(function () {
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
@@ -80,4 +79,16 @@
                 }
              });
          });
-    });
+
+	$('.new-training').on("click", function(e){
+	    e.preventDefault();
+	
+		$('#completedTrainingId').val('');
+		$('#trainingId').val('');
+		$('#status').val('');
+		$('#memberId').val('');
+		$('#trainingDate').val('');
+		  
+		window.history.pushState('Edit Completed Training', 'MakerTracker', '/completedtrainings/');
+	});
+});

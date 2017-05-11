@@ -29,6 +29,12 @@
                             <td th:id="${completedtraining.id}"><button class="btn btn-danger delete-training">Delete</button></td>
                             <td th:id="${completedtraining.id}"><button class="btn edit-training">Edit</button></td>
                         </tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td><button class="btn new-training">New</button></td>
+						</tr>
                         </tbody>
                     </table>
                 </div>
@@ -59,7 +65,7 @@
                     <div class="form-group">
                         <label for="trainingId">Training:</label>
                         <select class="form-control" id="trainingId" >
-                            <option value="">Select Training</option>
+                            <option value="" disabled="disabled">Select Training</option>
                             <option th:each="training : ${trainings}"
                                     th:value="${training.id}"
                                     th:text="${training.title}"
