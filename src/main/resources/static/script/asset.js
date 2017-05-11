@@ -3,13 +3,13 @@
 
        $('#btn_submit').on("click",function (e) {
            e.preventDefault();
-           var csrf, tenbitId, assetId, status, title, description, dateAquired, dateRemoved, brand, modelNumber, serialNumber, retailValue, webLink, operator, donator;
+           var csrf, tenbitId, assetId, status, title, description, dateAcquired, dateRemoved, brand, modelNumber, serialNumber, retailValue, webLink, operator, donor;
            tenbitId = $('#tenbitId').val();
            assetId = $('#assetId').val();
            status = $('#status').val();
            title = $('#title').val();
            description = $('#description').val();
-           dateAquired = $('#dateAquired').val();
+           dateAcquired = $('#dateAcquired').val();
            dateRemoved = $('#dateRemoved').val();
            brand = $('#brand').val();
            modelNumber = $('#modelNumber').val();
@@ -17,7 +17,7 @@
            retailValue = $('#retailValue').val();
            webLink = $('#webLink').val();
            operator = $('#operator').val();
-           donator = $('#donator').val();
+           donor = $('#donor').val();
            csrf = $("[name='_csrf']").val();
            if($.trim(title) === ""){
                alert("Asset Title cannot be empty");
@@ -35,8 +35,8 @@
                data["title"] = title;
                data["description"] = description;
                data["status"] = status;
-               var adate = new Date(dateAquired);
-               data["dateAquired"] = new Date(adate.valueOf() + adate.getTimezoneOffset() * 60000);
+               var adate = new Date(dateAcquired);
+               data["dateAcquired"] = new Date(adate.valueOf() + adate.getTimezoneOffset() * 60000);
                var rdate = new Date(dateRemoved);
                data["dateRemoved"] = new Date(rdate.valueOf() + rdate.getTimezoneOffset() * 60000);
                data["brand"] = brand;
@@ -45,12 +45,12 @@
                data["retailValue"] = retailValue;
                data["webLink"] = webLink;
                data["operator"] = operator;
-               data["donator"] = donator;
+               data["donor"] = donor;
                $.ajax({
                  headers: { 'X-CSRF-TOKEN': csrf},
                    type: "POST",
                    contentType: "application/json",
-                   url: "/saveasset",
+                   url: "/assets",
                    data: JSON.stringify(data),
                    dataType: 'json',
                    timeout: 6000,
@@ -71,9 +71,8 @@
                var csrf = $("[name='_csrf']").val();
                $.ajax({
                    headers: { 'X-CSRF-TOKEN': csrf},
-                   type:"POST",
-                   url:"/removeasset",
-                   data:{Id:Id},
+                   type:"DELETE",
+                   url:"/assets/" + Id,
                    success:function (data) {
                        $(".delete-order").closest("td#"+data).parent("tr").fadeOut("slow",function(){
                            $(".delete-order").closest("td#"+data).parent("tr").remove();
@@ -90,15 +89,15 @@
                       var Id = parseInt($(this).closest("td").attr("id"));
                       $.ajax({
                           type:"GET",
-                          url:"/getasset",
-                          data:{Id:Id},
+                          headers: { 'accept': 'application/json'},
+                          url:"/assets/" + Id,
                           success:function (data) {
                             $('#assetId').val(data.id);
                             $('#tenbitId').val(data.tenbitId);
                             $('#title').val(data.title);
                             $('#status').val(data.status);
                             $('#description').val(data.description);
-                            $('#dateAquired').val(data.dateAquired);
+                            $('#dateAcquired').val(data.dateAcquired);
                             $('#dateRemoved').val(data.dateRemoved);
                             $('#brand').val(data.brand);
                             $('#modelNumber').val(data.modelNumber);
@@ -106,10 +105,9 @@
                             $('#retailValue').val(data.retailValue);
                             $('#webLink').val(data.webLink);
                             $('#operator').val(data.operator);
-                            $('#donator').val(data.donator);
+                            $('#donor').val(data.donor);
 
-                            window.scrollTo(0, 0);
-
+                            window.history.pushState('Edit Asset ' + data.id, 'MakerTracker', '/assets/' + data.id);
                           }
                       });
 

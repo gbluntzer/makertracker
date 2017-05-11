@@ -13,7 +13,6 @@
                         <tr>
                             <th class="hidden-xs hidden-sm">Id</th>
                             <th>Title</th>
-
                             <th>Delete</th>
                             <th>Edit</th>
                         </tr>
@@ -21,7 +20,7 @@
                         <tbody>
 
                         <tr th:each="asset : ${assets}">
-                            <td class="hidden-xs hidden-sm" th:text="${asset.id}"></td>
+                            <td class="hidden-xs hidden-sm" th:text="${asset.tenbitId}"></td>
                             <td th:text="${asset.title}"></td>
 
                             <td th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
@@ -33,35 +32,68 @@
             </div>
 			<div class="col-lg-8 col-md-7 col-sm-6">
                 <form>
-                    <div th:replace="fragments/formField :: formField(field='tenbitId', type='text' , label='Asset Id')" ></div>
                     <div class="form-group" style="display:none">
                         <label for="assetId">Id:</label>
-                        <input type="text" class="form-control" id="assetId"/>
+                        <input type="text" class="form-control" id="assetId" th:value="${asset?.id}" />
                     </div>
-                    <div th:replace="fragments/formField :: formField(field='title', type='text' , label='Title')" ></div>
+					<div class="form-group">
+						<label for="tenbitId">Asset Id:</label>
+						<input type="text" class="form-control" id="tenbitId" th:value="${asset?.tenbitId}" />
+					</div>
+                    <div class="form-group">
+						<label for="title">Title:</label>
+						<input type="text" class="form-control" id="title" th:value="${asset?.title}" />
+					</div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea  class="form-control" id="description"/>
+                        <textarea class="form-control" id="description" th:text="${asset?.description}" />
                     </div>
                     <div class="form-group">
                         <label for="status">Status:</label>
-                        <select  class="form-control" id="status">
-                            <option>Select One</option>
-                            <option>Owned</option>
-                            <option>Loaned</option>
-                            <option>Removed</option>
-                            <option>Borrowed</option>
-                        </select>
+                        <select class="form-control" id="status">
+                        	<option th:each="status : ${T(org.tenbitworks.model.AssetStatus).values()}"
+								th:value="${status}"
+								th:text="${status.text}" 
+								th:selected="${asset?.status} == ${status}">
+							</option>
+						</select>
                     </div>
-                    <div th:replace="fragments/formField :: formField(field='dateAquired', type='date' , label='Date Auquired')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='brand', type='text' , label='Brand')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='modelNumber', type='text' , label='Model Number')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='serialNumber', type='text' , label='Serial Number')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='retailValue', type='text' , label='Retail Value')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='webLink', type='text' , label='Web Link')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='operator', type='text' , label='Operator')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='donator', type='text' , label='Donator')" ></div>
-                    <div th:replace="fragments/formField :: formField(field='dateRemoved', type='date' , label='Date Removed')" ></div>
+                    <div class="form-group">
+                        <label for="dateAcquired">Date Acquired:</label>
+						<input type="date" class="form-control" id="dateAcquired" th:value="${asset?.dateAcquired}" />
+                    </div>
+					<div class="form-group">
+                        <label for="brand">Brand:</label>
+						<input type="text" class="form-control" id="brand" th:value="${asset?.brand}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="modelNumber">Model Number:</label>
+						<input type="text" class="form-control" id="modelNumber" th:value="${asset?.modelNumber}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="serialNumber">Serial Number:</label>
+						<input type="text" class="form-control" id="serialNumber" th:value="${asset?.serialNumber}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="retailValue">Retail Value:</label>
+                        <input type="text" class="form-control" id="retailValue" th:value="${asset?.retailValue}" />
+                    </div>
+					<div class="form-group">
+                        <label for="webLink">Web Link:</label>
+                        <input type="text" class="form-control" id="webLink" th:value="${asset?.webLink}" />
+                    </div>
+					<div class="form-group">
+                        <label for="operator">Operator:</label>
+                        <input type="text" class="form-control" id="operator" th:value="${asset?.operator}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="donor">Donor:</label>
+                        <input type="text" class="form-control" id="donor" th:value="${asset?.donor}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="dateRemoved">Date Removed:</label>
+                        <input type="date" class="form-control" id="dateRemoved" th:value="${asset?.dateRemoved}" />
+                    </div>
                     <button type="submit" class="btn btn-default" id="btn_submit">Add / Update Asset</button>
                 </form>
             </div>
@@ -69,7 +101,7 @@
     </div>
     <div th:replace="fragments/footer :: footer"></div>
 </div>
-<script src="../static/script/asset.js"  th:src="@{script/asset.js}" type="application/javascript"></script>
+<script th:src="@{~/script/asset.js}" type="application/javascript"></script>
 
 </body>
 </html>

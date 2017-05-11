@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tenbitworks.model.Asset;
 import org.tenbitworks.repositories.AssetRepository;
@@ -18,18 +17,21 @@ public class AssetController {
     @Autowired
     AssetRepository assetRepository;
 
-
-    @RequestMapping("/asset/{id}")
-    public String product(@PathVariable Long id, Model model){
+    @RequestMapping(value="/assets/{id}", method=RequestMethod.GET)
+    public String getAsset(@PathVariable Long id, Model model){
         model.addAttribute("asset", assetRepository.findOne(id));
-        return "asset";
+        model.addAttribute("assets", assetRepository.findAll());
+        model.addAttribute("assetcount", assetRepository.count());
+        return "assets";
     }
-    @RequestMapping("/getasset")
+    
+    @RequestMapping(value="/assets/{id}", method=RequestMethod.GET, produces={"application/json"})
     @ResponseBody
-    public Asset getAsset(@RequestParam Long Id, Model model){
-        Asset asset = assetRepository.findOne(Id);
+    public Asset getAssetJson(@PathVariable Long id, Model model){
+        Asset asset = assetRepository.findOne(id);
         return asset;
     }
+    
     @RequestMapping(value = "/assets",method = RequestMethod.GET)
     public String assetsList(Model model){
         model.addAttribute("assets", assetRepository.findAll());
@@ -37,20 +39,17 @@ public class AssetController {
         return "assets";
     }
 
-    @RequestMapping(value = "/saveasset", method = RequestMethod.POST)
+    @RequestMapping(value = "/assets", method = RequestMethod.POST)
     @ResponseBody
     public Long saveAsset(@RequestBody Asset asset) {
         assetRepository.save(asset);
         return asset.getId();
     }
 
-    @RequestMapping(value = "/removeasset", method = RequestMethod.POST)
+    @RequestMapping(value = "/assets/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String removeMemeber(@RequestParam Long Id){
-        assetRepository.delete(Id);
-        return Id.toString();
+    public String removeAsset(@PathVariable Long id){
+        assetRepository.delete(id);
+        return id.toString();
     }
-
-
-
 }
