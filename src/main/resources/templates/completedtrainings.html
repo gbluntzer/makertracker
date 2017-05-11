@@ -37,7 +37,7 @@
                 <form>
                     <div class="form-group" style="display:none">
                         <label for="completedTrainingId">Id:</label>
-                        <input type="text" class="form-control" id="completedTrainingId"/>
+                        <input type="text" class="form-control" id="completedTrainingId" th:value="${completedtraining?.id}" />
                     </div>
                     <div class="form-group">
                         <label for="trainingDate">Date:</label>
@@ -71,9 +71,11 @@
                     <div class="form-group">
                         <label for="status">Status:</label>
                         <select  class="form-control" id="status">
-                            <option>Select One</option>
-                            <option>Completed Training</option>
-                            <option>Verified</option>
+                            <option th:each="status : ${T(org.tenbitworks.model.TrainingStatus).values()}"
+								th:value="${status}"
+								th:text="${status.text}" 
+								th:selected="${completedtraining?.status} == ${status}">
+							</option>
                         </select>
                     </div>
 

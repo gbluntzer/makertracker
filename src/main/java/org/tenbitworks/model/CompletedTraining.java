@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +27,8 @@ public class CompletedTraining {
     @NotNull
     UUID memberId;
 
-    String status;
+    @Enumerated(EnumType.STRING)
+    TrainingStatus status;
 
     @Transient
     String trainingTitle;
@@ -96,11 +99,11 @@ public class CompletedTraining {
         this.memberName = memberName;
     }
 
-    public String getStatus() {
+    public TrainingStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TrainingStatus status) {
         this.status = status;
     }
 }

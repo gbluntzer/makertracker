@@ -12,12 +12,9 @@
            csrf = $("[name='_csrf']").val();
            if($.trim(trainingId) === ""){
                alert("Training Id cannot be empty");
-           }
-            if($.trim(memberId) === ""){
+           } else if($.trim(memberId) === ""){
                 alert("Member id cannot be empty");
-            }
-
-           else {
+            } else {
                var data = {};
                if(completedTrainingId){
                 data["id"] = completedTrainingId;
