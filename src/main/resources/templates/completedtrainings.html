@@ -41,27 +41,30 @@
                     </div>
                     <div class="form-group">
                         <label for="trainingDate">Date:</label>
-                        <input type="date" class="form-control date" id="trainingDate"/>
+                        <input type="date" class="form-control date" id="trainingDate" th:value="${completedtraining?.trainingDate}" />
                     </div>
-
-
+					
                     <div class="form-group">
                         <label for="memberId">Member:</label>
                         <select class="form-control" id="memberId" >
-                            <option value="">Select Member</option>
+                            <option value="" disabled="disabled">Select Member</option>
                             <option th:each="member : ${members}"
                                     th:value="${member.id}"
-                                    th:text="${member.memberName}"></option>
+                                    th:text="${member.memberName}"
+									th:selected="${completedtraining?.memberId} == ${member.id}" >
+							</option>
                         </select>
                     </div>
-
+					
                     <div class="form-group">
                         <label for="trainingId">Training:</label>
                         <select class="form-control" id="trainingId" >
                             <option value="">Select Training</option>
                             <option th:each="training : ${trainings}"
                                     th:value="${training.id}"
-                                    th:text="${training.title}"></option>
+                                    th:text="${training.title}"
+									th:selected="${completedtraining?.trainingId} == ${training.id}" >
+							</option>
                         </select>
                     </div>
 
@@ -81,7 +84,7 @@
     </div>
     <div th:replace="fragments/footer :: footer"></div>
 </div>
-<script src="../static/script/completedtraining.js"  th:src="@{script/completedtraining.js}" type="application/javascript"></script>
+<script th:src="@{~/script/completedtraining.js}" type="application/javascript"></script>
 
 </body>
 </html>

@@ -31,7 +31,7 @@ public class CompletedTrainingController {
 
 
     @RequestMapping(value="/completedtrainings/{id}", method=RequestMethod.GET)
-    public String product(@PathVariable Long id, Model model) {
+    public String getCompletedTrainingHtml(@PathVariable Long id, Model model) {
     	Iterable<Training> trainingIterable =  trainingRepository.findAll();
         Iterable<Member> memberIterable =  memberRepository.findAll();
         Iterable<CompletedTraining> completedTrainingIterable =  completedTrainingRepository.findAll();
@@ -64,7 +64,7 @@ public class CompletedTrainingController {
 
     @RequestMapping(value="/completedtrainings/{id}", method=RequestMethod.GET, produces={"application/json"})
     @ResponseBody
-    public CompletedTraining getCompletedtraining(@PathVariable Long id, Model model){
+    public CompletedTraining getCompletedTraining(@PathVariable Long id, Model model){
         CompletedTraining completedTraining = completedTrainingRepository.findOne(id);
         return completedTraining;
     }
