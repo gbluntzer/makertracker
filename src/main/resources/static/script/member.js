@@ -96,10 +96,10 @@ $(document).ready(function () {
 
        $('#member_id').val('');
        $('#memberName').val('');
-       $('#status').val('');
+       $('#status').get(0).selectedIndex = 0;
        $('#member_email').val('');
        $('#phoneNumber').val('');
-       $('#paymentMethod').val('');
+       $('#paymentMethod').get(0).selectedIndex = 0;
        $('#description').val('');
        $('#zipCode').val('');
        
