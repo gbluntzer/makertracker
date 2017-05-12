@@ -38,19 +38,10 @@ public class CompletedTrainingController {
         //TODO replace this with a Join SQL for performance
         for(CompletedTraining completedTraining : completedTrainingIterable){
             UUID memberId = completedTraining.getMemberId();
-            long trainingId = completedTraining.getTrainingId();
             for(Member member : memberIterable){
                 UUID uuid = member.getId();
                 if(memberId.equals(uuid)){
                     completedTraining.setMemberName(member.getMemberName());
-                    break;
-                }
-            }
-
-            for(Training training : trainingIterable){
-                long tid = training.getId();
-                if(trainingId == tid){
-                    completedTraining.setTrainingTitle(training.getTitle());
                     break;
                 }
             }
@@ -77,19 +68,10 @@ public class CompletedTrainingController {
         //TODO replace this with a Join SQL for performance
         for(CompletedTraining completedTraining : completedTrainingIterable){
             UUID memberId = completedTraining.getMemberId();
-            long trainingId = completedTraining.getTrainingId();
             for(Member member : memberIterable){
                 UUID id = member.getId();
                 if(memberId.equals(id)){
                     completedTraining.setMemberName(member.getMemberName());
-                    break;
-                }
-            }
-
-            for(Training training : trainingIterable){
-                long id = training.getId();
-                if(trainingId == id){
-                    completedTraining.setTrainingTitle(training.getTitle());
                     break;
                 }
             }
@@ -114,6 +96,4 @@ public class CompletedTrainingController {
         completedTrainingRepository.delete(id);
         return id.toString();
     }
-
-
 }

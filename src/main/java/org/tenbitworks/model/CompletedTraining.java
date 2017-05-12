@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -20,10 +21,11 @@ public class CompletedTraining {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    @NotNull
-    long trainingId;
     
+    @NotNull
+    @ManyToOne
+    Training training;
+
     @NotNull
     UUID memberId;
 
@@ -31,22 +33,19 @@ public class CompletedTraining {
     TrainingStatus status;
 
     @Transient
-    String trainingTitle;
-
-    @Transient
     String memberName;
 
     Date trainingDate;
-
+    
     public CompletedTraining() { }
 
     public CompletedTraining(long id) {
         this.id = id;
     }
 
-    public CompletedTraining(long trainingId, UUID memberId, Date trainingDate) {
+    public CompletedTraining(Training training, UUID memberId, Date trainingDate) {
 
-        this.trainingId = trainingId;
+        this.training = training;
         this.memberId = memberId;
         this.trainingDate = trainingDate;
     }
@@ -67,28 +66,12 @@ public class CompletedTraining {
         this.trainingDate = trainingDate;
     }
 
-    public long getTrainingId() {
-        return trainingId;
-    }
-
-    public void setTrainingId(long trainingId) {
-        this.trainingId = trainingId;
-    }
-
     public UUID getMemberId() {
         return memberId;
     }
 
     public void setMemberId(UUID memberId) {
         this.memberId = memberId;
-    }
-
-    public String getTrainingTitle() {
-        return trainingTitle;
-    }
-
-    public void setTrainingTitle(String trainingTitle) {
-        this.trainingTitle = trainingTitle;
     }
 
     public String getMemberName() {
@@ -106,4 +89,12 @@ public class CompletedTraining {
     public void setStatus(TrainingStatus status) {
         this.status = status;
     }
+
+	public Training getTraining() {
+		return training;
+	}
+
+	public void setTraining(Training training) {
+		this.training = training;
+	}
 }
