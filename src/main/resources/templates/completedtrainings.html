@@ -23,13 +23,15 @@
 
                         <tr th:each="completedtraining : ${completedtrainings}">
                             <td class="hidden-xs hidden-sm"  th:text="${completedtraining.id}"></td>
-                            <td th:text="${completedtraining.memberName}"></td>
+                            <td th:text="${completedtraining.member.memberName}"></td>
                             <td th:text="${completedtraining.training.title}"></td>
                             <td class="hidden-xs hidden-sm" th:text="${completedtraining.trainingDate}"></td>
                             <td th:id="${completedtraining.id}"><button class="btn btn-danger delete-training">Delete</button></td>
                             <td th:id="${completedtraining.id}"><button class="btn edit-training">Edit</button></td>
                         </tr>
 						<tr>
+							<td></td>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -57,7 +59,7 @@
                             <option th:each="member : ${members}"
                                     th:value="${member.id}"
                                     th:text="${member.memberName}"
-									th:selected="${completedtraining?.memberId} == ${member.id}" >
+									th:selected="${completedtraining?.member?.id} == ${member.id}" >
 							</option>
                         </select>
                     </div>

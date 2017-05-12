@@ -19,7 +19,7 @@ $(document).ready(function () {
 				data["id"] = completedTrainingId;
 			}
 			data["training"] = Number(trainingId);
-			data["memberId"] = memberId;
+			data["member"] = memberId;
 			data["status"] = status;
 			var tdate = new Date(trainingDate);
 			data["trainingDate"] = new Date(tdate.valueOf() + tdate.getTimezoneOffset() * 60000);
@@ -73,7 +73,7 @@ $(document).ready(function () {
 				$('#completedTrainingId').val(data.id);
 				$('#trainingId').val(data.training.id);
 				$('#status').val(data.status);
-				$('#memberId').val(data.memberId);
+				$('#memberId').val(data.member.id);
 				$('#trainingDate').val(data.trainingDate);
 
 				window.history.pushState('Edit Completed Training ' + data.id, 'MakerTracker', '/completedtrainings/' + data.id);

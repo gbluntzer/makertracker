@@ -1,7 +1,6 @@
 package org.tenbitworks.model;
 
 import java.sql.Date;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -27,13 +25,11 @@ public class CompletedTraining {
     Training training;
 
     @NotNull
-    UUID memberId;
+    @ManyToOne
+    Member member;
 
     @Enumerated(EnumType.STRING)
     TrainingStatus status;
-
-    @Transient
-    String memberName;
 
     Date trainingDate;
     
@@ -43,10 +39,9 @@ public class CompletedTraining {
         this.id = id;
     }
 
-    public CompletedTraining(Training training, UUID memberId, Date trainingDate) {
-
+    public CompletedTraining(Training training, Member member, Date trainingDate) {
         this.training = training;
-        this.memberId = memberId;
+        this.member = member;
         this.trainingDate = trainingDate;
     }
 
@@ -66,20 +61,12 @@ public class CompletedTraining {
         this.trainingDate = trainingDate;
     }
 
-    public UUID getMemberId() {
-        return memberId;
+    public Member getMember() {
+        return member;
     }
 
-    public void setMemberId(UUID memberId) {
-        this.memberId = memberId;
-    }
-
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public TrainingStatus getStatus() {
