@@ -17,10 +17,10 @@
 
                     <li><a href="/greeting">Greeting</a></li>
                     <li><a href="/members">Members</a></li>
-                    <li><a href="/trainings">Trainings</a></li>
-                    <li><a href="/completedtrainings">Completed Trainings</a></li>
-                    <li><a href="/assets">Assets</a></li>
-                    <li id="userName" th:inline="text"> [[${#httpServletRequest.remoteUser}]]</li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/trainings">Trainings</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/completedtrainings">Completed Trainings</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/assets">Assets</a></li>
+                    <li id="userName" th:inline="text"> [[${#authentication.name}]]</li>
                     <li id="logoutButton"><form th:action="@{/logout}" method="post">
                         <input class="btn" type="submit" value="Sign Out"/>
                     </form></li>
