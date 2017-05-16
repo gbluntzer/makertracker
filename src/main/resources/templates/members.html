@@ -13,7 +13,7 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Delete</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
                             <th>Edit</th>
                         </tr>
                         </thead>
@@ -21,7 +21,7 @@
 
                         <tr th:each="member : ${members}">
                             <td th:text="${member.memberName}"></td>
-                            <td th:id="${member.id}"><button class="btn btn-danger delete-member" sec:authorize="hasRole('ROLE_ADMIN')">Delete</button></td>
+                            <td th:id="${member.id}" sec:authorize="hasRole('ROLE_ADMIN')"><button class="btn btn-danger delete-member">Delete</button></td>
                             <td th:id="${member.id}"><button class="btn edit-member">Edit</button></td>
                         </tr>
                         
