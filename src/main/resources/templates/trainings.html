@@ -12,31 +12,25 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th class="hidden-xs hidden-sm" >Id</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th class="hidden-xs hidden-sm">Asset</th>
                             <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
-                            <th sec:authorize="hasRole('ROLE_ADMIN')">Edit</th>
                         </tr>
                         </thead>
                         <tbody>
 
                         <tr th:each="training : ${trainings}">
-                            <td class="hidden-xs hidden-sm" th:text="${training.id}"></td>
-                            <td th:text="${training.title}"></td>
+							<td th:id="${training.id}" th:inline="text"><a class="edit-training">[[${training.title}]]</a></td>
                             <td th:text="${training.description}"></td>
                             <td class="hidden-xs hidden-sm" th:text="${training.assetTitle}"></td>
                             <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${training.id}"><button class="btn btn-danger delete-training">Delete</button></td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${training.id}"><button class="btn edit-training">Edit</button></td>
                         </tr>
                         
                         <tr sec:authorize="hasRole('ROLE_ADMIN')">
-                            <td class="hidden-xs hidden-sm"></td>
                             <td></td>
                             <td></td>
                             <td class="hidden-xs hidden-sm"></td>
-                            <td></td>
                             <td><button class="btn new-training">New</button></td>
                         </tr>
                         </tbody>

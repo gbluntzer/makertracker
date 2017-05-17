@@ -16,7 +16,7 @@ public class Training {
 
     String description;
 
-    long assetId;
+    long assetId; //TODO Replace with Asset class
 
     @Transient
     String assetTitle;

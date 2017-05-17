@@ -14,20 +14,17 @@
                             <th class="hidden-xs hidden-sm">Id</th>
                             <th>Asset Name</th>
                             <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
-                            <th sec:authorize="hasRole('ROLE_ADMIN')">Edit</th>
                         </tr>
                         </thead>
                         <tbody>
 
                         <tr th:each="asset : ${assets}">
-                            <td class="hidden-xs hidden-sm" th:text="${asset.tenbitId}"></td>
+							<td th:id="${asset.id}" th:inline="text"><a class="edit-asset">[[${asset.tenbitId}]]</a></td>
                             <td th:text="${asset.title}"></td>
                             <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><button class="btn edit-asset">Edit</button></td>
                         </tr>
                         
                         <tr sec:authorize="hasRole('ROLE_ADMIN')">
-                            <td class="hidden-xs hidden-sm"></td>
                             <td></td>
                             <td></td>
                             <td><button class="btn new-asset">New</button></td>
