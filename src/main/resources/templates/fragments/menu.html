@@ -16,14 +16,19 @@
                 <ul class="nav navbar-nav">
 
                     <li><a href="/greeting">Greeting</a></li>
-                    <li><a href="/members">Members</a></li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/trainings">Trainings</a></li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/completedtrainings">Completed Trainings</a></li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/assets">Assets</a></li>
-                    <li id="userName" th:inline="text"> [[${#authentication.name}]]</li>
-                    <li id="logoutButton"><form th:action="@{/logout}" method="post">
-                        <input class="btn" type="submit" value="Sign Out"/>
-                    </form></li>
+                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/members">Members</a></li>
+                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/trainings">Trainings</a></li>
+                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/completedtrainings">Completed Trainings</a></li>
+                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/assets">Assets</a></li>
+                    <li id="userName" th:inline="text" sec:authorize="isAuthenticated()"><b>[[${#authentication.name}]]</b></li>
+                    <li id="logoutButton" sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" method="post">
+							<input class="btn" type="submit" value="Sign Out"/>
+						</form>
+					</li>
+					<li id="loginButton" sec:authorize="!isAuthenticated()">
+						<a th:href="@{/login}">Sign In</a>
+					</li>
                 </ul>
             </div>
         </div>
