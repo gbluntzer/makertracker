@@ -12,9 +12,9 @@
                         <thead>
                         <tr>
                             <th class="hidden-xs hidden-sm">Id</th>
-                            <th>Title</th>
-                            <th>Delete</th>
-                            <th>Edit</th>
+                            <th>Asset Name</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Edit</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -22,11 +22,11 @@
                         <tr th:each="asset : ${assets}">
                             <td class="hidden-xs hidden-sm" th:text="${asset.tenbitId}"></td>
                             <td th:text="${asset.title}"></td>
-                            <td th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
-                            <td th:id="${asset.id}"><button class="btn edit-asset">Edit</button></td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><button class="btn edit-asset">Edit</button></td>
                         </tr>
                         
-                        <tr>
+                        <tr sec:authorize="hasRole('ROLE_ADMIN')">
                             <td class="hidden-xs hidden-sm"></td>
                             <td></td>
                             <td></td>
@@ -47,7 +47,7 @@
 						<input type="text" class="form-control" id="tenbitId" th:value="${asset?.tenbitId}" />
 					</div>
                     <div class="form-group">
-						<label for="title">Title:</label>
+						<label for="title">Asset Name:</label>
 						<input type="text" class="form-control" id="title" th:value="${asset?.title}" />
 					</div>
                     <div class="form-group">

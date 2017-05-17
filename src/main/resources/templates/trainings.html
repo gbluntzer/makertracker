@@ -16,8 +16,8 @@
                             <th>Title</th>
                             <th>Description</th>
                             <th class="hidden-xs hidden-sm">Asset</th>
-                            <th>Delete</th>
-                            <th>Edit</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Edit</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -27,11 +27,11 @@
                             <td th:text="${training.title}"></td>
                             <td th:text="${training.description}"></td>
                             <td class="hidden-xs hidden-sm" th:text="${training.assetTitle}"></td>
-                            <td th:id="${training.id}"><button class="btn btn-danger delete-training">Delete</button></td>
-                            <td th:id="${training.id}"><button class="btn edit-training">Edit</button></td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${training.id}"><button class="btn btn-danger delete-training">Delete</button></td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${training.id}"><button class="btn edit-training">Edit</button></td>
                         </tr>
                         
-                        <tr>
+                        <tr sec:authorize="hasRole('ROLE_ADMIN')">
                             <td class="hidden-xs hidden-sm"></td>
                             <td></td>
                             <td></td>
