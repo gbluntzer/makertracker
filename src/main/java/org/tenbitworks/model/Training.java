@@ -1,6 +1,13 @@
 package org.tenbitworks.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -16,7 +23,9 @@ public class Training {
 
     String description;
 
-    long assetId; //TODO Replace with Asset class
+    @NotNull
+    @ManyToOne
+    Asset asset;
 
     @Transient
     String assetTitle;
@@ -32,10 +41,10 @@ public class Training {
         this.description = description;
     }
 
-    public Training(String title, String description, long assetId) {
+    public Training(String title, String description, Asset asset) {
         this.title = title;
         this.description = description;
-        this.assetId = assetId;
+        this.asset = asset;
     }
 
     public long getId() {
@@ -63,12 +72,12 @@ public class Training {
         this.description = description;
     }
 
-    public long getAssetId() {
-        return assetId;
+    public Asset getAsset() {
+        return asset;
     }
 
-    public void setAssetId(long assetId) {
-        this.assetId = assetId;
+    public void setAsset(Asset asset) {
+        this.asset = asset;
     }
 
     public String getAssetTitle() {

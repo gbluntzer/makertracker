@@ -23,7 +23,7 @@
                         <tr th:each="training : ${trainings}">
 							<td th:id="${training.id}" th:inline="text"><a class="edit-training">[[${training.title}]]</a></td>
                             <td th:text="${training.description}"></td>
-                            <td class="hidden-xs hidden-sm" th:text="${training.assetTitle}"></td>
+                            <td class="hidden-xs hidden-sm" th:text="${training.asset.title}"></td>
                             <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${training.id}"><button class="btn btn-danger delete-training">Delete</button></td>
                         </tr>
                         
