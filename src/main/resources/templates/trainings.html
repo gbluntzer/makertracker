@@ -62,7 +62,7 @@
 						</select>
 					</div>
 
-					<button type="submit" class="btn btn-default" id="btn_submit">Add / Update Training</button>
+					<button type="submit" class="btn btn-default" id="btn_submit" sec:authorize="hasRole('ROLE_ADMIN')">Add / Update Training</button>
 				</form>
 			</div>
 		</div>

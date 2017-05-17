@@ -29,6 +29,7 @@ public class CompletedTrainingController {
     @RequestMapping(value="/completedtrainings/{id}", method=RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String getCompletedTrainingHtml(@PathVariable Long id, Model model) {
+    	//TODO Should guests/members be able to see others completed trainings?
     	model.addAttribute("trainings", trainingRepository.findAll());
         model.addAttribute("members",memberRepository.findAll());
     	model.addAttribute("completedtrainings", completedTrainingRepository.findAll());

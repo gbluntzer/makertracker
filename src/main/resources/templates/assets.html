@@ -11,7 +11,7 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th class="hidden-xs hidden-sm">Id</th>
+                            <th>Id</th>
                             <th>Asset Name</th>
                             <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
                         </tr>
@@ -97,7 +97,7 @@
                         <label for="dateRemoved">Date Removed:</label>
                         <input type="date" class="form-control" id="dateRemoved" th:value="${asset?.dateRemoved}" />
                     </div>
-                    <button type="submit" class="btn btn-default" id="btn_submit">Add / Update Asset</button>
+                    <button type="submit" class="btn btn-default" id="btn_submit" sec:authorize="hasRole('ROLE_ADMIN')">Add / Update Asset</button>
                 </form>
             </div>
         </div>
