@@ -22,13 +22,12 @@
                         <tr th:each="asset : ${assets}">
                             <td class="hidden-xs hidden-sm" th:text="${asset.tenbitId}"></td>
                             <td th:text="${asset.title}"></td>
-
                             <td th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
                             <td th:id="${asset.id}"><button class="btn edit-asset">Edit</button></td>
                         </tr>
                         
                         <tr>
-                            <td></td>
+                            <td class="hidden-xs hidden-sm"></td>
                             <td></td>
                             <td></td>
                             <td><button class="btn new-asset">New</button></td>
