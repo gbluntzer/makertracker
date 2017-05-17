@@ -1,6 +1,7 @@
 package org.tenbitworks.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,10 +24,11 @@ public class TrainingController {
     AssetRepository assetRepository;
 
     @RequestMapping(value="/trainings/{id}", method = RequestMethod.GET)
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String getTraining(@PathVariable Long id, Model model){
     	Iterable<Training> trainingIterable = trainingRepository.findAll();
         Iterable<Asset> assetIterable = assetRepository.findAll();
-
+        
 //        for(Training training : trainingIterable){
 //            long assetId = training.getAssetId();
 //
@@ -48,12 +50,14 @@ public class TrainingController {
 
     @RequestMapping(value="/trainings/{id}", method = RequestMethod.GET, produces = { "application/json" })
     @ResponseBody
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public Training getTrainingJson(@PathVariable Long id, Model model){
         Training training = trainingRepository.findOne(id);
         return training;
     }
 
     @RequestMapping(value = "/trainings", method = RequestMethod.GET)
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String trainingsList(Model model){
         Iterable<Training> trainingIterable = trainingRepository.findAll();
         Iterable<Asset> assetIterable = assetRepository.findAll();
@@ -79,6 +83,7 @@ public class TrainingController {
 
     @RequestMapping(value = "/trainings", method = RequestMethod.POST)
     @ResponseBody
+    @Secured({"ROLE_ADMIN"})
     public Long saveTraining(@RequestBody Training training) {
         trainingRepository.save(training);
         return training.getId();
@@ -86,7 +91,8 @@ public class TrainingController {
 
     @RequestMapping(value = "/trainings/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String removeMemeber(@PathVariable Long id){
+    @Secured({"ROLE_ADMIN"})
+    public String removeTraining(@PathVariable Long id){
         trainingRepository.delete(id);
         return id.toString();
     }

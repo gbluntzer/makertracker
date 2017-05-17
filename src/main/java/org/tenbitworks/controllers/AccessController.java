@@ -26,5 +26,4 @@ public class AccessController {
         return model;
 
     }
-
 }

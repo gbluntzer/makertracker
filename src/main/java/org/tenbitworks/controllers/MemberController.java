@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ public class MemberController {
     
     @RequestMapping(value="/members/{id}", method = RequestMethod.GET, produces = { "application/json" })
     @ResponseBody
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public Member getMemberJson(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
     	if (security.isUserInRole("ADMIN")) {
 	    	Member member = memberRepository.findOne(id);
@@ -33,6 +35,7 @@ public class MemberController {
     }
     
     @RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String getMember(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
     	if (security.isUserInRole("ADMIN")) {
     		model.addAttribute("members", memberRepository.findAll());
@@ -45,15 +48,16 @@ public class MemberController {
     }
 
     @RequestMapping(value = "/members", method = RequestMethod.GET)
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String membersList(Model model) {
         model.addAttribute("members", memberRepository.findAll());
         model.addAttribute("membercount", memberRepository.count());
         return "members";
     }
 
-
     @RequestMapping(value = "/members", method = RequestMethod.POST)
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public UUID saveMember(@RequestBody Member member) {
         memberRepository.save(member);
         return member.getId();
@@ -61,9 +65,9 @@ public class MemberController {
 
     @RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String removeMemeber(@PathVariable UUID id){
+    @Secured("ROLE_ADMIN")
+    public String removeMember(@PathVariable UUID id){
         memberRepository.delete(id);
         return id.toString();
     }
-
 }
