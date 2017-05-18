@@ -46,6 +46,10 @@ public class Asset {
 
     public Asset() { }
     
+    public Asset(long id) {
+    	this.id = id;
+    }
+    
     public Asset(String title) {
         this.title = title;
     }

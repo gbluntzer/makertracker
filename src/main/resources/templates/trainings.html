@@ -53,12 +53,12 @@
 					</div>
 					<div class="form-group">
 						<label for="assetId">Asset:</label>
-						<select class="form-control" id="assetId" >
+						<select class="form-control" id="asset" >
 							<option value="">Select Asset</option>
 							<option th:each="asset : ${assets}"
 									th:value="${asset.id}"
 									th:text="${asset.title}"
-									th:selected="${training?.assetId} == ${asset.id}"></option>
+									th:selected="${training?.asset} == ${asset}"></option>
 						</select>
 					</div>
 

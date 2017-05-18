@@ -3,11 +3,11 @@ $(document).ready(function () {
 
 	$('#btn_submit').on("click",function (e) {
 		e.preventDefault();
-		var csrf, assetId, trainingId, title, description, assetId;
+		var csrf, asset, trainingId, title, description;
 		title = $('#title').val();
 		description = $('#description').val();
 		trainingId = $('#trainingId').val();
-		assetId = $('#assetId').val();
+		asset = $('#asset').val();
 		csrf = $("[name='_csrf']").val();
 		if($.trim(title) === ""){
 			alert("Training Title cannot be empty");
@@ -20,7 +20,7 @@ $(document).ready(function () {
 			}
 			data["title"] = title;
 			data["description"] = description;
-			data["assetId"] = assetId;
+			data["asset"] = Number(asset);
 
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': csrf},
@@ -69,7 +69,7 @@ $(document).ready(function () {
 			url:"/trainings/" + Id,
 			success:function (data) {
 				$('#trainingId').val(data.id);
-				$('#assetId').val(data.assetId);
+				$('#asset').val(data.asset.id);
 				$('#title').val(data.title);
 				$('#description').val(data.description);
 
@@ -82,7 +82,7 @@ $(document).ready(function () {
 		e.preventDefault();
 
 		$('#trainingId').val('');
-		$('#assetId').val('');
+		$('#asset').val('');
 		$('#title').val('');
 		$('#description').val('');
 
