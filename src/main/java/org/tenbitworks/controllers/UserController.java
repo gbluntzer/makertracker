@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,12 +55,14 @@ public class UserController {
 	@RequestMapping(value="/users", method = RequestMethod.POST, consumes = { "application/json" })
 	@ResponseBody
 	@Secured({"ROLE_ADMIN"})
-	public boolean addUser(@RequestBody @Valid NewUser newUser) {
-		System.out.println(newUser);
+	public ResponseEntity<String> addUser(@RequestBody @Valid NewUser newUser) {
+		if (!userRepo.userExists(newUser.getUsername())) {
+			userRepo.createUser(new User(newUser.getUsername(), passwordEncoder.encode(newUser.getPlainPassword()), getAuthorities(newUser.getRoles())));
+		} else {
+			return new ResponseEntity<String>("Cannot create user", HttpStatus.BAD_REQUEST);
+		}
 		
-		userRepo.createUser(new User(newUser.getUsername(), passwordEncoder.encode(newUser.getPlainPassword()), getAuthorities(newUser.getRoles())));
-		
-		return true;
+		return new ResponseEntity<String>("User Created", HttpStatus.CREATED);
 	}
 	
 	private static List<GrantedAuthority> getAuthorities (List<String> roles) {
