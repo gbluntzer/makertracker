@@ -15,7 +15,7 @@ import org.tenbitworks.repositories.MemberRepository;
 import org.tenbitworks.repositories.TrainingRepository;
 
 @SpringBootApplication
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class MakertrackerApplication {
 
     private static final Logger log = LoggerFactory.getLogger(MakertrackerApplication.class);

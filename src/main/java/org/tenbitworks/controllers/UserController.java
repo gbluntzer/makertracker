@@ -39,14 +39,10 @@ public class UserController {
 	
 	@RequestMapping(value="/users/{username}", method = RequestMethod.GET, produces = { "application/json" })
 	@ResponseBody
-	@PreAuthorize("authenticated")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or #username == authentication.name")
 	public UserDetails getUserJson(@PathVariable String username, Model model, SecurityContextHolderAwareRequestWrapper security) {
 		try {
-			if (security.isUserInRole("ADMIN") || username.equals(security.getUserPrincipal().getName())) {
-				return userRepo.loadUserByUsername(username);
-			} else {
-				throw new AccessDeniedException("Unauthorized");
-			}
+			return userRepo.loadUserByUsername(username);
 		} catch (UsernameNotFoundException e) {
 			throw new AccessDeniedException("Unauthorized");
 		}
