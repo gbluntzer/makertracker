@@ -1,4 +1,4 @@
-package org.tenbitworks.model;
+package org.tenbitworks.dto;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.tenbitworks.model.Member;
 
 public class NewUser {
 
