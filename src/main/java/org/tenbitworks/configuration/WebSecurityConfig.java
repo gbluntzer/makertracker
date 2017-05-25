@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 @Configuration
@@ -29,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+			.csrf().disable() //TODO Disable for only certain services
 			.authorizeRequests()
 				.antMatchers( "/webjars/**", "/css/**").permitAll()
 				.anyRequest().authenticated()
@@ -48,17 +50,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     	JdbcUserDetailsManagerConfigurer<AuthenticationManagerBuilder> service = auth.jdbcAuthentication();
     	
+    	PasswordEncoder passwordEncoder = getPasswordEncoder();
+    	
     	userDetailsManager = service
         	.dataSource(dataSource)
-        	.passwordEncoder(new BCryptPasswordEncoder())
+        	.passwordEncoder(passwordEncoder)
         	.getUserDetailsService();
     	
     	try {
 	   		if (!dataSource.getConnection().prepareStatement("select 1 from users").executeQuery().next()) {
 	   			LOGGER.info("No users found, adding defaults");
 
-				service.withUser("user").password(new BCryptPasswordEncoder().encode("user")).roles("USER");
-				service.withUser("admin").password(new BCryptPasswordEncoder().encode("admin")).roles("USER", "ADMIN");
+				service.withUser("user").password(passwordEncoder.encode("user")).roles("USER");
+				service.withUser("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN");
 	   		} else {
 	   			LOGGER.info("Users found");
 	   		}
@@ -67,13 +71,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		LOGGER.info("Creating default user schema and users");
     		
     		service.withDefaultSchema();
-    		service.withUser("user").password(new BCryptPasswordEncoder().encode("user")).roles("USER");
-			service.withUser("admin").password(new BCryptPasswordEncoder().encode("admin")).roles("USER", "ADMIN");
+    		service.withUser("user").password(passwordEncoder.encode("user")).roles("USER");
+			service.withUser("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN");
     	}
     }
     
     @Bean
     public JdbcUserDetailsManager getUserDetailsManager() {
         return userDetailsManager;
+    }
+    
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+    	return new BCryptPasswordEncoder();
     }
 }
