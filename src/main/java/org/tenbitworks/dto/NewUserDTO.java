@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.tenbitworks.model.Member;
 
-public class NewUser {
+public class NewUserDTO {
 
 	@NotBlank
 	private String username;
@@ -16,7 +16,6 @@ public class NewUser {
 	@NotBlank
 	private String plainPassword;
 	
-	@NotNull
 	@OneToOne
 	private Member member;
 	

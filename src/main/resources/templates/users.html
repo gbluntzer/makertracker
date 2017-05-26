@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" lang="en"/>
+<body>
+<div id="mainContainer" class="flexBoxContainer">
+    <div th:replace="fragments/menu :: menu"></div>
+    <div class="container">
+        <div class="row">
+            <div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1 sec:authorize="hasRole('ROLE_ADMIN')" th:text="'Users : ' + ${usercount}">Users</h1>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="user : ${users}">
+                            <td th:id="${user.username}" th:inline="text"><a class="edit-user">[[${user.username}]]</a></td>
+                            <td th:id="${user.username}" sec:authorize="hasRole('ROLE_ADMIN')"><button class="btn btn-danger delete-user">Delete</button></td>
+                        </tr>
+                        
+                        <tr sec:authorize="hasRole('ROLE_ADMIN')">
+                            <td></td>
+                            <td><button class="btn new-user">New</button></td>
+                        </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-lg-8 col-md-7 col-sm-6">
+                <form>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" th:value="${user?.username}" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" />
+                    </div>
+                    <div class="form-group">
+                    	<button class="btn reset-password">Reset Password</button>
+                    </div>
+                    <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+                    	<input type="checkbox" name="enabled" id="enabled" th:checked="${user?.enabled == true}" />Enabled<br />
+                    </div>
+                    
+                    <button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="btn btn-default" id="btn_submit">Add / Update User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+<script th:src="@{~/script/users.js}" type="application/javascript"></script>
+
+</body>
+</html>

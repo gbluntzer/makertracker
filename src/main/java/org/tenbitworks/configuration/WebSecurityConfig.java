@@ -1,6 +1,5 @@
 package org.tenbitworks.configuration;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
@@ -57,23 +56,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         	.passwordEncoder(passwordEncoder)
         	.getUserDetailsService();
     	
-    	try {
-	   		if (!dataSource.getConnection().prepareStatement("select 1 from users").executeQuery().next()) {
-	   			LOGGER.info("No users found, adding defaults");
+   		if (!dataSource.getConnection().prepareStatement("select 1 from users").executeQuery().next()) {
+   			LOGGER.info("No users found, adding defaults");
 
-				service.withUser("user").password(passwordEncoder.encode("user")).roles("USER");
-				service.withUser("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN");
-	   		} else {
-	   			LOGGER.info("Users found");
-	   		}
-    	} catch (Exception e) {
-    		LOGGER.logp(Level.SEVERE, CLAZZ, "configureGlobal", "Exception caught when checking for users", e);
-    		LOGGER.info("Creating default user schema and users");
-    		
-    		service.withDefaultSchema();
-    		service.withUser("user").password(passwordEncoder.encode("user")).roles("USER");
+			service.withUser("user").password(passwordEncoder.encode("user")).roles("USER");
 			service.withUser("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN");
-    	}
+   		} else {
+   			LOGGER.info("Users found");
+   		}
     }
     
     @Bean
