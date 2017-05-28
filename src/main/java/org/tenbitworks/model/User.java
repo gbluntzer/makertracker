@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -19,6 +21,7 @@ public class User {
 
 	@NotNull
 	@Length(max=500)
+	@JsonIgnore
 	private String password;
 	
 	@NotNull

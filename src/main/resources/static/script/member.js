@@ -85,6 +85,7 @@ $(document).ready(function () {
                $('#paymentMethod').val(data.paymentMethod);
                $('#description').val(data.description);
                $('#zipCode').val(data.zipCode);
+               $('#username').val(data.user != null ? data.user.username : '');
                
                window.history.pushState('Edit Member ' + data.memberName, 'MakerTracker', '/members/' + data.id);
            }
@@ -102,6 +103,7 @@ $(document).ready(function () {
        $('#paymentMethod').get(0).selectedIndex = 0;
        $('#description').val('');
        $('#zipCode').val('');
+       $('#username').val('');
        
        window.history.pushState('Edit Member', 'MakerTracker', '/members');
    });

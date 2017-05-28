@@ -2,6 +2,7 @@ package org.tenbitworks.dto;
 
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,6 +19,9 @@ public class UserDTO {
 	private boolean enabled;
 	
 	private List<String> roles;
+	
+	private String memberName;
+	private UUID memberId;
 
 	public UserDTO(User user, List<String> roles) {
 		this.username = user.getUsername();
@@ -47,5 +51,21 @@ public class UserDTO {
 
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public UUID getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(UUID memberId) {
+		this.memberId = memberId;
 	}
 }

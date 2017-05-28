@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="form-group" id="memberDropDown" th:fragment="memberDropDown(enableNone)">
+	<label for="memberId">Member:</label>
+	<select class="form-control" id="memberId">
+		<option value="" disabled="disabled">Select Member</option>
+		<option value="" th:if="enableNone">None</option>
+		<option th:each="member : ${members}" th:value="${member.id}"
+			th:text="${member.memberName}"
+			th:selected="${completedtraining?.member?.id} == ${member.id}">
+		</option>
+	</select>
+</div>
+</html>
