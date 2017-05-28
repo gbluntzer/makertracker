@@ -3,10 +3,6 @@ package org.tenbitworks.controllers;
 import java.util.Arrays;
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
@@ -31,9 +27,6 @@ public class MemberController {
     @Autowired
 	UserRepository userRepository;
     
-    @PersistenceContext
-	EntityManager em;
-    
     @RequestMapping(value="/members/{id}", method = RequestMethod.GET, produces = { "application/json" })
     @ResponseBody
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -42,11 +35,8 @@ public class MemberController {
     	if (security.isUserInRole("ADMIN")) {
 	    	member = memberRepository.findOne(id);
     	} else {
-    		String username = security.getUserPrincipal().getName();
-    		org.tenbitworks.model.User user = userRepository.findOne(username);
-    		member = em.createQuery("select m from Member m where m.user = :user", Member.class) //TODO Move to named query
-					.setParameter("user", user)
-					.getSingleResult();
+    		org.tenbitworks.model.User user = userRepository.findOne(security.getUserPrincipal().getName());
+    		member = memberRepository.findOneByUser(user);
     		
     		if (member == null || !id.equals(member.getId())) {
     			throw new AccessDeniedException("Access Denied");
@@ -65,16 +55,14 @@ public class MemberController {
     		model.addAttribute("members", memberRepository.findAll());
 	        model.addAttribute("member", memberRepository.findOne(id));
     	} else {
-    		String username = security.getUserPrincipal().getName();
-    		org.tenbitworks.model.User user = userRepository.findOne(username);
-    		Member member = em.createQuery("select m from Member m where m.user = :user", Member.class)
-					.setParameter("user", user)
-					.getSingleResult();
-    		model.addAttribute("members", Arrays.asList(new Member[] { member }));
-    		model.addAttribute("member", member);
+    		org.tenbitworks.model.User user = userRepository.findOne(security.getUserPrincipal().getName());
+    		Member member = memberRepository.findOneByUser(user);
     		
     		if (member == null || !id.equals(member.getId())) {
     			throw new AccessDeniedException("Access Denied");
+    		} else if (member != null) {
+	    		model.addAttribute("members", Arrays.asList(new Member[] { member }));
+	    		model.addAttribute("member", member);
     		}
     	}
     	return "members";
@@ -86,15 +74,10 @@ public class MemberController {
     	if (security.isUserInRole("ADMIN")) {
     		model.addAttribute("members", memberRepository.findAll());
     	} else {
-    		try {
-	    		String username = security.getUserPrincipal().getName();
-	    		org.tenbitworks.model.User user = userRepository.findOne(username);
-	    		Member m = em.createQuery("select m from Member m where m.user = :user", Member.class)
-						.setParameter("user", user)
-						.getSingleResult();
-	    		model.addAttribute("members", Arrays.asList(new Member[] { m }));
-    		} catch (NoResultException e) {
-    			// 
+    		org.tenbitworks.model.User user = userRepository.findOne(security.getUserPrincipal().getName());
+    		Member m = memberRepository.findOneByUser(user);
+    		if (m != null) {
+    			model.addAttribute("members", Arrays.asList(new Member[] { m }));
     		}
     	}
     	
