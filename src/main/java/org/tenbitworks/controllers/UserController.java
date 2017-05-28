@@ -140,4 +140,27 @@ public class UserController {
 		}
 		return authorities;
 	}
+	
+	@RequestMapping(value = "/users/{username}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @Secured({"ROLE_ADMIN"})
+    public String deleteUser(@PathVariable String username) {
+		if (userDetailsManager.userExists(username)) {
+			
+			try {
+				org.tenbitworks.model.User user = userRepository.findOne(username);
+				Member m = em.createQuery("select m from Member m where m.user = :user", Member.class)
+						.setParameter("user", user)
+						.getSingleResult();
+				m.setUser(null);
+				memberRepository.save(m);
+			} catch (NoResultException e) {
+				//
+			}
+			
+			userDetailsManager.deleteUser(username);
+		}
+        
+        return username;
+    }
 }

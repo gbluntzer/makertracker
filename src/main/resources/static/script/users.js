@@ -30,25 +30,21 @@ $(document).ready(function () {
 //       }
 //   });
 
-//    //Complete order button handler
-//   $('.delete-user').on("click", function(e){
-//       e.preventDefault();
-//       if(confirm("Delete?")){
-//           var username = $(this).closest("td").attr("id");
-//           var csrf = $("[name='_csrf']").val();
-//           $.ajax({
-//                headers: { 'X-CSRF-TOKEN': csrf},
-//               type:"DELETE",
-//               url:"/users/" + username,
-//               success:function (data) {
-//                   $(".delete-order").closest("td#"+data).parent("tr").fadeOut("slow",function(){
-//                       $(".delete-order").closest("td#"+data).parent("tr").remove();
-//                   });
-//                   window.location.reload();
-//               }
-//           });
-//       }
-//   });
+   $('.delete-user').on("click", function(e){
+       e.preventDefault();
+       if(confirm("Delete?")){
+           var username = $(this).closest("td").attr("id");
+           var csrf = $("[name='_csrf']").val();
+           $.ajax({
+                headers: { 'X-CSRF-TOKEN': csrf},
+               type:"DELETE",
+               url:"/users/" + username,
+               success:function (data) {
+                   window.location.reload();
+               }
+           });
+       }
+   });
 
    $('.edit-user').on("click", function(e){
        e.preventDefault();
