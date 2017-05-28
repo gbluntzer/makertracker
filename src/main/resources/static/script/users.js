@@ -103,10 +103,10 @@ $(document).ready(function () {
 			enabled = $('#newEnabled').prop("checked");
 			member = $('#memberId').val();
 			roles = new Array();
-			roles.push("USER");
+			roles.push("ROLE_USER");
 
 			if ($('#isAdmin').prop("checked")) {
-				roles.push("ADMIN");
+				roles.push("ROLE_ADMIN");
 			}
 			csrf = $("[name='_csrf']").val();
 

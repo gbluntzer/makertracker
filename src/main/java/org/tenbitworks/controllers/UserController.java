@@ -110,7 +110,7 @@ public class UserController {
 	@RequestMapping(value="/users", method = RequestMethod.POST, consumes = { "application/json" })
 	@ResponseBody
 	@Secured({"ROLE_ADMIN"})
-	public ResponseEntity<String> addUser(@RequestBody @Valid NewUserDTO newUser) {
+	public ResponseEntity<String> addUser(@RequestBody @Valid NewUserDTO newUser, SecurityContextHolderAwareRequestWrapper security) {
 		if (!userDetailsManager.userExists(newUser.getUsername())) {
 			Member member = null;
 			if (newUser.getMemberId() != null) {
@@ -119,7 +119,12 @@ public class UserController {
 					return new ResponseEntity<String>("Invalid Member selection", HttpStatus.BAD_REQUEST);
 				}
 			}
-			userDetailsManager.createUser(new User(newUser.getUsername(), passwordEncoder.encode(newUser.getPlainPassword()), getAuthorities(newUser.getRoles())));
+			List<String> validRoles = validateRolesForUser(newUser.getRoles(), security);
+			if (validRoles == null || validRoles.isEmpty()) {
+				return new ResponseEntity<String>("Cannot create user", HttpStatus.BAD_REQUEST);
+			}
+			
+			userDetailsManager.createUser(new User(newUser.getUsername(), passwordEncoder.encode(newUser.getPlainPassword()), getAuthorities(validRoles)));
 			
 			if (member != null) {
 				org.tenbitworks.model.User newUserInRepo = userRepository.findOne(newUser.getUsername());
@@ -131,6 +136,17 @@ public class UserController {
 		}
 
 		return new ResponseEntity<String>("{\"status\":\"User Created\"}", HttpStatus.OK);
+	}
+
+	private List<String> validateRolesForUser(List<String> roles, SecurityContextHolderAwareRequestWrapper security) {
+		List<String> validRoles = new ArrayList<>();
+
+		for (String role : roles) {
+			if (security.isUserInRole(role) && !validRoles.contains(role)) {
+				validRoles.add(role);
+			}
+		}
+		return validRoles;
 	}
 
 	private static List<GrantedAuthority> getAuthorities (List<String> roles) {
@@ -146,7 +162,6 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     public String deleteUser(@PathVariable String username) {
 		if (userDetailsManager.userExists(username)) {
-			
 			try {
 				org.tenbitworks.model.User user = userRepository.findOne(username);
 				Member m = em.createQuery("select m from Member m where m.user = :user", Member.class)
