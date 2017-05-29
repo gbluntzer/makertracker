@@ -70,6 +70,7 @@ $(document).ready(function () {
                $('#username').val(data.username);
                $('#member').val(data.memberName);
                $('#enabled').prop('checked', data.enabled);
+               $('#isAdmin').prop('checked', data.roles.includes("ROLE_ADMIN"));
                
                window.history.pushState('Edit User ' + data.username, 'MakerTracker', '/users/' + data.username);
            }
@@ -83,12 +84,14 @@ $(document).ready(function () {
        $('#username').val('');
        $('#member').val('');
        $('#enabled').prop('checked', false);
+       $('#isAdmin').prop('checked', false);
        $('#editUserForm').hide();
        
        $('#newUsername').val('');
        $('#memberId').val('');
        $('#newPassword').val('');
        $('#newEnabled').prop('checked', true);
+       $('#newIsAdmin').prop('checked', false);
        $('#newUserForm').show();
        
        window.history.pushState('Edit Users', 'MakerTracker', '/users');
@@ -105,7 +108,7 @@ $(document).ready(function () {
 			roles = new Array();
 			roles.push("ROLE_USER");
 
-			if ($('#isAdmin').prop("checked")) {
+			if ($('#newIsAdmin').prop("checked")) {
 				roles.push("ROLE_ADMIN");
 			}
 			csrf = $("[name='_csrf']").val();
@@ -132,6 +135,9 @@ $(document).ready(function () {
 					timeout: 6000,
 					success:function (data) {
 						location.reload();
+					},
+					error:function (xhr, textStatus, errorThrown) {
+						alert("Error adding new user");
 					}
 				});
 			}

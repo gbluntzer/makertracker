@@ -48,6 +48,9 @@
 	                    <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
 	                    	<input type="checkbox" name="enabled" id="enabled" th:checked="${user?.enabled == true}" />Enabled<br />
 	                    </div>
+	                    <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+	                    	<input type="checkbox" name="isAdmin" id="isAdmin" />Admin<br />
+	                    </div>
                     </div>
                     <div class="form-group" style="display:none" id="newUserForm" sec:authorize="hasRole('ROLE_ADMIN')">
                     	<div class="form-group">
@@ -63,7 +66,7 @@
 	                    	<input type="checkbox" name="newEnabled" id="newEnabled" checked="checked" />Enabled<br />
 	                    </div>
 	                    <div class="form-group">
-	                    	<input type="checkbox" name="isAdmin" id="isAdmin" />Admin<br />
+	                    	<input type="checkbox" name="newIsAdmin" id="newIsAdmin" />Admin<br />
 	                    </div>
                     </div>
                     <button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="btn btn-default" id="btn_submit">Add / Update User</button>
