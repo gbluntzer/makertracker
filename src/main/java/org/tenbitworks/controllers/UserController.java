@@ -51,7 +51,7 @@ public class UserController {
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	@Secured({"ROLE_ADMIN"})
 	public String usersList(Model model) {
-		model.addAttribute("members",memberRepository.findAll());
+		model.addAttribute("members",memberRepository.findAllByUser(null));
 		model.addAttribute("users", userRepository.findAll());
 		model.addAttribute("usercount", userRepository.count());
 		return "users";
