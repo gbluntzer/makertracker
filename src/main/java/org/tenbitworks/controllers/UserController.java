@@ -3,10 +3,8 @@ package org.tenbitworks.controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,9 @@ import org.tenbitworks.repositories.UserRepository;
 
 @Controller
 public class UserController {
-
+	private static final String CLAZZ = UserController.class.getName();
+	private static final Logger LOGGER = Logger.getLogger(CLAZZ);
+	
 	@Autowired
 	UserDetailsManager userDetailsManager;
 
@@ -48,9 +48,6 @@ public class UserController {
 	@Autowired
     MemberRepository memberRepository;
 	
-	@PersistenceContext
-	EntityManager em;
-
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	@Secured({"ROLE_ADMIN"})
 	public String usersList(Model model) {
@@ -95,15 +92,12 @@ public class UserController {
 		org.tenbitworks.model.User user = userRepository.findOne(username);
 		UserDTO userDTO = new UserDTO(user, authoritiesList);
 		
-		try {
-			Member m = em.createQuery("select m from Member m where m.user = :user", Member.class)
-					.setParameter("user", user)
-					.getSingleResult();
-			userDTO.setMemberName(m.getMemberName());
-			userDTO.setMemberId(m.getId());
-		} catch (NoResultException e) {
-			// Do nothing
+		Member member = memberRepository.findOneByUser(user);
+		if (member != null) {
+			userDTO.setMemberName(member.getMemberName());
+			userDTO.setMemberId(member.getId());
 		}
+		
 		return userDTO;
 	}
 
@@ -119,7 +113,15 @@ public class UserController {
 					return new ResponseEntity<String>("Invalid Member selection", HttpStatus.BAD_REQUEST);
 				}
 			}
-			List<String> validRoles = validateRolesForUser(newUser.getRoles(), security);
+			List<String> validRoles = new ArrayList<>();
+			for (String role : newUser.getRoles()) {
+				if (security.isUserInRole(role) && !validRoles.contains(role)) {
+					validRoles.add(role);
+				} else {
+					LOGGER.severe("Attempt to add invalid role " + role + " by user " + security.getUserPrincipal().getName());
+				}
+			}
+			
 			if (validRoles == null || validRoles.isEmpty()) {
 				return new ResponseEntity<String>("Cannot create user", HttpStatus.BAD_REQUEST);
 			}
@@ -138,17 +140,6 @@ public class UserController {
 		return new ResponseEntity<String>("{\"status\":\"User Created\"}", HttpStatus.OK);
 	}
 
-	private List<String> validateRolesForUser(List<String> roles, SecurityContextHolderAwareRequestWrapper security) {
-		List<String> validRoles = new ArrayList<>();
-
-		for (String role : roles) {
-			if (security.isUserInRole(role) && !validRoles.contains(role)) {
-				validRoles.add(role);
-			}
-		}
-		return validRoles;
-	}
-
 	private static List<GrantedAuthority> getAuthorities (List<String> roles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		for (String role : roles) {
@@ -162,15 +153,12 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     public String deleteUser(@PathVariable String username) {
 		if (userDetailsManager.userExists(username)) {
-			try {
-				org.tenbitworks.model.User user = userRepository.findOne(username);
-				Member m = em.createQuery("select m from Member m where m.user = :user", Member.class)
-						.setParameter("user", user)
-						.getSingleResult();
+			org.tenbitworks.model.User user = userRepository.findOne(username);
+			Member m = memberRepository.findOneByUser(user);
+			
+			if (m != null) {
 				m.setUser(null);
 				memberRepository.save(m);
-			} catch (NoResultException e) {
-				//
 			}
 			
 			userDetailsManager.deleteUser(username);
