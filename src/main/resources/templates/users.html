@@ -49,7 +49,7 @@
 	                    	<input type="checkbox" name="enabled" id="enabled" th:checked="${user?.enabled == true}" />Enabled<br />
 	                    </div>
 	                    <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-	                    	<input type="checkbox" name="isAdmin" id="isAdmin" />Admin<br />
+	                    	<input type="checkbox" name="isAdmin" id="isAdmin" th:checked="${user != null and #lists.contains(user.roles, 'ROLE_ADMIN')}" />Admin<br />
 	                    </div>
                     </div>
                     <div class="form-group" style="display:none" id="newUserForm" sec:authorize="hasRole('ROLE_ADMIN')">
