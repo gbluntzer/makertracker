@@ -30,74 +30,80 @@ $(document).ready(function () {
 //       }
 //   });
 
-   $('.delete-user').on("click", function(e){
-       e.preventDefault();
-       if(confirm("Delete?")){
-           var username = $(this).closest("td").attr("id");
-           var csrf = $("[name='_csrf']").val();
-           $.ajax({
-                headers: { 'X-CSRF-TOKEN': csrf},
-               type:"DELETE",
-               url:"/users/" + username,
-               success:function (data) {
-                   window.location.reload();
-               }
-           });
-       }
-   });
+	$('.delete-user').on("click", function(e){
+		e.preventDefault();
+		if(confirm("Delete?")){
+			var username = $(this).closest("td").attr("id");
+			var csrf = $("[name='_csrf']").val();
+			$.ajax({
+				headers: { 'X-CSRF-TOKEN': csrf},
+				type:"DELETE",
+				url:"/users/" + username,
+				success:function (data) {
+					window.location.reload();
+				}
+			});
+		}
+	});
 
-   $('.edit-user').on("click", function(e){
-       e.preventDefault();
-       newUser = false;
-       
-       $('#username').val('');
-       $('#member').val('');
-       $('#enabled').prop('checked', false);
-       $('#editUserForm').show();
-       
-       $('#newUsername').val('');
-       $('#memberId').val('');
-       $('#newPassword').val('');
-       $('#newEnabled').prop('checked', true);
-       $('#newUserForm').hide();
+	$('.edit-user').on("click", function(e){
+		e.preventDefault();
+		newUser = false;
 
-       var username = $(this).closest("td").attr("id");
-       $.ajax({
-           type:"GET",
-           headers: { 'accept': 'application/json'},
-           url:"/users/" + username,
-           success:function (data) {
-               $('#username').val(data.username);
-               $('#member').val(data.memberName);
-               $('#enabled').prop('checked', data.enabled);
-               $('#isAdmin').prop('checked', data.roles.includes("ROLE_ADMIN"));
-               
-               window.history.pushState('Edit User ' + data.username, 'MakerTracker', '/users/' + data.username);
-           }
-       });
-   });
-   
-   $('.new-user').on("click", function(e){
-       e.preventDefault();
-       newUser = true;
+		$('#username').val('');
+		$('#member').val('');
+		$('#enabled').prop('checked', false);
+		$('#editUserForm').show();
 
-       $('#username').val('');
-       $('#member').val('');
-       $('#enabled').prop('checked', false);
-       $('#isAdmin').prop('checked', false);
-       $('#editUserForm').hide();
-       
-       $('#newUsername').val('');
-       $('#memberId').val('');
-       $('#newPassword').val('');
-       $('#newEnabled').prop('checked', true);
-       $('#newIsAdmin').prop('checked', false);
-       $('#newUserForm').show();
-       
-       window.history.pushState('Edit Users', 'MakerTracker', '/users');
-   });
-   
-   $('#btn_submit').on("click",function (e) {
+		$('#newUsername').val('');
+		$('#memberId').val('');
+		$('#newPassword').val('');
+		$('#newEnabled').prop('checked', true);
+		$('#newUserForm').hide();
+
+		var username = $(this).closest("td").attr("id");
+		$.ajax({
+			type:"GET",
+			headers: { 'accept': 'application/json'},
+			url:"/users/" + username,
+			success:function (data) {
+				$('#username').val(data.username);
+				$('#member').val(data.memberName);
+				$('#enabled').prop('checked', data.enabled);
+				$('#isAdmin').prop('checked', data.roles.includes("ROLE_ADMIN"));
+
+				if (data.memberId != null && data.memberId != "") {
+					$('#memberLink').html("<a href='/members/" + data.memberId + "'>" + data.memberName + "</a>");
+				} else {
+					$('#memberLink').text('');
+				}
+
+				window.history.pushState('Edit User ' + data.username, 'MakerTracker', '/users/' + data.username);
+			}
+		});
+	});
+
+	$('.new-user').on("click", function(e){
+		e.preventDefault();
+		newUser = true;
+
+		$('#username').val('');
+		$('#member').val('');
+		$('#enabled').prop('checked', false);
+		$('#isAdmin').prop('checked', false);
+		$('#editUserForm').hide();
+
+		$('#newUsername').val('');
+		$('#memberId').val('');
+		$('#newPassword').val('');
+		$('#newEnabled').prop('checked', true);
+		$('#newIsAdmin').prop('checked', false);
+		$('#newUserForm').show();
+
+		window.history.pushState('Edit Users', 'MakerTracker', '/users');
+	});
+
+	$('#btn_submit').on("click",function (e) {
 		if (newUser) {
 			e.preventDefault();
 			var username, password, enabled, member, roles, csrf;
@@ -141,6 +147,9 @@ $(document).ready(function () {
 					}
 				});
 			}
+		} else {
+			e.preventDefault();
+			alert("update not available yet");
 		}
 	});
 });

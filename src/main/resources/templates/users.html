@@ -38,9 +38,8 @@
 	                        <label for="username">Username:</label>
 	                        <input type="text" class="form-control" id="username" th:value="${user?.username}" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" />
 	                    </div>
-	                    <div class="form-group">
-	                        <label for="member">Member:</label>
-	                        <input type="text" class="form-control" id="member" th:value="${user?.memberName}" disabled="true" />
+	                    <div class="form-group" >
+	                        Member: <span id="memberLink"><a th:if="${user?.memberId != null}" th:href="@{/members/{membername}(membername=${user?.memberId})}" th:inline="text">[[${user?.memberName}]]</a></span>
 	                    </div>
 	                    <div class="form-group">
 	                    	<button class="btn reset-password">Reset Password</button>
