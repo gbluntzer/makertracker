@@ -13,177 +13,59 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name="asset")
 public class Asset {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-    String tenbitId;
+	String tenbitId;
 
-    @NotNull
-    String title;
+	@NotNull
+	String title;
 
-    String description;
+	@Column(name = "description", nullable = false, length = 1000)
+	String description;
 
-    Date dateAcquired;
-    Date dateRemoved;
+	Date dateAcquired;
+	Date dateRemoved;
 
-    String brand;
-    String modelNumber;
-    String serialNumber;
+	String brand;
+	String modelNumber;
+	String serialNumber;
 
-    BigDecimal retailValue;
+	BigDecimal retailValue;
 
-    String webLink;
-    String operator;  //Member
-    String donor;   //Member
+	String webLink;
+	String operator;  //Member
+	String donor;     //Member
 
-    @Enumerated(EnumType.STRING)
-    AssetStatus status;
+	@Enumerated(EnumType.STRING)
+	AssetStatus status;
 
-    public Asset() { }
-    
-    public Asset(long id) {
-    	this.id = id;
-    }
-    
-    public Asset(String title) {
-        this.title = title;
-    }
+	public Asset() { }
 
-    public Asset(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
+	public Asset(long id) {
+		this.id = id;
+	}
 
-    public Asset(long id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
+	public Asset(String title) {
+		this.title = title;
+	}
 
-    public long getId() {
-        return id;
-    }
+	public Asset(String title, String description) {
+		this.title = title;
+		this.description = description;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    
-    @Column(name = "description", nullable = false, length = 1000)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public AssetStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AssetStatus status) {
-        this.status = status;
-    }
-
-    public Date getDateAcquired() {
-        return dateAcquired;
-    }
-
-    public void setDateAcquired(Date dateAcquired) {
-        this.dateAcquired = dateAcquired;
-    }
-
-    public Date getDateRemoved() {
-        return dateRemoved;
-    }
-
-    public void setDateRemoved(Date dateRemoved) {
-        this.dateRemoved = dateRemoved;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModelNumber() {
-        return modelNumber;
-    }
-
-    public void setModelNumber(String modelNumber) {
-        this.modelNumber = modelNumber;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public BigDecimal getRetailValue() {
-        return retailValue;
-    }
-
-    public void setRetailValue(BigDecimal retailValue) {
-        this.retailValue = retailValue;
-    }
-
-    public String getWebLink() {
-        return webLink;
-    }
-
-    public void setWebLink(String webLink) {
-        this.webLink = webLink;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
-    public String getDonor() {
-        return donor;
-    }
-
-    public void setDonor(String donor) {
-        this.donor = donor;
-    }
-
-    public String getTenbitId() {
-        return tenbitId;
-    }
-
-    public void setTenbitId(String tenbitId) {
-        this.tenbitId = tenbitId;
-    }
-
-    @Override
-    public String toString() {
-        return "Asset{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
+	public Asset(long id, String title, String description) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+	}
 }

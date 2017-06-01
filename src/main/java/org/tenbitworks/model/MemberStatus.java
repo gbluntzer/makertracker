@@ -5,13 +5,13 @@ public enum MemberStatus {
 	MEMBER("Member"),
 	OFFICER("Officer"),
 	ADMIN("Admin");
-	
+
 	private final String text;
-	
+
 	private MemberStatus(String text) {
 		this.text = text;
 	}
-	
+
 	public String getText() {
 		return this.text;
 	}
