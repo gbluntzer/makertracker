@@ -10,12 +10,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Maker Tracker</a>
+                <a class="navbar-brand" th:href="@{/}">Maker Tracker</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-
-                    <li><a href="/greeting">Greeting</a></li>
                     <li sec:authorize="hasRole('ROLE_USER')"><a href="/members">Members</a></li>
                     <li sec:authorize="hasRole('ROLE_USER')"><a href="/trainings">Trainings</a></li>
                     <li sec:authorize="hasRole('ROLE_USER')"><a href="/completedtrainings">Completed Trainings</a></li>
