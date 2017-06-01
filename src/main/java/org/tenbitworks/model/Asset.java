@@ -24,6 +24,7 @@ public class Asset {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
+	@NotNull
 	String tenbitId;
 
 	@NotNull
