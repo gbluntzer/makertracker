@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,21 +30,9 @@ public class MemberController {
     
     @RequestMapping(value="/members/{id}", method = RequestMethod.GET, produces = { "application/json" })
     @ResponseBody
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PostAuthorize("hasRole('ADMIN') or (returnObject!=null&&returnObject.user!=null?authentication.name==returnObject.user.username:false)")
     public Member getMemberJson(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
-    	Member member = null;
-    	if (security.isUserInRole("ADMIN")) {
-	    	member = memberRepository.findOne(id);
-    	} else {
-    		org.tenbitworks.model.User user = userRepository.findOne(security.getUserPrincipal().getName());
-    		member = memberRepository.findOneByUser(user);
-    		
-    		if (member == null || !id.equals(member.getId())) {
-    			throw new AccessDeniedException("Access Denied");
-    		}
-    	}
-    	
-    	return member;
+    	return memberRepository.findOne(id);
     }
     
     @RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
