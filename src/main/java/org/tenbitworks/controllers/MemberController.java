@@ -69,6 +69,11 @@ public class MemberController {
     @ResponseBody
     @PreAuthorize("hasRole('ADMIN')")
     public UUID saveMember(@RequestBody Member member) {
+    	if (member.getId() != null) {
+    		Member oldMember = memberRepository.findOne(member.getId());
+    		member.setUser(oldMember.getUser());
+    	}
+    	
         memberRepository.save(member);
         return member.getId();
     }
