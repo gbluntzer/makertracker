@@ -6,7 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.tenbitworks.model.Asset;
 import org.tenbitworks.model.Member;
 import org.tenbitworks.model.Training;
@@ -15,7 +14,6 @@ import org.tenbitworks.repositories.MemberRepository;
 import org.tenbitworks.repositories.TrainingRepository;
 
 @SpringBootApplication
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class MakertrackerApplication {
 
     private static final Logger log = LoggerFactory.getLogger(MakertrackerApplication.class);

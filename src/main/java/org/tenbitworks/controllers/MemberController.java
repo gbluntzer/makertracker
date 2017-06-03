@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,30 +29,23 @@ public class MemberController {
     
     @RequestMapping(value="/members/{id}", method = RequestMethod.GET, produces = { "application/json" })
     @ResponseBody
-    @PostAuthorize("hasRole('ADMIN') or (returnObject!=null&&returnObject.user!=null?authentication.name==returnObject.user.username:false)")
+    @PreAuthorize("hasRole('ADMIN') or hasPermission(#id, 'Member', 'read')")
     public Member getMemberJson(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
     	return memberRepository.findOne(id);
     }
     
     @RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ADMIN') or hasPermission(#id, 'Member', 'read')")
     public String getMember(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
     	model.addAttribute("membercount", memberRepository.count());
     	
     	if (security.isUserInRole("ADMIN")) {
     		model.addAttribute("members", memberRepository.findAll());
-	        model.addAttribute("member", memberRepository.findOne(id));
-    	} else {
-    		org.tenbitworks.model.User user = userRepository.findOne(security.getUserPrincipal().getName());
-    		Member member = memberRepository.findOneByUser(user);
-    		
-    		if (member == null || !id.equals(member.getId())) {
-    			throw new AccessDeniedException("Access Denied");
-    		} else if (member != null) {
-	    		model.addAttribute("members", Arrays.asList(new Member[] { member }));
-	    		model.addAttribute("member", member);
-    		}
+	    } else {
+    		model.addAttribute("members", Arrays.asList(new Member[] { memberRepository.findOne(id) }));
     	}
+    	
+    	model.addAttribute("member", memberRepository.findOne(id));
     	return "members";
     }
 
