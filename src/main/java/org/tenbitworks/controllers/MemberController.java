@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
@@ -50,7 +49,7 @@ public class MemberController {
     }
 
     @RequestMapping(value = "/members", method = RequestMethod.GET)
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String membersList(Model model, SecurityContextHolderAwareRequestWrapper security) {
     	if (security.isUserInRole("ADMIN")) {
     		model.addAttribute("members", memberRepository.findAll());
@@ -68,7 +67,7 @@ public class MemberController {
 
     @RequestMapping(value = "/members", method = RequestMethod.POST)
     @ResponseBody
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public UUID saveMember(@RequestBody Member member) {
         memberRepository.save(member);
         return member.getId();
@@ -76,7 +75,7 @@ public class MemberController {
 
     @RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public String removeMember(@PathVariable UUID id){
         memberRepository.delete(id);
         return id.toString();
