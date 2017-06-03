@@ -11,7 +11,7 @@ import org.tenbitworks.model.Member;
 import org.tenbitworks.repositories.MemberRepository;
 
 @Configuration
-public class MemberIdPermissionEvaluator implements PermissionEvaluator {
+public class CustomPermissionEvaluator implements PermissionEvaluator {
 	@Autowired
 	MemberRepository memberRepository;
 
@@ -36,11 +36,12 @@ public class MemberIdPermissionEvaluator implements PermissionEvaluator {
 			return false;
 		}
 		
-		Member member = memberRepository.findOne((UUID) targetId);
-		if (member != null && member.getUser() != null) {
-			return member.getUser().getUsername().equals(authentication.getName());
-		} else {
-			return false;
+		if (targetId instanceof UUID && targetType.equalsIgnoreCase("Member")) {
+			Member member = memberRepository.findOne((UUID) targetId);
+			if (member != null && member.getUser() != null) {
+				return member.getUser().getUsername().equals(authentication.getName());
+			}
 		}
+		return false;
 	}
 }
