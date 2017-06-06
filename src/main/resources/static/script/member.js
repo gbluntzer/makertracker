@@ -3,7 +3,7 @@ $(document).ready(function () {
 	$('#btn_submit').on("click",function (e) {
 		e.preventDefault();
 
-		var formAr = formArrayToObject($('form').serializeArray());
+		var formAr = formToObject($('#form'));
 		var memberId = $('#member_id').val();
 		var csrf = $("[name='_csrf']").val();
 
@@ -61,16 +61,12 @@ $(document).ready(function () {
            headers: { 'accept': 'application/json'},
            url:"/members/" + Id,
            success:function (data) {
-               $('#member_id').val(data.id);
-               $('#memberName').val(data.memberName);
-               $('#status').val(data.status);
-               $('#member_email').val(data.email);
-               $('#phoneNumber').val(data.phoneNumber);
-               $('#paymentMethod').val(data.paymentMethod);
-               $('#description').val(data.description);
-               $('#zipCode').val(data.zipCode);
-               $('#username').val(data.user != null ? data.user.username : '');
-               
+        	   $.each(data, function(key, value) {
+        		   $('#' + key).val(data[key]);
+        	   });
+        	   $('#member_id').val(data.id);
+        	   $('#username').val(data.user != null ? data.user.username : '');
+
                window.history.pushState('Edit Member ' + data.memberName, 'MakerTracker', '/members/' + data.id);
            }
        });
@@ -83,7 +79,8 @@ $(document).ready(function () {
    });
 });
 
-function formArrayToObject(formArray) {//serialize data function
+function formToObject(form) {//serialize data function
+	var formArray = form.serializeArray();
 	var returnArray = {};
 	for (var i = 0; i < formArray.length; i++){
 		returnArray[formArray[i]['name']] = formArray[i]['value'];
