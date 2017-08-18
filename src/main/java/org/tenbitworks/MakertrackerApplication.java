@@ -8,10 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.tenbitworks.model.Asset;
 import org.tenbitworks.model.Member;
-import org.tenbitworks.model.Training;
 import org.tenbitworks.repositories.AssetRepository;
 import org.tenbitworks.repositories.MemberRepository;
-import org.tenbitworks.repositories.TrainingRepository;
 
 @SpringBootApplication
 public class MakertrackerApplication {
@@ -69,18 +67,18 @@ public class MakertrackerApplication {
         };
     }
 
-    @Bean
-    public CommandLineRunner trainingData(TrainingRepository repository) {
-        return (args) -> {
-            // save a couple of Greeting
-            
-            // fetch all customers
-            log.info("Training found with findAll():");
-            log.info("-------------------------------");
-            for (Training training : repository.findAll()) {
-                log.info(training.toString());
-            }
-            log.info("");
-        };
-    }
+//    @Bean
+//    public CommandLineRunner trainingData(TrainingRepository repository) {
+//        return (args) -> {
+//            // save a couple of Greeting
+//            
+//            // fetch all customers
+//            log.info("Training found with findAll():");
+//            log.info("-------------------------------");
+//            for (Training training : repository.findAll()) {
+//                log.info(training.toString());
+//            }
+//            log.info("");
+//        };
+//    }
 }

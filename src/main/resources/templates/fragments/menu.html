@@ -15,8 +15,6 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li sec:authorize="hasRole('ROLE_USER')"><a href="/members">Members</a></li>
-                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/trainings">Trainings</a></li>
-                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/completedtrainings">Completed Trainings</a></li>
                     <li sec:authorize="hasRole('ROLE_USER')"><a href="/assets">Assets</a></li>
                     <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users">Users</a></li>
                     <li id="userName" th:inline="text" sec:authorize="isAuthenticated()"><b><a th:href="@{/users/{username}(username=${#authentication.name})}">[[${#authentication.name}]]</a></b></li>

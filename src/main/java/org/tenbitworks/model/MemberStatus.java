@@ -1,10 +1,9 @@
 package org.tenbitworks.model;
 
 public enum MemberStatus {
-	VISITOR("Visitor"),
 	MEMBER("Member"),
-	OFFICER("Officer"),
-	ADMIN("Admin");
+	INACTIVE_MEMBER("Inactive Member"),
+	OFFICER("Officer");
 
 	private final String text;
 
