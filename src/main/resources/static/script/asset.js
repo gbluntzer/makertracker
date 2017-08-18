@@ -3,7 +3,7 @@ $(document).ready(function () {
 
 	$('#btn_submit').on("click",function (e) {
 		e.preventDefault();
-		var csrf, tenbitId, assetId, status, title, description, dateAcquired, dateRemoved, brand, modelNumber, serialNumber, retailValue, webLink, operator, donor;
+		var csrf, tenbitId, assetId, status, title, description, dateAcquired, dateRemoved, brand, modelNumber, serialNumber, retailValue, webLink, operator, donor, trainingRequired;
 		tenbitId = $('#tenbitId').val();
 		assetId = $('#assetId').val();
 		status = $('#status').val();
@@ -18,6 +18,7 @@ $(document).ready(function () {
 		webLink = $('#webLink').val();
 		operator = $('#operator').val();
 		donor = $('#donor').val();
+		trainingRequired = $('#trainingRequired').prop('checked');
 		csrf = $("[name='_csrf']").val();
 		if($.trim(title) === ""){
 			alert("Asset Title cannot be empty");
@@ -46,6 +47,7 @@ $(document).ready(function () {
 			data["webLink"] = webLink;
 			data["operator"] = operator;
 			data["donor"] = donor;
+			data["trainingRequired"] = trainingRequired;
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': csrf},
 				type: "POST",
@@ -106,6 +108,7 @@ $(document).ready(function () {
 				$('#webLink').val(data.webLink);
 				$('#operator').val(data.operator);
 				$('#donor').val(data.donor);
+				$('#trainingRequired').prop('checked', data.trainingRequired);
 
 				window.history.pushState('Edit Asset ' + data.id, 'MakerTracker', '/assets/' + data.id);
 			}

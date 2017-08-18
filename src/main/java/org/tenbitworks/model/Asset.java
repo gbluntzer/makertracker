@@ -2,6 +2,7 @@ package org.tenbitworks.model;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -40,11 +42,16 @@ public class Asset {
 	BigDecimal retailValue;
 
 	String webLink;
-	String operator;  //Member
-	String donor;     //Member
+	String operator;
+	String donor;
 
 	@Enumerated(EnumType.STRING)
 	AssetStatus status;
+	
+	boolean trainingRequired;
+	
+	@ManyToMany
+	List<Member> member;
 
 	public Asset() { }
 
@@ -177,5 +184,13 @@ public class Asset {
 
 	public void setStatus(AssetStatus status) {
 		this.status = status;
+	}
+
+	public boolean isTrainingRequired() {
+		return trainingRequired;
+	}
+
+	public void setTrainingRequired(boolean trainingRequired) {
+		this.trainingRequired = trainingRequired;
 	}
 }
