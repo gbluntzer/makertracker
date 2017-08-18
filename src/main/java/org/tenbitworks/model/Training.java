@@ -10,9 +10,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name="training")
 public class Training {
@@ -49,5 +46,45 @@ public class Training {
 		this.title = title;
 		this.description = description;
 		this.asset = asset;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Asset getAsset() {
+		return asset;
+	}
+
+	public void setAsset(Asset asset) {
+		this.asset = asset;
+	}
+
+	public String getAssetTitle() {
+		return assetTitle;
+	}
+
+	public void setAssetTitle(String assetTitle) {
+		this.assetTitle = assetTitle;
 	}
 }

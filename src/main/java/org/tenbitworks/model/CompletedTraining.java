@@ -12,9 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name="completedtraining")
 public class CompletedTraining {
@@ -45,6 +42,46 @@ public class CompletedTraining {
 	public CompletedTraining(Training training, Member member, Date trainingDate) {
 		this.training = training;
 		this.member = member;
+		this.trainingDate = trainingDate;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Training getTraining() {
+		return training;
+	}
+
+	public void setTraining(Training training) {
+		this.training = training;
+	}
+
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
+	public TrainingStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TrainingStatus status) {
+		this.status = status;
+	}
+
+	public Date getTrainingDate() {
+		return trainingDate;
+	}
+
+	public void setTrainingDate(Date trainingDate) {
 		this.trainingDate = trainingDate;
 	}
 }

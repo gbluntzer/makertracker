@@ -13,9 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name="asset")
 public class Asset {
@@ -68,5 +65,117 @@ public class Asset {
 		this.id = id;
 		this.title = title;
 		this.description = description;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getTenbitId() {
+		return tenbitId;
+	}
+
+	public void setTenbitId(String tenbitId) {
+		this.tenbitId = tenbitId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getDateAcquired() {
+		return dateAcquired;
+	}
+
+	public void setDateAcquired(Date dateAcquired) {
+		this.dateAcquired = dateAcquired;
+	}
+
+	public Date getDateRemoved() {
+		return dateRemoved;
+	}
+
+	public void setDateRemoved(Date dateRemoved) {
+		this.dateRemoved = dateRemoved;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getModelNumber() {
+		return modelNumber;
+	}
+
+	public void setModelNumber(String modelNumber) {
+		this.modelNumber = modelNumber;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public BigDecimal getRetailValue() {
+		return retailValue;
+	}
+
+	public void setRetailValue(BigDecimal retailValue) {
+		this.retailValue = retailValue;
+	}
+
+	public String getWebLink() {
+		return webLink;
+	}
+
+	public void setWebLink(String webLink) {
+		this.webLink = webLink;
+	}
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+
+	public String getDonor() {
+		return donor;
+	}
+
+	public void setDonor(String donor) {
+		this.donor = donor;
+	}
+
+	public AssetStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(AssetStatus status) {
+		this.status = status;
 	}
 }

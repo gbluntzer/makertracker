@@ -7,9 +7,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import lombok.Data;
-
-@Data
 public class NewUserDTO {
 
 	@NotBlank
@@ -29,5 +26,37 @@ public class NewUserDTO {
 		} else {
 			this.memberId = UUID.fromString(memberId);
 		}
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPlainPassword() {
+		return plainPassword;
+	}
+
+	public void setPlainPassword(String plainPassword) {
+		this.plainPassword = plainPassword;
+	}
+
+	public UUID getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(UUID memberId) {
+		this.memberId = memberId;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 }

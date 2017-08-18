@@ -12,9 +12,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name = "authorities")
 public class Authorities implements Serializable {
@@ -31,4 +28,20 @@ public class Authorities implements Serializable {
 	@NotNull
 	@Length(max=50)
 	private String authority;
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 }
