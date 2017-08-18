@@ -13,6 +13,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Asset Name</th>
+                            <th>Training Required</th>
                             <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
                         </tr>
                         </thead>
@@ -21,6 +22,7 @@
                         <tr th:each="asset : ${assets}">
 							<td th:id="${asset.id}" th:inline="text"><a class="edit-asset">[[${asset.tenbitId}]]</a></td>
                             <td th:text="${asset.title}"></td>
+                            <td th:text="${asset.trainingRequired == true? 'Y' : 'N'}"></td>
                             <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
                         </tr>
                         

@@ -132,6 +132,7 @@ $(document).ready(function () {
 		$('#webLink').val('');
 		$('#operator').val('');
 		$('#donor').val('');
+		$('#trainingRequired').prop('checked', true);
 
 		window.history.pushState('Edit Assets', 'MakerTracker', '/assets');
 	});
