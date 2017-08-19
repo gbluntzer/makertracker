@@ -197,6 +197,11 @@ $(document).ready(function () {
 		$('#operator').val('');
 		$('#donor').val('');
 		$('#trainingRequired').prop('checked', true);
+		
+		if ($('#trainedMembersAdminForm').length) {
+			$('#memberTableBody').empty();
+			$('#trainedMembersAdminForm').show();
+		}
 
 		window.history.pushState('Edit Assets', 'MakerTracker', '/assets');
 	});
