@@ -2,6 +2,8 @@ package org.tenbitworks.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,18 +11,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tenbitworks.dto.AssetDTO;
 import org.tenbitworks.model.Asset;
 import org.tenbitworks.repositories.AssetRepository;
+import org.tenbitworks.repositories.MemberRepository;
 
 @Controller
 public class AssetController {
 
     @Autowired
     AssetRepository assetRepository;
+    
+    @Autowired
+    MemberRepository memberRepository;
 
     @RequestMapping(value="/assets/{id}", method=RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String getAsset(@PathVariable Long id, Model model){
+        model.addAttribute("members",memberRepository.findAll());
         model.addAttribute("asset", assetRepository.findOne(id));
         model.addAttribute("assets", assetRepository.findAll());
         model.addAttribute("assetcount", assetRepository.count());
@@ -29,15 +37,21 @@ public class AssetController {
     
     @RequestMapping(value="/assets/{id}", method=RequestMethod.GET, produces={"application/json"})
     @ResponseBody
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public Asset getAssetJson(@PathVariable Long id, Model model){
-        Asset asset = assetRepository.findOne(id);
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public AssetDTO getAssetJson(@PathVariable Long id, Model model, SecurityContextHolderAwareRequestWrapper security){
+        AssetDTO asset = new AssetDTO(assetRepository.findOne(id));
+        
+        if (!security.isUserInRole("ADMIN")) {
+            asset.setMembers(null);
+        }
+        
         return asset;
     }
     
     @RequestMapping(value = "/assets",method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public String assetsList(Model model){
+        model.addAttribute("members",memberRepository.findAll());
         model.addAttribute("assets", assetRepository.findAll());
         model.addAttribute("assetcount", assetRepository.count());
         return "assets";

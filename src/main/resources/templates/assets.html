@@ -2,112 +2,137 @@
 <head th:replace="fragments/header :: header" lang="en"/>
 <body>
 <div id="mainContainer" class="flexBoxContainer">
-    <div th:replace="fragments/menu :: menu"></div>
-    <div class="container">
-        <div class="row">
-            <div class="row">
-                <div class="col-lg-8 col-md-7 col-sm-6">
-                    <h1 th:text="'Assets : ' + ${assetcount}">Assets</h1>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Asset Name</th>
-                            <th>Training Required</th>
-                            <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+	<div th:replace="fragments/menu :: menu"></div>
+	<div class="container">
+		<div class="row">
+			<div class="row">
+				<div class="col-lg-8 col-md-7 col-sm-6">
+					<h1 th:text="'Assets : ' + ${assetcount}">Assets</h1>
+					<table class="table table-striped table-hover">
+						<thead>
+						<tr>
+							<th>Id</th>
+							<th>Asset Name</th>
+							<th>Training Required</th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
+						</tr>
+						</thead>
+						<tbody>
 
-                        <tr th:each="asset : ${assets}">
+						<tr th:each="asset : ${assets}">
 							<td th:id="${asset.id}" th:inline="text"><a class="edit-asset">[[${asset.tenbitId}]]</a></td>
-                            <td th:text="${asset.title}"></td>
-                            <td th:text="${asset.trainingRequired == true? 'Y' : 'N'}"></td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
-                        </tr>
-                        
-                        <tr sec:authorize="hasRole('ROLE_ADMIN')">
-                            <td></td>
-                            <td></td>
-                            <td><button class="btn new-asset">New</button></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+							<td th:text="${asset.title}"></td>
+							<td th:text="${asset.trainingRequired == true? 'Y' : 'N'}"></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
+						</tr>
+						
+						<tr sec:authorize="hasRole('ROLE_ADMIN')">
+							<td></td>
+							<td></td>
+							<td><button class="btn new-asset">New</button></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 			<div class="col-lg-8 col-md-7 col-sm-6">
-                <form>
-                    <div class="form-group" style="display:none">
-                        <label for="assetId">Id:</label>
-                        <input type="text" class="form-control" id="assetId" th:value="${asset?.id}" />
-                    </div>
+				<form>
+					<div class="form-group" style="display:none">
+						<label for="assetId">Id:</label>
+						<input type="text" class="form-control" id="assetId" th:value="${asset?.id}" />
+					</div>
 					<div class="form-group">
 						<label for="tenbitId">Asset Id:</label>
 						<input type="text" class="form-control" id="tenbitId" th:value="${asset?.tenbitId}" />
 					</div>
-                    <div class="form-group">
+					<div class="form-group">
 						<label for="title">Asset Name:</label>
 						<input type="text" class="form-control" id="title" th:value="${asset?.title}" />
 					</div>
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <textarea class="form-control" id="description" th:text="${asset?.description}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status:</label>
-                        <select class="form-control" id="status">
-                        	<option th:each="status : ${T(org.tenbitworks.model.AssetStatus).values()}"
+					<div class="form-group">
+						<label for="description">Description:</label>
+						<textarea class="form-control" id="description" th:text="${asset?.description}" />
+					</div>
+					<div class="form-group">
+						<label for="status">Status:</label>
+						<select class="form-control" id="status">
+							<option th:each="status : ${T(org.tenbitworks.model.AssetStatus).values()}"
 								th:value="${status}"
 								th:text="${status.text}" 
 								th:selected="${asset?.status} == ${status}">
 							</option>
 						</select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateAcquired">Date Acquired:</label>
+					</div>
+					<div class="form-group">
+						<label for="dateAcquired">Date Acquired:</label>
 						<input type="date" class="form-control" id="dateAcquired" th:value="${asset?.dateAcquired}" />
-                    </div>
+					</div>
 					<div class="form-group">
-                        <label for="brand">Brand:</label>
+						<label for="brand">Brand:</label>
 						<input type="text" class="form-control" id="brand" th:value="${asset?.brand}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="modelNumber">Model Number:</label>
+					</div>
+					<div class="form-group">
+						<label for="modelNumber">Model Number:</label>
 						<input type="text" class="form-control" id="modelNumber" th:value="${asset?.modelNumber}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="serialNumber">Serial Number:</label>
+					</div>
+					<div class="form-group">
+						<label for="serialNumber">Serial Number:</label>
 						<input type="text" class="form-control" id="serialNumber" th:value="${asset?.serialNumber}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="retailValue">Retail Value:</label>
-                        <input type="text" class="form-control" id="retailValue" th:value="${asset?.retailValue}" />
-                    </div>
+					</div>
 					<div class="form-group">
-                        <label for="webLink">Web Link:</label>
-                        <input type="text" class="form-control" id="webLink" th:value="${asset?.webLink}" />
-                    </div>
+						<label for="retailValue">Retail Value:</label>
+						<input type="text" class="form-control" id="retailValue" th:value="${asset?.retailValue}" />
+					</div>
 					<div class="form-group">
-                        <label for="operator">Operator:</label>
-                        <input type="text" class="form-control" id="operator" th:value="${asset?.operator}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="donor">Donor:</label>
-                        <input type="text" class="form-control" id="donor" th:value="${asset?.donor}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="dateRemoved">Date Removed:</label>
-                        <input type="date" class="form-control" id="dateRemoved" th:value="${asset?.dateRemoved}" />
-                    </div>
-                    <div class="form-group">
-	                    	Training Required? <input type="checkbox" name="trainingRequired" id="trainingRequired" checked="checked" /> <br />
-	                    </div>
-                    <button type="submit" class="btn btn-default" id="btn_submit" sec:authorize="hasRole('ROLE_ADMIN')">Add / Update Asset</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div th:replace="fragments/footer :: footer"></div>
+						<label for="webLink">Web Link:</label>
+						<input type="text" class="form-control" id="webLink" th:value="${asset?.webLink}" />
+					</div>
+					<div class="form-group">
+						<label for="operator">Operator:</label>
+						<input type="text" class="form-control" id="operator" th:value="${asset?.operator}" />
+					</div>
+					<div class="form-group">
+						<label for="donor">Donor:</label>
+						<input type="text" class="form-control" id="donor" th:value="${asset?.donor}" />
+					</div>
+					<div class="form-group">
+						<label for="dateRemoved">Date Removed:</label>
+						<input type="date" class="form-control" id="dateRemoved" th:value="${asset?.dateRemoved}" />
+					</div>
+					<div class="form-group">
+						Training Required? <input type="checkbox" name="trainingRequired" id="trainingRequired" th:checked="${asset?.trainingRequired == true}" /> <br />
+					</div>
+					<div class="form-group well" id="trainedMembersAdminForm" sec:authorize="hasRole('ROLE_ADMIN')" th:style="${asset?.trainingRequired == true ? '' : 'display:none'}">
+						<b>Trained Members</b>
+						<table id="memberTable" class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Member ID</th>
+								<th>Name</th>
+								<th>Remove</th>
+							</tr>
+						</thead>
+						<tbody id="memberTableBody">
+							<tr th:each="member : ${asset?.members}" th:id="'member-row-' + ${member?.id}" class='member-row'>
+								<td th:id="'member-id-' + ${member?.id}" th:inline="text">[[${member?.id}]]</td>
+								<td th:id="'member-' + ${member?.memberName}" th:inline="text">[[${member?.memberName}]]</td>
+								<td th:id="${member?.id}"><button class="btn btn-danger remove-member">X</button></td>
+							</tr>
+						</tbody>
+						</table>
+						<div>
+							<div id='div_addMember'>
+								<div th:replace="fragments/memberDropDown :: memberDropDown(true)"></div>
+							</div>
+							<button type="submit" class="btn btn-default" id="btn_addmember">Add Member</button>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-default" id="btn_submit" sec:authorize="hasRole('ROLE_ADMIN')">Add / Update Asset</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments/footer :: footer"></div>
 </div>
 <script th:src="@{~/script/asset.js}" type="application/javascript"></script>
 

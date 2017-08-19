@@ -1,9 +1,48 @@
 $(document).ready(function () {
+	
+	$('#trainingRequired').change(function() {
+		if ($('#trainedMembersAdminForm').length) {
+			if ($('#trainingRequired').prop("checked")) {
+				$('#trainedMembersAdminForm').show();
+			} else {
+				$('#trainedMembersAdminForm').hide();
+			}
+		}
+	});
+	
+	$('#btn_addmember').on("click", function(e) {
+		e.preventDefault();
 
-
+		var memberId = $('#memberId').val();
+		
+		if (memberId != '' && !$('#member-row-' + memberId).length) {
+			var memberName = $("#memberId>option:selected").html()
+			addMemberRow(memberId, memberName);
+		}
+	});
+	
+	function addMemberRow(memberId, memberName) {
+		var newRow = '<tr id="member-row-' + memberId + '" class="member-row">';
+		newRow += '<td id="member-id-' + memberId + '">' + memberId + '</td>';
+		newRow += '<td id="member-' + memberName + '">' + memberName + '</td>';
+		newRow += '<td id="' + memberId + '"><button class="btn btn-danger remove-member">X</button></td>';
+		newRow += '</tr>';
+		
+		$('#memberTable').find('tbody').append(newRow);
+	}
+	
+	$('#trainedMembersAdminForm').on("click", ".remove-member", function(e){
+		e.preventDefault();
+		
+		var id = $(this).closest("td").attr("id");
+		$('#member-row-' + id).remove();
+	});
+	
 	$('#btn_submit').on("click",function (e) {
 		e.preventDefault();
-		var csrf, tenbitId, assetId, status, title, description, dateAcquired, dateRemoved, brand, modelNumber, serialNumber, retailValue, webLink, operator, donor, trainingRequired;
+		var csrf, tenbitId, assetId, status, title, description, dateAcquired, 
+				dateRemoved, brand, modelNumber, serialNumber, retailValue, 
+				webLink, operator, donor, trainingRequired, trainedMembers;
 		tenbitId = $('#tenbitId').val();
 		assetId = $('#assetId').val();
 		status = $('#status').val();
@@ -19,6 +58,13 @@ $(document).ready(function () {
 		operator = $('#operator').val();
 		donor = $('#donor').val();
 		trainingRequired = $('#trainingRequired').prop('checked');
+		
+		trainedMembers = new Array();
+		$('#memberTable tbody tr').each(function(){
+			var id = $(this)[0].id.substring("member-row-".length);
+			trainedMembers.push(id);
+		});
+		
 		csrf = $("[name='_csrf']").val();
 		if($.trim(title) === ""){
 			alert("Asset Title cannot be empty");
@@ -48,6 +94,7 @@ $(document).ready(function () {
 			data["operator"] = operator;
 			data["donor"] = donor;
 			data["trainingRequired"] = trainingRequired;
+			data["members"] = trainedMembers;
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': csrf},
 				type: "POST",
@@ -109,7 +156,24 @@ $(document).ready(function () {
 				$('#operator').val(data.operator);
 				$('#donor').val(data.donor);
 				$('#trainingRequired').prop('checked', data.trainingRequired);
-
+				
+				if ($('#trainedMembersAdminForm').length) {
+					$('#memberTableBody').empty();
+					
+					if (data.trainingRequired) {
+						$('#trainedMembersAdminForm').show();
+					} else {
+						$('#trainedMembersAdminForm').hide();
+					}
+					
+					var members = data.members;
+					if (members != null) {
+						for (var i = 0; i < members.length; i++) {
+							addMemberRow(members[i].id, members[i].memberName)
+						}
+					}
+				}
+				
 				window.history.pushState('Edit Asset ' + data.id, 'MakerTracker', '/assets/' + data.id);
 			}
 		});

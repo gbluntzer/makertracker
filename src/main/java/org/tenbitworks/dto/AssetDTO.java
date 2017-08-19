@@ -1,27 +1,22 @@
-package org.tenbitworks.model;
+package org.tenbitworks.dto;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name="asset")
-public class Asset {
+import org.tenbitworks.model.Asset;
+import org.tenbitworks.model.AssetStatus;
+import org.tenbitworks.model.Member;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
+public class AssetDTO {
+
 	private long id;
 
 	@NotNull
@@ -30,7 +25,6 @@ public class Asset {
 	@NotNull
 	String title;
 
-	@Column(name = "description", nullable = false, length = 1000)
 	String description;
 
 	Date dateAcquired;
@@ -46,33 +40,41 @@ public class Asset {
 	String operator;
 	String donor;
 
-	@Enumerated(EnumType.STRING)
 	AssetStatus status;
 	
 	boolean trainingRequired;
 	
-	@ManyToMany
 	List<Member> members;
+	List<String> memberNames;
 
-	public Asset() { }
+	public AssetDTO(Asset asset) {
+		this.id = asset.getId();
+		this.tenbitId = asset.getTenbitId();
+		this.title = asset.getTitle();
+		this.description = asset.getDescription();
+		this.dateAcquired = asset.getDateAcquired();
+		this.dateRemoved = asset.getDateRemoved();
 
-	public Asset(long id) {
-		this.id = id;
-	}
+		this.brand = asset.getBrand();
+		this.modelNumber = asset.getModelNumber();
+		this.serialNumber = asset.getSerialNumber();
 
-	public Asset(String title) {
-		this.title = title;
-	}
+		this.retailValue = asset.getRetailValue();
 
-	public Asset(String title, String description) {
-		this.title = title;
-		this.description = description;
-	}
+		this.webLink = asset.getWebLink();
+		this.operator = asset.getOperator();
+		this.donor = asset.getDonor();
 
-	public Asset(long id, String title, String description) {
-		this.id = id;
-		this.title = title;
-		this.description = description;
+		this.status = asset.getStatus();
+		
+		this.trainingRequired = asset.isTrainingRequired();
+		
+		this.members = asset.getMembers();
+		
+		this.memberNames = new ArrayList<>();
+		this.members.forEach((member) -> {
+			memberNames.add(member.getMemberName());
+		});
 	}
 
 	public long getId() {
@@ -208,5 +210,13 @@ public class Asset {
 			members = new ArrayList<>();
 		}
 		this.members.add(member);
+	}
+
+	public List<String> getMemberNames() {
+		return memberNames;
+	}
+
+	public void setMemberNames(List<String> memberNames) {
+		this.memberNames = memberNames;
 	}
 }
