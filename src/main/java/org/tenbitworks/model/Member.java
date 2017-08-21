@@ -3,6 +3,7 @@ package org.tenbitworks.model;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -39,7 +40,11 @@ public class Member {
 
 	private String phoneNumber;
 	private String description;
+	private String address;
 	private String zipCode;
+
+	@Column(unique = true, length = 50)
+	private String rfid;
 
 	public Member() { }
 
@@ -126,5 +131,21 @@ public class Member {
 
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getRfid() {
+		return rfid;
+	}
+
+	public void setRfid(String rfid) {
+		this.rfid = rfid;
 	}
 }

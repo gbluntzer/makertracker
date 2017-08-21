@@ -25,12 +25,13 @@ public class Asset {
 	private long id;
 
 	@NotNull
+	@Column(unique = true)
 	String tenbitId;
 
 	@NotNull
 	String title;
 
-	@Column(name = "description", nullable = false, length = 1000)
+	@Column(name = "description", length = 1000)
 	String description;
 
 	Date dateAcquired;
