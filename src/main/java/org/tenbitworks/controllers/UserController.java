@@ -3,6 +3,7 @@ package org.tenbitworks.controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.validation.Valid;
@@ -166,4 +167,31 @@ public class UserController {
         
         return username;
     }
+	
+	@RequestMapping(value="/users/{username}/password", method = RequestMethod.DELETE, produces = { "application/json" })
+	@ResponseBody
+	@PreAuthorize("hasRole('ROLE_ADMIN')") //should current user be able to reset their own pass, or maybe just a forgot pass function for this?
+	public boolean resetPasswordForUser(@PathVariable String username, SecurityContextHolderAwareRequestWrapper security) {
+		org.tenbitworks.model.User user = userRepository.findOne(username);
+		System.out.println("Password: " + user.getPassword());
+		
+		String newPasswordPlain = UUID.randomUUID().toString();
+		
+		//TODO Send Email
+		System.out.println("New PASSWORD: " + newPasswordPlain);
+		
+		String newPassword = passwordEncoder.encode(newPasswordPlain);
+		
+		user.setPassword(newPassword);
+		userRepository.save(user);
+		
+		return true;
+	}
+	
+	@RequestMapping(value="/users/{username}/password", method = RequestMethod.POST, consumes = { "application/json" }, produces = { "application/json" })
+	@ResponseBody
+	@PreAuthorize("#username == authentication.name")
+	public boolean changePassword(@PathVariable String username, @RequestBody String newPassword, SecurityContextHolderAwareRequestWrapper security) {
+		return false;
+	}
 }

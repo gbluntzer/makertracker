@@ -1,46 +1,38 @@
 $(document).ready(function () {
 	var newUser = false;
-//   $('#btn_submit').on("click",function (e) {
-//       e.preventDefault();
-//       var username, password, enabled, csrf;
-//       username = $('#username').val();
-//       csrf = $("[name='_csrf']").val();
-//       if($.trim(username) === ""){
-//           alert("Username cannot be empty");
-//       } else {
-//           var data = {};
-//           data["username"] = username;
-//           data["password"] = password;
-//           data["enabled"] = enabled;
-//           
-//           $.ajax({
-//               headers: { 'X-CSRF-TOKEN': csrf},
-//               type: "POST",
-//               contentType: "application/json",
-//               url: "/users",
-//               data: JSON.stringify(data),
-//               dataType: 'json',
-//               timeout: 6000,
-//               success: function (data) {
-//                   if (confirm("User Saved")) {
-//                       window.location.reload();
-//                   }
-//               }
-//           });
-//       }
-//   });
+	var username = null;
 
+	$('#reset-password').on("click", function(e) {
+		e.preventDefault();
+		
+		if(confirm("Reset Password for " + username + "?")){
+			console.log("passowrd reset");
+
+			var csrf = $("[name='_csrf']").val();
+			$.ajax({
+				headers: { 'X-CSRF-TOKEN': csrf},
+				type:"DELETE",
+				url:"/users/" + username + "/password",
+				success:function (data) {
+					if (data == true) {
+						alert("Password for " + username + " has been reset. A new password has been emailed.");
+					}
+				}
+			});
+		}
+	});
+	
 	$('.delete-user').on("click", function(e){
 		e.preventDefault();
 		if(confirm("Delete?")){
-			var username = $(this).closest("td").attr("id");
+			username = $(this).closest("td").attr("id");
 			var csrf = $("[name='_csrf']").val();
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': csrf},
 				type:"DELETE",
 				url:"/users/" + username,
 				success:function (data) {
-					window.location.reload();
+					window.location.replace("/users");
 				}
 			});
 		}
@@ -50,25 +42,20 @@ $(document).ready(function () {
 		e.preventDefault();
 		newUser = false;
 
-		$('#username').val('');
-		$('#member').val('');
-		$('#enabled').prop('checked', false);
+		resetForm($('#form'));
+		$('#newUserForm').hide();
 		$('#editUserForm').show();
 
-		$('#newUsername').val('');
-		$('#memberId').val('');
-		$('#newPassword').val('');
-		$('#newEnabled').prop('checked', true);
-		$('#newUserForm').hide();
-
-		var username = $(this).closest("td").attr("id");
+		username = $(this).closest("td").attr("id");
 		$.ajax({
 			type:"GET",
 			headers: { 'accept': 'application/json'},
 			url:"/users/" + username,
 			success:function (data) {
-				$('#username').val(data.username);
-				$('#member').val(data.memberName);
+				$.each(data, function(key, value) {
+					$('#' + key).val(data[key]);
+				});
+				
 				$('#enabled').prop('checked', data.enabled);
 				$('#isAdmin').prop('checked', data.roles.includes("ROLE_ADMIN"));
 
@@ -87,20 +74,12 @@ $(document).ready(function () {
 		e.preventDefault();
 		newUser = true;
 
-		$('#username').val('');
-		$('#member').val('');
-		$('#enabled').prop('checked', false);
-		$('#isAdmin').prop('checked', false);
+		resetForm($('#form'));
 		$('#editUserForm').hide();
-
-		$('#newUsername').val('');
-		$('#memberId').val('');
-		$('#newPassword').val('');
-		$('#newEnabled').prop('checked', true);
-		$('#newIsAdmin').prop('checked', false);
 		$('#newUserForm').show();
 
 		window.history.pushState('Edit Users', 'MakerTracker', '/users');
+		username = null;
 	});
 
 	$('#btn_submit').on("click",function (e) {
@@ -147,6 +126,7 @@ $(document).ready(function () {
 					}
 				});
 			}
+			username = null;
 		} else {
 			e.preventDefault();
 			alert("update not available yet");
