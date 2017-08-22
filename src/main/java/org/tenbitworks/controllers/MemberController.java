@@ -60,6 +60,7 @@ public class MemberController {
     		Member m = memberRepository.findOneByUser(user);
     		if (m != null) {
     			model.addAttribute("members", Arrays.asList(new Member[] { m }));
+    			model.addAttribute("member", m);
     		}
     	}
     	

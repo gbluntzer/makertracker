@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-	$('#adminEditMember').on("click",function (e) {
+	$('#btn_adminEditMember').on("click",function (e) {
 		e.preventDefault();
 
 		var formAr = formToObject($('#form'));
@@ -35,7 +35,7 @@ $(document).ready(function () {
 		}
 	});
 	
-	$('#editMember').on("click",function (e) {
+	$('#btn_editMember').on("click",function (e) {
 		e.preventDefault();
 
 		var formAr = formToObject($('#form'));
