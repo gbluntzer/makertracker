@@ -2,6 +2,8 @@ package org.tenbitworks.dto;
 
 public class InterlockAccessDTO {
 	private String assetId;
+	private String rfid;
+	
 	private boolean accessGranted;
 	private long accessTimeMS;
 	
@@ -22,5 +24,11 @@ public class InterlockAccessDTO {
 	}
 	public void setAssetId(String assetId) {
 		this.assetId = assetId;
+	}
+	public String getRfid() {
+		return rfid;
+	}
+	public void setRfid(String rfid) {
+		this.rfid = rfid;
 	}
 }

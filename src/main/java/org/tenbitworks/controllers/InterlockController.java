@@ -1,5 +1,8 @@
 package org.tenbitworks.controllers;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,7 +16,8 @@ import org.tenbitworks.repositories.MemberRepository;
 
 @Controller
 public class InterlockController {
-
+	//TODO Create a client for a thing
+	
 	@Autowired
 	AssetRepository assetRepository;
 
@@ -21,7 +25,7 @@ public class InterlockController {
 	MemberRepository memberRepository;
 	
 	@RequestMapping(
-			value="/api/interlock/{assetId}/rfid/{rfid}", 
+			value="/api/interlock/{assetId}/rfids/{rfid}", 
 			method=RequestMethod.GET, 
 			produces={"application/json"})
 	@ResponseBody
@@ -36,5 +40,22 @@ public class InterlockController {
 		iad.setAccessTimeMS(10000);
 		
 		return iad;
+	}
+	
+	@RequestMapping(
+			value="/api/interlock/{assetId}/rfids", 
+			method=RequestMethod.GET, 
+			produces={"application/json"})
+	@ResponseBody
+	@PreAuthorize("hasRole('ROLE_API')")
+	public List<InterlockAccessDTO> getValidRfidsForAsset(
+			@PathVariable String assetId){
+		
+		//TODO lookup this from trained member info for asset
+		InterlockAccessDTO iad = new InterlockAccessDTO();
+		iad.setAccessGranted(true);
+		iad.setAccessTimeMS(10000);
+		
+		return Arrays.asList(iad);
 	}
 }
