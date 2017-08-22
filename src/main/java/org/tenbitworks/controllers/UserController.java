@@ -115,7 +115,7 @@ public class UserController {
 					return new ResponseEntity<String>("Invalid Member selection", HttpStatus.BAD_REQUEST);
 				}
 			}
-			List<String> validRoles = new ArrayList<>();
+			List<String> validRoles = new ArrayList<>(); //TODO Creates Roles checkbox dropdown on users page
 			for (String role : newUser.getRoles()) {
 				if (security.isUserInRole(role) && !validRoles.contains(role)) {
 					validRoles.add(role);

@@ -54,6 +54,13 @@ public class Asset {
 	
 	@ManyToMany
 	List<Member> members;
+	
+	//TODO Expose these new fields on Asset page
+	boolean accessControlled;
+	long accessControlTimeMS;
+	
+	//TODO Create list of maintainers or other people with extra access
+	//TODO Create open access times or calendar based functions
 
 	public Asset() { }
 
@@ -209,5 +216,21 @@ public class Asset {
 			members = new ArrayList<>();
 		}
 		this.members.add(member);
+	}
+
+	public boolean isAccessControlled() {
+		return accessControlled;
+	}
+
+	public void setAccessControlled(boolean accessControlled) {
+		this.accessControlled = accessControlled;
+	}
+
+	public long getAccessControlTimeMS() {
+		return accessControlTimeMS;
+	}
+
+	public void setAccessControlTimeMS(long accessControlTimeMS) {
+		this.accessControlTimeMS = accessControlTimeMS;
 	}
 }

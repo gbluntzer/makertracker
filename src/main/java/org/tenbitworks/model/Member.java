@@ -42,7 +42,7 @@ public class Member {
 
 	private String phoneNumber;
 	private String description;
-	private String address;
+	private String address; //TODO Add to member edit page
 	
 	@Column(length=5)
 	@NumberFormat
