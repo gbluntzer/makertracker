@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tenbitworks.dto.ChangePasswordDTO;
 import org.tenbitworks.dto.NewUserDTO;
 import org.tenbitworks.dto.UserDTO;
 import org.tenbitworks.model.Member;
@@ -171,27 +172,52 @@ public class UserController {
 	@RequestMapping(value="/users/{username}/password", method = RequestMethod.DELETE, produces = { "application/json" })
 	@ResponseBody
 	@PreAuthorize("hasRole('ROLE_ADMIN')") //should current user be able to reset their own pass, or maybe just a forgot pass function for this?
-	public boolean resetPasswordForUser(@PathVariable String username, SecurityContextHolderAwareRequestWrapper security) {
+	public ResponseEntity<String> resetPasswordForUser(@PathVariable String username, SecurityContextHolderAwareRequestWrapper security) {
 		org.tenbitworks.model.User user = userRepository.findOne(username);
-		System.out.println("Password: " + user.getPassword());
 		
 		String newPasswordPlain = UUID.randomUUID().toString();
-		
-		//TODO Send Email
-		System.out.println("New PASSWORD: " + newPasswordPlain);
-		
 		String newPassword = passwordEncoder.encode(newPasswordPlain);
 		
 		user.setPassword(newPassword);
 		userRepository.save(user);
 		
-		return true;
+		sendPasswordResetNotification(username, newPasswordPlain);
+		
+		return new ResponseEntity<String>("Password Reset", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/users/{username}/password", method = RequestMethod.POST, consumes = { "application/json" }, produces = { "application/json" })
 	@ResponseBody
-	@PreAuthorize("#username == authentication.name")
-	public boolean changePassword(@PathVariable String username, @RequestBody String newPassword, SecurityContextHolderAwareRequestWrapper security) {
-		return false;
+	@PreAuthorize("hasRole('ROLE_ADMIN') or #username == authentication.name")
+	public ResponseEntity<String> changePassword(@PathVariable String username, @RequestBody @Valid ChangePasswordDTO passwordDTO, SecurityContextHolderAwareRequestWrapper security) {
+		org.tenbitworks.model.User user = userRepository.findOne(username);
+		
+		boolean passwordChanged = false;
+		if (security.isUserInRole("ADMIN")) {
+			user.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
+			passwordChanged = true;
+		} else if (passwordEncoder.matches(passwordDTO.getOldPassword(), user.getPassword())) {
+			user.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
+			passwordChanged = true;
+		}
+
+		if (passwordChanged) {
+			userRepository.save(user);
+			sendPasswordChangedNotification(username);
+			
+			return new ResponseEntity<String>("Password Changed", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("Cannot change password", HttpStatus.FORBIDDEN);
+		}
+	}
+
+	private void sendPasswordChangedNotification(String username) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void sendPasswordResetNotification(String username, String newPasswordPlain) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -5,18 +5,71 @@ $(document).ready(function () {
 	$('#reset-password').on("click", function(e) {
 		e.preventDefault();
 		
+		if (username === null) {
+			username = $('#username').text()
+		}
 		if(confirm("Reset Password for " + username + "?")){
-			console.log("passowrd reset");
-
 			var csrf = $("[name='_csrf']").val();
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': csrf},
 				type:"DELETE",
 				url:"/users/" + username + "/password",
-				success:function (data) {
-					if (data == true) {
-						alert("Password for " + username + " has been reset. A new password has been emailed.");
-					}
+				dataType: "text",
+				success:function (data, status) {
+					alert("Password for " + username + " has been reset. A new password has been emailed.");
+				},
+				error: function(data, status) {
+					console.log("Error changing password: " + status + " " + data);
+					alert("Error changing password");
+				}
+			});
+		}
+	});
+	
+	$('#change-password').on("click", function(e) {
+		e.preventDefault();
+		
+		if (username === null) {
+			username = $('#username').text()
+		}
+		if(confirm("Change Password for " + username + "?")){
+			var csrf = $("[name='_csrf']").val();
+			
+			var data = {};
+			
+			if ($('#oldPassword').length) {
+				data.oldPassword = $('#oldPassword').val();
+				
+				if($.trim(data.oldPassword) === ""){
+					alert("Current password cannot be empty");
+					return;
+				}
+			}
+			
+			data.newPassword = $('#newPassword').val();
+			if($.trim(data.newPassword) === ""){
+				alert("New password cannot be empty");
+				return;
+			}
+			
+			if ($.trim(data.newPassword).length < 8) {
+				alert("New password must be more than 8 characters");
+				return;
+			}
+			
+			$.ajax({
+				headers: { 'X-CSRF-TOKEN': csrf},
+				type:"POST",
+				contentType: "application/json",
+				url:"/users/" + username + "/password",
+				data: JSON.stringify(data),
+				dataType: "text",
+				success:function (data, status) {
+					alert("Password for " + username + " has been changed.");
+				},
+				error: function(data, status) {
+					console.log("Error changing password: " + status + " " + data);
+					alert("Error changing password");
 				}
 			});
 		}
