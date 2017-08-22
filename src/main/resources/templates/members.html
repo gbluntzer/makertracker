@@ -47,11 +47,11 @@
 					</div>
 					<div class="form-group">
 						<label for="rfid">RFID Badge Number:</label>
-						<input type="text" class="form-control" id="rfid" name="rfid" th:value="${member?.rfid}" />
+						<input type="text" class="form-control" id="rfid" name="rfid" th:value="${member?.rfid}" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" />
 					</div>
 					<div class="form-group">
 						<label for="status">Status:</label>
-						<select  class="form-control" id="status" name="status">
+						<select  class="form-control" id="status" name="status" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
 							<option th:each="status : ${T(org.tenbitworks.model.MemberStatus).values()}"
 								th:value="${status}" 
 								th:text="${status.text}" 
@@ -70,7 +70,7 @@
 					</div>
 					<div class="form-group">
 						<label for="status">Payment Method:</label>
-						<select class="form-control" id="paymentMethod" name="paymentMethod">
+						<select class="form-control" id="paymentMethod" name="paymentMethod" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
 							<option th:each="paymentMethod : ${T(org.tenbitworks.model.PaymentMethod).values()}"
 								th:value="${paymentMethod}"
 								th:text="${paymentMethod.text}" 
@@ -86,7 +86,8 @@
 						<label for="zipCode">Zip Code:</label>
 						<input type="text" class="form-control" name="zipCode" id="zipCode" th:value="${member?.zipCode}" />
 					</div>
-					<button type="submit" class="btn btn-default" id="btn_submit">Add / Update Member</button>
+					<button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="btn btn-default" id="adminEditMember">Add / Update Member</button>
+					<button sec:authorize="!hasRole('ROLE_ADMIN')" type="submit" class="btn btn-default" id="editMember">Update Member</button>
 				</form>
 			</div>
 		</div>

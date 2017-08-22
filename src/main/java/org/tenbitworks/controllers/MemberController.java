@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
@@ -77,6 +79,27 @@ public class MemberController {
         memberRepository.save(member);
         return member.getId();
     }
+    
+    @RequestMapping(value = "/members/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN') or hasPermission(#id, 'Member', 'write')")
+    public ResponseEntity<String> updateMember(@PathVariable UUID id, @RequestBody Member updatedMember) {
+		Member member = memberRepository.findOne(id);
+		
+		if (member == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		//Copy selected fields to existing member for update. We don't want a user to just update everything
+		member.setAddress(updatedMember.getAddress());
+		member.setDescription(updatedMember.getDescription());
+		member.setEmail(updatedMember.getEmail());
+		member.setPhoneNumber(updatedMember.getPhoneNumber());
+		member.setZipCode(updatedMember.getZipCode());
+		
+        memberRepository.save(member);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
 
     @RequestMapping(value = "/members/{id}", method = RequestMethod.DELETE)
     @ResponseBody
@@ -85,4 +108,6 @@ public class MemberController {
         memberRepository.delete(id);
         return id.toString();
     }
+    
+    
 }
