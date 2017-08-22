@@ -10,5 +10,6 @@ import org.tenbitworks.model.User;
 
 public interface MemberRepository extends PagingAndSortingRepository<Member, UUID> {
 	Member findOneByUser(User user);
+	Member findOneByRfid(String rfid);
 	List<Member> findAllByUser(User user);
 }
