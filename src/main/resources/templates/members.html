@@ -8,8 +8,8 @@
 		<div class="row">
 			<div class="row">
 				<div class="col-lg-8 col-md-7 col-sm-6">
-					<h1 th:text="'Members : ' + ${membercount}">Members</h1>
-					<table class="table table-striped table-hover">
+					<h1 th:text="'Total Members : ' + ${membercount}">Members</h1>
+					<table sec:authorize="hasRole('ROLE_ADMIN')" class="table table-striped table-hover">
 						<thead>
 						<tr>
 							<th>Name</th>
@@ -33,61 +33,95 @@
 			</div>
 			<div class="col-lg-8 col-md-7 col-sm-6">
 				<form id="form">
-					<div class="form-group" style="display:none">
-						<label for="member_id">Id:</label>
-						<input type="text" class="form-control" id="member_id" th:value="${member?.id}"/>
+					<div id="adminForm" sec:authorize="hasRole('ROLE_ADMIN')">
+						<div class="form-group" style="display:none">
+							<label for="member_id">Id:</label>
+							<input type="text" class="form-control" id="member_id" th:value="${member?.id}"/>
+						</div>
+						<div class="form-group">
+							<label for="memberName">Name:</label>
+							<input type="text" class="form-control" name="memberName" id="memberName" th:value="${member?.memberName}" />
+						</div>
+						<div class="form-group">
+							<label for="username">Username:</label>
+							<input type="text" class="form-control" id="username" th:value="${member?.user?.username}" disabled="disabled" />
+						</div>
+						<div class="form-group">
+							<label for="rfid">RFID Badge Number:</label>
+							<input type="text" class="form-control" id="rfid" name="rfid" th:value="${member?.rfid}" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" />
+						</div>
+						<div class="form-group">
+							<label for="status">Status:</label>
+							<select  class="form-control" id="status" name="status" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+								<option th:each="status : ${T(org.tenbitworks.model.MemberStatus).values()}"
+									th:value="${status}" 
+									th:text="${status.text}" 
+									th:selected="${member?.status} == ${status}">
+								</option>
+							</select>
+						</div>
+	
+						<div class="form-group">
+							<label for="description">Description:</label>
+							<textarea class="form-control" name="description" id="description" th:text="${member?.description}"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="member_email">Email:</label>
+							<input type="text" class="form-control" name="email" id="email" th:value="${member?.email}" />
+						</div>
+						<div class="form-group">
+							<label for="status">Payment Method:</label>
+							<select class="form-control" id="paymentMethod" name="paymentMethod" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+								<option th:each="paymentMethod : ${T(org.tenbitworks.model.PaymentMethod).values()}"
+									th:value="${paymentMethod}"
+									th:text="${paymentMethod.text}" 
+									th:selected="${member?.paymentMethod} == ${paymentMethod}">
+								</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="phoneNumber">Phone Number:</label>
+							<input type="text" class="form-control" name="phoneNumber" id="phoneNumber" th:value="${member?.phoneNumber}" />
+						</div>
+						<div class="form-group">
+							<label for="zipCode">Zip Code:</label>
+							<input type="text" class="form-control" name="zipCode" id="zipCode" th:value="${member?.zipCode}" />
+						</div>
+						<button type="submit" class="btn btn-default" id="btn_adminEditMember">Add / Update Member</button>
 					</div>
-					<div class="form-group">
-						<label for="memberName">Name:</label>
-						<input type="text" class="form-control" name="memberName" id="memberName" th:value="${member?.memberName}" />
+					
+					<div id="memberForm" sec:authorize="!hasRole('ROLE_ADMIN')" th:style="${member != null ? '' : 'display:none'}">
+						<div class="form-group" style="display:none">
+							<label for="member_id">Id:</label>
+							<input type="text" class="form-control" id="member_id" th:value="${member?.id}"/>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item"><b>Name: </b><span th:inline="text" name="memberName" id="memberName">[[${member?.memberName}]]</span></li>
+							<li class="list-group-item"><b>Username: </b><span th:inline="text" name="username" id="username">[[${member?.user?.username}]]</span></li>
+							<li class="list-group-item"><b>RFID Badge Number: </b><span th:inline="text" name="rfid" id="rfid">[[${member?.rfid}]]</span></li>
+							<li class="list-group-item"><b>Status: </b><span th:inline="text" name="status" id="status">[[${member?.status?.text}]]</span></li>
+							<li class="list-group-item"><b>Payment Method: </b><span th:inline="text" name="paymentMethod" id="paymentMethod">[[${member?.paymentMethod?.text}]]</span></li>
+						</ul>
+						<div class="well">
+							<div class="form-group">
+								<label for="description">Description:</label>
+								<textarea class="form-control" name="description" id="description" th:text="${member?.description}"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="member_email">Email:</label>
+								<input type="text" class="form-control" name="email" id="email" th:value="${member?.email}" />
+							</div>
+							<div class="form-group">
+								<label for="phoneNumber">Phone Number:</label>
+								<input type="text" class="form-control" name="phoneNumber" id="phoneNumber" th:value="${member?.phoneNumber}" maxlength="15"/>
+							</div>
+							<div class="form-group">
+								<label for="zipCode">Zip Code:</label>
+								<input type="text" class="form-control" name="zipCode" id="zipCode" th:value="${member?.zipCode}" maxlength="10" />
+							</div>
+							<button type="submit" class="btn btn-default" id="btn_editMember">Update Member</button>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="username">Username:</label>
-						<input type="text" class="form-control" id="username" th:value="${member?.user?.username}" disabled="disabled" />
-					</div>
-					<div class="form-group">
-						<label for="rfid">RFID Badge Number:</label>
-						<input type="text" class="form-control" id="rfid" name="rfid" th:value="${member?.rfid}" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" />
-					</div>
-					<div class="form-group">
-						<label for="status">Status:</label>
-						<select  class="form-control" id="status" name="status" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-							<option th:each="status : ${T(org.tenbitworks.model.MemberStatus).values()}"
-								th:value="${status}" 
-								th:text="${status.text}" 
-								th:selected="${member?.status} == ${status}">
-							</option>
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label for="description">Description:</label>
-						<textarea class="form-control" name="description" id="description" th:text="${member?.description}"></textarea>
-					</div>
-					<div class="form-group">
-						<label for="member_email">Email:</label>
-						<input type="text" class="form-control" name="email" id="email" th:value="${member?.email}" />
-					</div>
-					<div class="form-group">
-						<label for="status">Payment Method:</label>
-						<select class="form-control" id="paymentMethod" name="paymentMethod" th:disabled="!${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-							<option th:each="paymentMethod : ${T(org.tenbitworks.model.PaymentMethod).values()}"
-								th:value="${paymentMethod}"
-								th:text="${paymentMethod.text}" 
-								th:selected="${member?.paymentMethod} == ${paymentMethod}">
-							</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="phoneNumber">Phone Number:</label>
-						<input type="text" class="form-control" name="phoneNumber" id="phoneNumber" th:value="${member?.phoneNumber}" />
-					</div>
-					<div class="form-group">
-						<label for="zipCode">Zip Code:</label>
-						<input type="text" class="form-control" name="zipCode" id="zipCode" th:value="${member?.zipCode}" />
-					</div>
-					<button sec:authorize="hasRole('ROLE_ADMIN')" type="submit" class="btn btn-default" id="btn_adminEditMember">Add / Update Member</button>
-					<button sec:authorize="!hasRole('ROLE_ADMIN')" type="submit" class="btn btn-default" id="btn_editMember">Update Member</button>
 				</form>
 			</div>
 		</div>

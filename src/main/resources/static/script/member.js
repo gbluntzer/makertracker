@@ -42,12 +42,8 @@ $(document).ready(function () {
 		var memberId = $('#member_id').val();
 		var csrf = $("[name='_csrf']").val();
 
-		if($.trim(formAr['memberName']) === ""){
-			alert("Membername cannot be empty");
-		} else if($.trim(formAr.email) === ""){
+		if($.trim(formAr.email) === ""){
 			alert("Member email cannot be empty");
-		} else if ($.trim(formAr.status) === "Select One") {
-			alert("Select a status");
 		} else {
 			if(memberId){
 				formAr["id"] = memberId;

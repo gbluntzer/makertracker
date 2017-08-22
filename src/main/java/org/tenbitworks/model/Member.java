@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.NumberFormat;
+
 @Entity
 @Table(name = "member")
 public class Member {
@@ -41,6 +43,9 @@ public class Member {
 	private String phoneNumber;
 	private String description;
 	private String address;
+	
+	@Column(length=5)
+	@NumberFormat
 	private String zipCode;
 
 	@Column(unique = true, length = 50)
