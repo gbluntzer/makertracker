@@ -55,7 +55,6 @@ public class Asset {
 	@ManyToMany
 	List<Member> members;
 	
-	//TODO Expose these new fields on Asset page
 	boolean accessControlled;
 	long accessControlTimeMS;
 	

@@ -10,6 +10,16 @@ $(document).ready(function () {
 		}
 	});
 	
+	$('#accessControlled').change(function() {
+		if ($('#accessControlTimeMSForm').length) {
+			if ($('#accessControlled').prop("checked")) {
+				$('#accessControlTimeMSForm').show();
+			} else {
+				$('#accessControlTimeMSForm').hide();
+			}
+		}
+	});
+	
 	$('#btn_addmember').on("click", function(e) {
 		e.preventDefault();
 
@@ -42,7 +52,8 @@ $(document).ready(function () {
 		e.preventDefault();
 		var csrf, tenbitId, assetId, status, title, description, dateAcquired, 
 				dateRemoved, brand, modelNumber, serialNumber, retailValue, 
-				webLink, operator, donor, trainingRequired, trainedMembers;
+				webLink, operator, donor, trainingRequired, trainedMembers, accessControlled,
+				accessControlTimeMS;
 		tenbitId = $('#tenbitId').val();
 		assetId = $('#assetId').val();
 		status = $('#status').val();
@@ -64,6 +75,9 @@ $(document).ready(function () {
 			var id = $(this)[0].id.substring("member-row-".length);
 			trainedMembers.push(id);
 		});
+		
+		accessControlled = $('#accessControlled').prop('checked');
+		accessControlTimeMS = $('#accessControlTimeMS').val();
 		
 		csrf = $("[name='_csrf']").val();
 		if($.trim(title) === ""){
@@ -95,6 +109,9 @@ $(document).ready(function () {
 			data["donor"] = donor;
 			data["trainingRequired"] = trainingRequired;
 			data["members"] = trainedMembers;
+			data["accessControlled"] = accessControlled;
+			data["accessControlTimeMS"] = accessControlTimeMS;
+			
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': csrf},
 				type: "POST",
@@ -174,6 +191,15 @@ $(document).ready(function () {
 					}
 				}
 				
+				$('#accessControlled').prop('checked', data.accessControlled);
+				$('#accessControlTimeMS').val(data.accessControlTimeMS);
+				
+				if (data.accessControlled) {
+					$('#accessControlTimeMSForm').show();
+				} else {
+					$('#accessControlTimeMSForm').hide();
+				}
+				
 				window.history.pushState('Edit Asset ' + data.id, 'MakerTracker', '/assets/' + data.id);
 			}
 		});
@@ -196,12 +222,16 @@ $(document).ready(function () {
 		$('#webLink').val('');
 		$('#operator').val('');
 		$('#donor').val('');
-		$('#trainingRequired').prop('checked', true);
+		$('#trainingRequired').prop('checked', false);
 		
 		if ($('#trainedMembersAdminForm').length) {
 			$('#memberTableBody').empty();
-			$('#trainedMembersAdminForm').show();
+			$('#trainedMembersAdminForm').hide();
 		}
+		
+		$('#accessControlled').prop('checked', false);
+		$('#accessControlTimeMS').val('');
+		$('#accessControlTimeMSForm').hide();
 
 		window.history.pushState('Edit Assets', 'MakerTracker', '/assets');
 	});

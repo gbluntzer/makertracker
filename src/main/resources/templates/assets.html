@@ -39,23 +39,23 @@
 				<form>
 					<div class="form-group" style="display:none">
 						<label for="assetId">Id:</label>
-						<input type="text" class="form-control" id="assetId" th:value="${asset?.id}" />
+						<input type="text" class="form-control" id="assetId" name="assetId" th:value="${asset?.id}" />
 					</div>
 					<div class="form-group">
 						<label for="tenbitId">Asset Id:</label>
-						<input type="text" class="form-control" id="tenbitId" th:value="${asset?.tenbitId}" />
+						<input type="text" class="form-control" id="tenbitId" name="tenbitId" th:value="${asset?.tenbitId}" />
 					</div>
 					<div class="form-group">
 						<label for="title">Asset Name:</label>
-						<input type="text" class="form-control" id="title" th:value="${asset?.title}" />
+						<input type="text" class="form-control" id="title" name="title" th:value="${asset?.title}" />
 					</div>
 					<div class="form-group">
 						<label for="description">Description:</label>
-						<textarea class="form-control" id="description" th:text="${asset?.description}" />
+						<textarea class="form-control" id="description" name="description" th:text="${asset?.description}" />
 					</div>
 					<div class="form-group">
 						<label for="status">Status:</label>
-						<select class="form-control" id="status">
+						<select class="form-control" id="status" name="status">
 							<option th:each="status : ${T(org.tenbitworks.model.AssetStatus).values()}"
 								th:value="${status}"
 								th:text="${status.text}" 
@@ -65,39 +65,39 @@
 					</div>
 					<div class="form-group">
 						<label for="dateAcquired">Date Acquired:</label>
-						<input type="date" class="form-control" id="dateAcquired" th:value="${asset?.dateAcquired}" />
+						<input type="date" class="form-control" id="dateAcquired" name="dateAcquired" th:value="${asset?.dateAcquired}" />
 					</div>
 					<div class="form-group">
 						<label for="brand">Brand:</label>
-						<input type="text" class="form-control" id="brand" th:value="${asset?.brand}" />
+						<input type="text" class="form-control" id="brand" name="brand" th:value="${asset?.brand}" />
 					</div>
 					<div class="form-group">
 						<label for="modelNumber">Model Number:</label>
-						<input type="text" class="form-control" id="modelNumber" th:value="${asset?.modelNumber}" />
+						<input type="text" class="form-control" id="modelNumber" name="modelNumber" th:value="${asset?.modelNumber}" />
 					</div>
 					<div class="form-group">
 						<label for="serialNumber">Serial Number:</label>
-						<input type="text" class="form-control" id="serialNumber" th:value="${asset?.serialNumber}" />
+						<input type="text" class="form-control" id="serialNumber" name="serialNumber" th:value="${asset?.serialNumber}" />
 					</div>
 					<div class="form-group">
 						<label for="retailValue">Retail Value:</label>
-						<input type="text" class="form-control" id="retailValue" th:value="${asset?.retailValue}" />
+						<input type="text" class="form-control" id="retailValue" name="retailValue" th:value="${asset?.retailValue}" />
 					</div>
 					<div class="form-group">
 						<label for="webLink">Web Link:</label>
-						<input type="text" class="form-control" id="webLink" th:value="${asset?.webLink}" />
+						<input type="url" class="form-control" id="webLink" name="webLink" th:value="${asset?.webLink}" />
 					</div>
 					<div class="form-group">
 						<label for="operator">Operator:</label>
-						<input type="text" class="form-control" id="operator" th:value="${asset?.operator}" />
+						<input type="text" class="form-control" id="operator" name="operator" th:value="${asset?.operator}" />
 					</div>
 					<div class="form-group">
 						<label for="donor">Donor:</label>
-						<input type="text" class="form-control" id="donor" th:value="${asset?.donor}" />
+						<input type="text" class="form-control" id="donor" name="donor" th:value="${asset?.donor}" />
 					</div>
 					<div class="form-group">
 						<label for="dateRemoved">Date Removed:</label>
-						<input type="date" class="form-control" id="dateRemoved" th:value="${asset?.dateRemoved}" />
+						<input type="date" class="form-control" id="dateRemoved" name="dateRemoved" th:value="${asset?.dateRemoved}" />
 					</div>
 					<div class="form-group">
 						Training Required? <input type="checkbox" name="trainingRequired" id="trainingRequired" th:checked="${asset?.trainingRequired == true}" /> <br />
@@ -126,6 +126,13 @@
 							</div>
 							<a type="submit" class="btn btn-success" id="btn_addmember">Add Member</a>
 						</div>
+					</div>
+					<div class="form-group">
+						Access Controlled? <input type="checkbox" name="accessControlled" id="accessControlled" th:checked="${asset?.accessControlled == true}" /> <br />
+					</div>
+					<div class="form-group well" id="accessControlTimeMSForm" th:style="${asset?.accessControlled == true ? '' : 'display:none'}">
+						<label for="accessControlTimeMS">Access Time (Milliseconds):</label>
+						<input type="number" class="form-control" id="accessControlTimeMS" name="accessControlTimeMS" th:value="${asset?.accessControlTimeMS}" />
 					</div>
 					<button type="submit" class="btn btn-primary" id="btn_submit" sec:authorize="hasRole('ROLE_ADMIN')">Add / Update Asset</button>
 				</form>
