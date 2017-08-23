@@ -23,7 +23,7 @@ $(document).ready(function () {
 	
 	function addMemberRow(memberId, memberName) {
 		var newRow = '<tr id="member-row-' + memberId + '" class="member-row">';
-		newRow += '<td id="member-id-' + memberId + '">' + memberId + '</td>';
+		newRow += '<td id="member-id-' + memberId + '" style="display:none">' + memberId + '</td>';
 		newRow += '<td id="member-' + memberName + '">' + memberName + '</td>';
 		newRow += '<td id="' + memberId + '"><button class="btn btn-danger remove-member">X</button></td>';
 		newRow += '</tr>';

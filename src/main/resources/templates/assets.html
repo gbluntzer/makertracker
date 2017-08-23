@@ -107,14 +107,14 @@
 						<table id="memberTable" class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<th>Member ID</th>
+								<th style="display:none">Member ID</th>
 								<th>Name</th>
 								<th>Remove</th>
 							</tr>
 						</thead>
 						<tbody id="memberTableBody">
 							<tr th:each="member : ${asset?.members}" th:id="'member-row-' + ${member?.id}" class='member-row'>
-								<td th:id="'member-id-' + ${member?.id}" th:inline="text">[[${member?.id}]]</td>
+								<td th:id="'member-id-' + ${member?.id}" th:inline="text" style="display:none">[[${member?.id}]]</td>
 								<td th:id="'member-' + ${member?.memberName}" th:inline="text">[[${member?.memberName}]]</td>
 								<td th:id="${member?.id}"><button class="btn btn-danger remove-member">X</button></td>
 							</tr>
