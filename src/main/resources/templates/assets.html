@@ -23,13 +23,13 @@
 							<td th:id="${asset.id}" th:inline="text"><a class="edit-asset">[[${asset.tenbitId}]]</a></td>
 							<td th:text="${asset.title}"></td>
 							<td th:text="${asset.trainingRequired == true? 'Y' : 'N'}"></td>
-							<td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><button class="btn btn-danger delete-asset">Delete</button></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')" th:id="${asset.id}"><a class="btn btn-danger delete-asset">Delete</a></td>
 						</tr>
 						
 						<tr sec:authorize="hasRole('ROLE_ADMIN')">
 							<td></td>
 							<td></td>
-							<td><button class="btn new-asset">New</button></td>
+							<td><a class="btn btn-primary new-asset">New</a></td>
 						</tr>
 						</tbody>
 					</table>
@@ -116,7 +116,7 @@
 							<tr th:each="member : ${asset?.members}" th:id="'member-row-' + ${member?.id}" class='member-row'>
 								<td th:id="'member-id-' + ${member?.id}" th:inline="text" style="display:none">[[${member?.id}]]</td>
 								<td th:id="'member-' + ${member?.memberName}" th:inline="text">[[${member?.memberName}]]</td>
-								<td th:id="${member?.id}"><button class="btn btn-danger remove-member">X</button></td>
+								<td th:id="${member?.id}"><a class="btn btn-danger remove-member">X</a></td>
 							</tr>
 						</tbody>
 						</table>
@@ -124,10 +124,10 @@
 							<div id='div_addMember'>
 								<div th:replace="fragments/memberDropDown :: memberDropDown(true)"></div>
 							</div>
-							<button type="submit" class="btn btn-default" id="btn_addmember">Add Member</button>
+							<a type="submit" class="btn btn-success" id="btn_addmember">Add Member</a>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-default" id="btn_submit" sec:authorize="hasRole('ROLE_ADMIN')">Add / Update Asset</button>
+					<button type="submit" class="btn btn-primary" id="btn_submit" sec:authorize="hasRole('ROLE_ADMIN')">Add / Update Asset</button>
 				</form>
 			</div>
 		</div>
