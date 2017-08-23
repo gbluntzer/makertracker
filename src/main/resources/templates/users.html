@@ -20,12 +20,12 @@
 
 						<tr th:each="user : ${users}">
 							<td th:id="${user.username}" th:inline="text"><a class="edit-user">[[${user.username}]]</a></td>
-							<td th:id="${user.username}" sec:authorize="hasRole('ROLE_ADMIN')"><button class="btn btn-danger delete-user">Delete</button></td>
+							<td th:id="${user.username}" sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger delete-user">Delete</a></td>
 						</tr>
 						
 						<tr sec:authorize="hasRole('ROLE_ADMIN')">
 							<td></td>
-							<td><button class="btn new-user">New</button></td>
+							<td><a class="btn new-user">New</a></td>
 						</tr>
 						</tbody>
 					</table>
@@ -48,7 +48,7 @@
 						</div>
 						<div class="form-group well">
 							<div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-								<button class="btn" id="reset-password">Reset Password</button>
+								<a class="btn" href="#" id="reset-password">Reset Password</a>
 							</div>
 							<div sec:authorize="!hasRole('ROLE_ADMIN')">
 								<label for="oldPassword">Current Password:</label>
@@ -56,7 +56,7 @@
 							</div>
 							<label for="newPassword">New Password:</label>
 							<input type="password" class="form-control" id="newPassword" name="newPassword" />
-							<button class="btn" id="change-password">Change Password</button>
+							<a class="btn" href="#" id="change-password">Change Password</a>
 						</div>
 					</div>
 					<div class="form-group" style="display:none" id="newUserForm" sec:authorize="hasRole('ROLE_ADMIN')">
@@ -67,7 +67,7 @@
 						<div th:replace="fragments/memberDropDown :: memberDropDown(true)"></div>
 						<div class="form-group">
 							<label for="username">Password:</label>
-							<input type="password" class="form-control" id="newPassword" name="newPassword" />
+							<input type="password" class="form-control" id="newUserPassword" name="newPassword" />
 						</div>
 						<div class="form-group">
 							<input type="checkbox" name="newEnabled" id="newEnabled" checked="checked" />Enabled<br />

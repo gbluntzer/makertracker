@@ -109,6 +109,7 @@ $(document).ready(function () {
 					$('#' + key).val(data[key]);
 				});
 				
+				$('#username').text(data.username);
 				$('#enabled').prop('checked', data.enabled);
 				$('#isAdmin').prop('checked', data.roles.includes("ROLE_ADMIN"));
 
@@ -140,7 +141,7 @@ $(document).ready(function () {
 			e.preventDefault();
 			var username, password, enabled, member, roles, csrf;
 			username = $('#newUsername').val();
-			password = $('#newPassword').val();
+			password = $('#newUserPassword').val();
 			enabled = $('#newEnabled').prop("checked");
 			member = $('#memberId').val();
 			roles = new Array();
