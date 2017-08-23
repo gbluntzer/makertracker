@@ -7,9 +7,43 @@
 			<div id="logo" class="logo">
 				<img width="255" th:src="@{~/images/10bitworkslogo.png}" />
 			</div>
+			<div id="createNews" sec:authorize="hasRole('ROLE_ADMIN')">
+				<a href="#" class="btn btn-success" id="new-news" sec:authorize="hasRole('ROLE_ADMIN')">Create News Entry</a>
+				
+				<div id="editNewsForm" style="display:none">
+					<form id="form">
+						<div class="form-group" style="display:none">
+							<label for="newsId">Id:</label>
+							<input type="text" class="form-control" id="id" name="id"/>
+						</div>
+						<div class="form-group">
+							<label for="newsId">Title:</label>
+							<input type="text" class="form-control" id="title" name="title"/>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" rows="10" id="content" name="content"></textarea>
+						</div>
+						<button type="submit" class="btn btn-default" id="btn_editNews">Add / Update News Item</button>
+					</form>
+				</div>
+			</div>
+			<div id="news">
+				<div id="newsitem" th:each="newsItem : ${news}">
+					<div class="newsitem" th:id="${newsItem.id}">
+						<span th:id="${newsItem.id + '-title'}" th:inline="text"><h2>[[${newsItem.title}]]</h2></span>
+						<span th:id="${newsItem.id + '-date'}" th:inline="text">Created [[${newsItem.createdAt}]]</span>
+						<p th:id="${newsItem.id + '-content'}" th:inline="text">[[${newsItem.content}]]</p>
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
+							<a href="#" class="btn-small edit-news-item">Edit</a>
+							<a href="#" class="btn-small btn-danger delete-news-item">Delete</a>
+						</div>
+					</div>
+					<hr />
+				</div>
+			</div>
 		</div>
 		<div th:replace="fragments/footer :: footer"></div>
 	</div>
-	<!--Unique Java Script Goes Here-->
+	<script th:src="@{~/script/news.js}" type="application/javascript"></script>
 </body>
 </html>
