@@ -14,9 +14,9 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/members">Members</a></li>
-                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/assets">Assets</a></li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users">Users</a></li>
+                    <li sec:authorize="hasRole('ROLE_USER')" th:class="${#strings.contains(#httpServletRequest.requestURL, 'member') ? 'active' : ''}"><a href="/members">Members</a></li>
+                    <li sec:authorize="hasRole('ROLE_USER')" th:class="${#strings.contains(#httpServletRequest.requestURL, 'assets') ? 'active' : ''}"><a href="/assets">Assets</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" th:class="${#strings.contains(#httpServletRequest.requestURL, 'users') ? 'active' : ''}"><a href="/users">Users</a></li>
                     <li id="userName" th:inline="text" sec:authorize="isAuthenticated()"><b><a th:href="@{/users/{username}(username=${#authentication.name})}">[[${#authentication.name}]]</a></b></li>
                     <li id="logoutButton" sec:authorize="isAuthenticated()">
 						<form th:action="@{/logout}" method="post">
