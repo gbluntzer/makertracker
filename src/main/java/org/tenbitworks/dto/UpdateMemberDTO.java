@@ -17,7 +17,7 @@ public class UpdateMemberDTO {
 	
 	private String address;
 	
-	@Size(max=10, min=5)
+	@Size(max=5, min=5)
 	@NumberFormat
 	private String zipCode;
 
