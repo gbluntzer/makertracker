@@ -34,7 +34,7 @@ $(document).ready(function () {
 			});
 		}
 	});
-	
+
 	$('#btn_editMember').on("click",function (e) {
 		e.preventDefault();
 
@@ -83,29 +83,29 @@ $(document).ready(function () {
 		}
 	});
 
-   $('.edit-member').on("click", function(e){
-       e.preventDefault();
+	$('.edit-member').on("click", function(e){
+		e.preventDefault();
 
-       var Id = $(this).closest("td").attr("id");
-       $.ajax({
-           type:"GET",
-           headers: { 'accept': 'application/json'},
-           url:"/members/" + Id,
-           success:function (data) {
-        	   $.each(data, function(key, value) {
-        		   $('#' + key).val(data[key]);
-        	   });
-        	   $('#member_id').val(data.id);
-        	   $('#username').val(data.user != null ? data.user.username : '');
+		var id = $(this).closest("td").attr("id");
+		$.ajax({
+			type:"GET",
+			headers: { 'accept': 'application/json'},
+			url:"/members/" + id,
+			success:function (data) {
+				$.each(data, function(key, value) {
+					$('#' + key).val(data[key]);
+				});
+				$('#member_id').val(data.id);
+				$('#username').val(data.user != null ? data.user.username : '');
 
-               window.history.pushState('Edit Member ' + data.memberName, 'MakerTracker', '/members/' + data.id);
-           }
-       });
-   });
-   
-   $('.new-member').on("click", function(e){
-       e.preventDefault();
-       resetForm($('#form'));
-       window.history.pushState('Edit Member', 'MakerTracker', '/members');
-   });
+				window.history.pushState('Edit Member ' + data.memberName, 'MakerTracker', '/members/' + data.id);
+			}
+		});
+	});
+
+	$('.new-member').on("click", function(e){
+		e.preventDefault();
+		resetForm($('#form'));
+		window.history.pushState('Edit Member', 'MakerTracker', '/members');
+	});
 });

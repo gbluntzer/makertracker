@@ -50,74 +50,35 @@ $(document).ready(function () {
 	
 	$('#btn_submit').on("click",function (e) {
 		e.preventDefault();
-		var csrf, tenbitId, assetId, status, title, description, dateAcquired, 
-				dateRemoved, brand, modelNumber, serialNumber, retailValue, 
-				webLink, operator, donor, trainingRequired, trainedMembers, accessControlled,
-				accessControlTimeMS;
-		tenbitId = $('#tenbitId').val();
-		assetId = $('#assetId').val();
-		status = $('#status').val();
-		title = $('#title').val();
-		description = $('#description').val();
-		dateAcquired = $('#dateAcquired').val();
-		dateRemoved = $('#dateRemoved').val();
-		brand = $('#brand').val();
-		modelNumber = $('#modelNumber').val();
-		serialNumber = $('#serialNumber').val();
-		retailValue = $('#retailValue').val();
-		webLink = $('#webLink').val();
-		operator = $('#operator').val();
-		donor = $('#donor').val();
-		trainingRequired = $('#trainingRequired').prop('checked');
 		
-		trainedMembers = new Array();
+		var formAr = formToObject($('#form'));
+		var csrf = $("[name='_csrf']").val();
+		
+		formAr["id"] = $('#assetId').val();
+		formAr["trainingRequired"] = $('#trainingRequired').prop('checked');
+		formAr["accessControlled"] = $('#accessControlled').prop('checked');
+		
+		var trainedMembers = new Array();
 		$('#memberTable tbody tr').each(function(){
-			var id = $(this)[0].id.substring("member-row-".length);
-			trainedMembers.push(id);
+			trainedMembers.push($(this)[0].id.substring("member-row-".length));
 		});
+		formAr["members"] = trainedMembers;
 		
-		accessControlled = $('#accessControlled').prop('checked');
-		accessControlTimeMS = $('#accessControlTimeMS').val();
+		var acqDate = new Date($('#dateAcquired').val());
+		formAr["dateAcquired"] = new Date(acqDate.valueOf() + acqDate.getTimezoneOffset() * 60000);
 		
-		csrf = $("[name='_csrf']").val();
-		if($.trim(title) === ""){
+		var remDate = new Date($('#dateRemoved').val());
+		formAr["dateRemoved"] = new Date(remDate.valueOf() + remDate.getTimezoneOffset() * 60000);
+		
+		if($.trim($('#title')) === ""){
 			alert("Asset Title cannot be empty");
-		}
-//		if($.trim(tenbitId)!= undefined){
-//		//TODO tenbitId  needs formatting validated
-//		}
-
-		else {
-			var data = {};
-			if(assetId){
-				data["id"] = assetId;
-			}
-			data["tenbitId"] = tenbitId;
-			data["title"] = title;
-			data["description"] = description;
-			data["status"] = status;
-			var adate = new Date(dateAcquired);
-			data["dateAcquired"] = new Date(adate.valueOf() + adate.getTimezoneOffset() * 60000);
-			var rdate = new Date(dateRemoved);
-			data["dateRemoved"] = new Date(rdate.valueOf() + rdate.getTimezoneOffset() * 60000);
-			data["brand"] = brand;
-			data["modelNumber"] = modelNumber;
-			data["serialNumber"] = serialNumber;
-			data["retailValue"] = retailValue;
-			data["webLink"] = webLink;
-			data["operator"] = operator;
-			data["donor"] = donor;
-			data["trainingRequired"] = trainingRequired;
-			data["members"] = trainedMembers;
-			data["accessControlled"] = accessControlled;
-			data["accessControlTimeMS"] = accessControlTimeMS;
-			
+		} else {
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': csrf},
 				type: "POST",
 				contentType: "application/json",
 				url: "/assets",
-				data: JSON.stringify(data),
+				data: JSON.stringify(formAr),
 				dataType: 'json',
 				timeout: 6000,
 				success: function (data) {
@@ -133,16 +94,13 @@ $(document).ready(function () {
 	$('.delete-asset').on("click", function(e){
 		e.preventDefault();
 		if(confirm("Delete?")){
-			var Id = parseInt($(this).closest("td").attr("id"));
+			var id = $(this).closest("td").attr("id");
 			var csrf = $("[name='_csrf']").val();
 			$.ajax({
 				headers: { 'X-CSRF-TOKEN': csrf},
 				type:"DELETE",
-				url:"/assets/" + Id,
+				url:"/assets/" + id,
 				success:function (data) {
-					$(".delete-order").closest("td#"+data).parent("tr").fadeOut("slow",function(){
-						$(".delete-order").closest("td#"+data).parent("tr").remove();
-					});
 					window.location.reload();
 				}
 			});
@@ -152,26 +110,16 @@ $(document).ready(function () {
 	$('.edit-asset').on("click", function(e){
 		e.preventDefault();
 
-		var Id = parseInt($(this).closest("td").attr("id"));
+		var id = parseInt($(this).closest("td").attr("id"));
 		$.ajax({
 			type:"GET",
 			headers: { 'accept': 'application/json'},
-			url:"/assets/" + Id,
+			url:"/assets/" + id,
 			success:function (data) {
-				$('#assetId').val(data.id);
-				$('#tenbitId').val(data.tenbitId);
-				$('#title').val(data.title);
-				$('#status').val(data.status);
-				$('#description').val(data.description);
-				$('#dateAcquired').val(data.dateAcquired);
-				$('#dateRemoved').val(data.dateRemoved);
-				$('#brand').val(data.brand);
-				$('#modelNumber').val(data.modelNumber);
-				$('#serialNumber').val(data.serialNumber);
-				$('#retailValue').val(data.retailValue);
-				$('#webLink').val(data.webLink);
-				$('#operator').val(data.operator);
-				$('#donor').val(data.donor);
+				$.each(data, function(key, value) {
+					$('#' + key).val(data[key]);
+				});
+				$('#assetId').val(data.id)
 				$('#trainingRequired').prop('checked', data.trainingRequired);
 				
 				if ($('#trainedMembersAdminForm').length) {
@@ -190,9 +138,8 @@ $(document).ready(function () {
 						}
 					}
 				}
-				
+
 				$('#accessControlled').prop('checked', data.accessControlled);
-				$('#accessControlTimeMS').val(data.accessControlTimeMS);
 				
 				if (data.accessControlled) {
 					$('#accessControlTimeMSForm').show();
@@ -207,32 +154,20 @@ $(document).ready(function () {
 
 	$('.new-asset').on("click", function(e){
 		e.preventDefault();
-
-		$('#assetId').val('');
-		$('#tenbitId').val('');
-		$('#title').val('');
-		$('#status').val('');
-		$('#description').val('');
+		resetForm($('#form'));
+		
 		$('#dateAcquired').val('');
-		$('#dateRemoved').val('');
-		$('#brand').val('');
-		$('#modelNumber').val('');
-		$('#serialNumber').val('');
-		$('#retailValue').val('');
 		$('#webLink').val('');
-		$('#operator').val('');
-		$('#donor').val('');
+		$('#dateRemoved').val('');
 		$('#trainingRequired').prop('checked', false);
+		$('#accessControlTimeMS').val('');
 		
 		if ($('#trainedMembersAdminForm').length) {
 			$('#memberTableBody').empty();
 			$('#trainedMembersAdminForm').hide();
 		}
-		
-		$('#accessControlled').prop('checked', false);
-		$('#accessControlTimeMS').val('');
 		$('#accessControlTimeMSForm').hide();
-
+		
 		window.history.pushState('Edit Assets', 'MakerTracker', '/assets');
 	});
 });
