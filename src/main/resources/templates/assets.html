@@ -127,6 +127,21 @@
 							<a type="submit" class="btn btn-success" id="btn_addmember">Add Member</a>
 						</div>
 					</div>
+					<div class="form-group well" id="trainedMembersForm" sec:authorize="!hasRole('ROLE_ADMIN')" th:style="${asset?.trainingRequired == true ? '' : 'display:none'}">
+						<b>Trained Members</b>
+						<table id="memberNameTable" class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Name</th>
+							</tr>
+						</thead>
+						<tbody id="memberTableBody">
+							<tr th:each="member : ${asset?.members}" th:id="'member-row-' + ${member?.id}" class='member-row'>
+								<td th:id="'member-' + ${member?.memberName}" th:inline="text">[[${member?.memberName}]]</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>
 					<div class="form-group">
 						Access Controlled? <input type="checkbox" name="accessControlled" id="accessControlled" th:checked="${asset?.accessControlled == true}" /> <br />
 					</div>

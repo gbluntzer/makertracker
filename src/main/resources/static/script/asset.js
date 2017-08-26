@@ -7,6 +7,12 @@ $(document).ready(function () {
 			} else {
 				$('#trainedMembersAdminForm').hide();
 			}
+		} else if ($('#trainedMembersForm').length) {
+			if ($('#trainingRequired').prop("checked")) {
+				$('#trainedMembersForm').show();
+			} else {
+				$('#trainedMembersForm').hide();
+			}
 		}
 	});
 	
@@ -136,6 +142,21 @@ $(document).ready(function () {
 						for (var i = 0; i < members.length; i++) {
 							addMemberRow(members[i].id, members[i].memberName)
 						}
+					}
+				} else if ($('#trainedMembersForm').length) {
+					if (data.trainingRequired) {
+						$('#trainedMembersForm').show();
+						
+						var members = data.memberNames;
+						if (members != null) {
+							for (var i = 0; i < members.length; i++) {
+								var newRow = '<tr><td id="member-' + members[i] + '">' + members[i] + '</td></tr>';
+								
+								$('#memberNameTable').find('tbody').append(newRow);
+							}
+						}
+					} else {
+						$('#trainedMembersForm').hide();
 					}
 				}
 
