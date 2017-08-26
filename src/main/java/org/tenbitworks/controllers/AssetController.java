@@ -1,5 +1,9 @@
 package org.tenbitworks.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tenbitworks.dto.AssetDTO;
 import org.tenbitworks.model.Asset;
@@ -26,7 +31,7 @@ public class AssetController {
     MemberRepository memberRepository;
 
     @RequestMapping(value="/assets/{id}", method=RequestMethod.GET)
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public String getAsset(@PathVariable Long id, Model model){
         model.addAttribute("members",memberRepository.findAll());
         model.addAttribute("asset", assetRepository.findOne(id));
@@ -47,16 +52,48 @@ public class AssetController {
         
         return asset;
     }
-    
+
+	@RequestMapping(value = "/assets", method = RequestMethod.GET, produces={"application/json"})
+	@ResponseBody
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	public List<AssetDTO> assetsListJson(
+			@RequestParam(name="member-id", required=false) UUID memberId, 
+			SecurityContextHolderAwareRequestWrapper security){
+		List<AssetDTO> assets = new ArrayList<>();
+		
+		if (memberId == null) {
+			assetRepository.findAll().forEach(asset -> {
+				AssetDTO dto = new AssetDTO(asset);
+		
+				if (!security.isUserInRole("ADMIN")) {
+					asset.setMembers(null);
+				}
+		
+				assets.add(dto);
+			});
+		} else {
+			assetRepository.findAllByMembers(memberRepository.findOne(memberId)).forEach(asset -> {
+				AssetDTO dto = new AssetDTO(asset);
+				
+				if (!security.isUserInRole("ADMIN")) {
+					asset.setMembers(null);
+				}
+		
+				assets.add(dto);
+			});
+		}
+		return assets;
+	}
+
     @RequestMapping(value = "/assets",method = RequestMethod.GET)
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public String assetsList(Model model){
         model.addAttribute("members",memberRepository.findAll());
         model.addAttribute("assets", assetRepository.findAll());
         model.addAttribute("assetcount", assetRepository.count());
         return "assets";
     }
-
+    
     @RequestMapping(value = "/assets", method = RequestMethod.POST)
     @ResponseBody
     @Secured({"ROLE_ADMIN"})
