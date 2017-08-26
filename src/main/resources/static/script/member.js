@@ -27,9 +27,8 @@ $(document).ready(function () {
 				dataType: 'json',
 				timeout: 6000,
 				success: function (data) {
-					if (confirm("Member Saved")) {
-						window.location.reload();
-					}
+					alert("Member Saved");
+					window.location.reload();
 				}
 			});
 		}
@@ -55,12 +54,10 @@ $(document).ready(function () {
 				contentType: "application/json",
 				url: "/members/" + memberId,
 				data: JSON.stringify(formAr),
-				dataType: 'json',
 				timeout: 6000,
 				success: function (data) {
-					if (confirm("Member Saved")) {
-						window.location.reload();
-					}
+					alert("Member Saved");
+					window.location.reload();
 				}
 			});
 		}
