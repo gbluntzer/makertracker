@@ -47,7 +47,6 @@ public class AssetDTO {
 	List<Member> members;
 	List<String> memberNames;
 	
-	boolean accessControlled;
 	long accessControlTimeMS;
 
 	public AssetDTO(Asset asset) {
@@ -79,7 +78,6 @@ public class AssetDTO {
 			memberNames.add(member.getMemberName());
 		});
 		
-		this.accessControlled = asset.isAccessControlled();
 		this.accessControlTimeMS = asset.getAccessControlTimeMS();
 	}
 
@@ -224,14 +222,6 @@ public class AssetDTO {
 
 	public void setMemberNames(List<String> memberNames) {
 		this.memberNames = memberNames;
-	}
-
-	public boolean isAccessControlled() {
-		return accessControlled;
-	}
-
-	public void setAccessControlled(boolean accessControlled) {
-		this.accessControlled = accessControlled;
 	}
 
 	public long getAccessControlTimeMS() {

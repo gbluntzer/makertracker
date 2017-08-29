@@ -100,6 +100,10 @@
 						<input type="date" class="form-control" id="dateRemoved" name="dateRemoved" th:value="${asset?.dateRemoved}" />
 					</div>
 					<div class="form-group">
+						<label for="accessControlTimeMS">Access Time (Milliseconds):</label>
+						<input type="number" class="form-control" id="accessControlTimeMS" name="accessControlTimeMS" th:value="${asset?.accessControlTimeMS}" />
+					</div>
+					<div class="form-group">
 						Training Required? <input type="checkbox" name="trainingRequired" id="trainingRequired" th:checked="${asset?.trainingRequired == true}" /> <br />
 					</div>
 					<div class="form-group well" id="trainedMembersAdminForm" sec:authorize="hasRole('ROLE_ADMIN')" th:style="${asset?.trainingRequired == true ? '' : 'display:none'}">
@@ -141,13 +145,6 @@
 							</tr>
 						</tbody>
 						</table>
-					</div>
-					<div class="form-group">
-						Access Controlled? <input type="checkbox" name="accessControlled" id="accessControlled" th:checked="${asset?.accessControlled == true}" /> <br />
-					</div>
-					<div class="form-group well" id="accessControlTimeMSForm" th:style="${asset?.accessControlled == true ? '' : 'display:none'}">
-						<label for="accessControlTimeMS">Access Time (Milliseconds):</label>
-						<input type="number" class="form-control" id="accessControlTimeMS" name="accessControlTimeMS" th:value="${asset?.accessControlTimeMS}" />
 					</div>
 					<button type="submit" class="btn btn-primary" id="btn_submit" sec:authorize="hasRole('ROLE_ADMIN')">Add / Update Asset</button>
 				</form>

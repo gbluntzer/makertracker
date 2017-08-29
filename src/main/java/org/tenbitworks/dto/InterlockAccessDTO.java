@@ -1,34 +1,38 @@
 package org.tenbitworks.dto;
 
+import java.util.List;
+
 public class InterlockAccessDTO {
-	private String assetId;
-	private String rfid;
+	private long assetId;
+	private List<String> rfidList;
 	
-	private boolean accessGranted;
+	private boolean trainingRequired;
+	
 	private long accessTimeMS;
 	
-	public boolean isAccessGranted() {
-		return accessGranted;
-	}
-	public void setAccessGranted(boolean accessGranted) {
-		this.accessGranted = accessGranted;
-	}
 	public long getAccessTimeMS() {
 		return accessTimeMS;
 	}
 	public void setAccessTimeMS(long accessTime) {
 		this.accessTimeMS = accessTime;
 	}
-	public String getAssetId() {
+	public long getAssetId() {
 		return assetId;
 	}
-	public void setAssetId(String assetId) {
+	public void setAssetId(long assetId) {
 		this.assetId = assetId;
 	}
-	public String getRfid() {
-		return rfid;
+
+	public boolean isTrainingRequired() {
+		return trainingRequired;
 	}
-	public void setRfid(String rfid) {
-		this.rfid = rfid;
+	public void setTrainingRequired(boolean trainingRequired) {
+		this.trainingRequired = trainingRequired;
+	}
+	public List<String> getRfidList() {
+		return rfidList;
+	}
+	public void setRfidList(List<String> rfid) {
+		this.rfidList = rfid;
 	}
 }

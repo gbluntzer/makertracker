@@ -3,7 +3,6 @@ package org.tenbitworks;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +83,7 @@ public class MakerTrackerTestDataGenerator {
 					newMember.setEmail(i + "email@email.com");
 					newMember.setPaymentMethod(PaymentMethod.PAYPAL);
 					newMember.setPhoneNumber("210-123-4567");
-					newMember.setRfid(UUID.randomUUID().toString());
+					newMember.setRfid("rfid-badge-" + i);
 					newMember.setStatus(MemberStatus.MEMBER);
 					newMember.setZipCode("12345");
 					newMember.setUser(userRepo.findOne("user" + i));
@@ -111,7 +110,6 @@ public class MakerTrackerTestDataGenerator {
 					asset.setTenbitId("tenBitId" + i);
 					asset.setBrand("brand" + i);
 //					asset.setDateAcquired(dateAcquired);
-					asset.setAccessControlled(random.nextBoolean());
 					asset.setAccessControlTimeMS(random.nextInt(50000));
 //					asset.setDateRemoved(dateRemoved);
 					asset.setDescription("asset description " + i);

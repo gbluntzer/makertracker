@@ -16,16 +16,6 @@ $(document).ready(function () {
 		}
 	});
 	
-	$('#accessControlled').change(function() {
-		if ($('#accessControlTimeMSForm').length) {
-			if ($('#accessControlled').prop("checked")) {
-				$('#accessControlTimeMSForm').show();
-			} else {
-				$('#accessControlTimeMSForm').hide();
-			}
-		}
-	});
-	
 	$('#btn_addmember').on("click", function(e) {
 		e.preventDefault();
 
@@ -62,7 +52,6 @@ $(document).ready(function () {
 		
 		formAr["id"] = $('#assetId').val();
 		formAr["trainingRequired"] = $('#trainingRequired').prop('checked');
-		formAr["accessControlled"] = $('#accessControlled').prop('checked');
 		
 		var trainedMembers = new Array();
 		$('#memberTable tbody tr').each(function(){
@@ -160,14 +149,6 @@ $(document).ready(function () {
 					}
 				}
 
-				$('#accessControlled').prop('checked', data.accessControlled);
-				
-				if (data.accessControlled) {
-					$('#accessControlTimeMSForm').show();
-				} else {
-					$('#accessControlTimeMSForm').hide();
-				}
-				
 				window.history.pushState('Edit Asset ' + data.id, 'MakerTracker', '/assets/' + data.id);
 			}
 		});

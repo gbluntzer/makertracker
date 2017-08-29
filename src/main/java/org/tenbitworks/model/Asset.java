@@ -55,7 +55,6 @@ public class Asset {
 	@ManyToMany
 	List<Member> members;
 	
-	boolean accessControlled;
 	long accessControlTimeMS;
 	
 	//TODO Create list of maintainers or other people with extra access
@@ -217,14 +216,6 @@ public class Asset {
 		this.members.add(member);
 	}
 
-	public boolean isAccessControlled() {
-		return accessControlled;
-	}
-
-	public void setAccessControlled(boolean accessControlled) {
-		this.accessControlled = accessControlled;
-	}
-
 	public long getAccessControlTimeMS() {
 		return accessControlTimeMS;
 	}
@@ -232,4 +223,125 @@ public class Asset {
 	public void setAccessControlTimeMS(long accessControlTimeMS) {
 		this.accessControlTimeMS = accessControlTimeMS;
 	}
+
+	@Override
+	public String toString() {
+		return "Asset [id=" + id + ", tenbitId=" + tenbitId + ", title=" + title + ", description=" + description
+				+ ", dateAcquired=" + dateAcquired + ", dateRemoved=" + dateRemoved + ", brand=" + brand
+				+ ", modelNumber=" + modelNumber + ", serialNumber=" + serialNumber + ", retailValue=" + retailValue
+				+ ", webLink=" + webLink + ", operator=" + operator + ", donor=" + donor + ", status=" + status
+				+ ", trainingRequired=" + trainingRequired + 
+				", accessControlTimeMS=" + accessControlTimeMS + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (accessControlTimeMS ^ (accessControlTimeMS >>> 32));
+		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
+		result = prime * result + ((dateAcquired == null) ? 0 : dateAcquired.hashCode());
+		result = prime * result + ((dateRemoved == null) ? 0 : dateRemoved.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((donor == null) ? 0 : donor.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((members == null) ? 0 : members.hashCode());
+		result = prime * result + ((modelNumber == null) ? 0 : modelNumber.hashCode());
+		result = prime * result + ((operator == null) ? 0 : operator.hashCode());
+		result = prime * result + ((retailValue == null) ? 0 : retailValue.hashCode());
+		result = prime * result + ((serialNumber == null) ? 0 : serialNumber.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((tenbitId == null) ? 0 : tenbitId.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + (trainingRequired ? 1231 : 1237);
+		result = prime * result + ((webLink == null) ? 0 : webLink.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Asset other = (Asset) obj;
+		if (accessControlTimeMS != other.accessControlTimeMS)
+			return false;
+		if (brand == null) {
+			if (other.brand != null)
+				return false;
+		} else if (!brand.equals(other.brand))
+			return false;
+		if (dateAcquired == null) {
+			if (other.dateAcquired != null)
+				return false;
+		} else if (!dateAcquired.equals(other.dateAcquired))
+			return false;
+		if (dateRemoved == null) {
+			if (other.dateRemoved != null)
+				return false;
+		} else if (!dateRemoved.equals(other.dateRemoved))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (donor == null) {
+			if (other.donor != null)
+				return false;
+		} else if (!donor.equals(other.donor))
+			return false;
+		if (id != other.id)
+			return false;
+		if (members == null) {
+			if (other.members != null)
+				return false;
+		} else if (!members.equals(other.members))
+			return false;
+		if (modelNumber == null) {
+			if (other.modelNumber != null)
+				return false;
+		} else if (!modelNumber.equals(other.modelNumber))
+			return false;
+		if (operator == null) {
+			if (other.operator != null)
+				return false;
+		} else if (!operator.equals(other.operator))
+			return false;
+		if (retailValue == null) {
+			if (other.retailValue != null)
+				return false;
+		} else if (!retailValue.equals(other.retailValue))
+			return false;
+		if (serialNumber == null) {
+			if (other.serialNumber != null)
+				return false;
+		} else if (!serialNumber.equals(other.serialNumber))
+			return false;
+		if (status != other.status)
+			return false;
+		if (tenbitId == null) {
+			if (other.tenbitId != null)
+				return false;
+		} else if (!tenbitId.equals(other.tenbitId))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		if (trainingRequired != other.trainingRequired)
+			return false;
+		if (webLink == null) {
+			if (other.webLink != null)
+				return false;
+		} else if (!webLink.equals(other.webLink))
+			return false;
+		return true;
+	}
+	
+	
 }
