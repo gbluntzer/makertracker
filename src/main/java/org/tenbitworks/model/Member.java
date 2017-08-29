@@ -1,20 +1,25 @@
 package org.tenbitworks.model;
 
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.NumberFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "member")
@@ -50,7 +55,11 @@ public class Member {
 
 	@Column(unique = true, length = 50)
 	private String rfid;
-
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy="members", fetch=FetchType.LAZY)
+	List<Asset> assets;
+	
 	public Member() { }
 
 	public Member(UUID id) { 
@@ -238,5 +247,13 @@ public class Member {
 		} else if (!zipCode.equals(other.zipCode))
 			return false;
 		return true;
+	}
+
+	public List<Asset> getAssets() {
+		return assets;
+	}
+
+	public void setAssets(List<Asset> assets) {
+		this.assets = assets;
 	}
 }

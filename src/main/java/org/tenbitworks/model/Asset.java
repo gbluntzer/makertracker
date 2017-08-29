@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -53,6 +55,10 @@ public class Asset {
 	boolean trainingRequired;
 	
 	@ManyToMany
+	@JoinTable(
+			name="asset_members", 
+			joinColumns=@JoinColumn(name="asset_id", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name="member_id", referencedColumnName="id"))
 	List<Member> members;
 	
 	long accessControlTimeMS;

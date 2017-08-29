@@ -48,6 +48,8 @@ public class AssetDTO {
 	List<String> memberNames;
 	
 	long accessControlTimeMS;
+	
+	public AssetDTO() { }
 
 	public AssetDTO(Asset asset) {
 		this.id = asset.getId();

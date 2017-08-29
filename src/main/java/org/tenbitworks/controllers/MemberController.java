@@ -1,6 +1,8 @@
 package org.tenbitworks.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -19,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tenbitworks.dto.AssetDTO;
 import org.tenbitworks.dto.UpdateMemberDTO;
+import org.tenbitworks.model.Asset;
 import org.tenbitworks.model.Member;
+import org.tenbitworks.repositories.AssetRepository;
 import org.tenbitworks.repositories.MemberRepository;
 import org.tenbitworks.repositories.UserRepository;
 
@@ -32,12 +37,31 @@ public class MemberController {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	AssetRepository assetRepository;
 
 	@RequestMapping(value="/members/{id}", method = RequestMethod.GET, produces = { "application/json" })
 	@ResponseBody
 	@PreAuthorize("hasRole('ADMIN') or hasPermission(#id, 'Member', 'read')")
 	public Member getMemberJson(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
 		return memberRepository.findOne(id);
+	}
+	
+	@RequestMapping(value="/members/{id}/assets", method = RequestMethod.GET, produces = { "application/json" })
+	@ResponseBody
+	@PreAuthorize("hasRole('ADMIN') or hasPermission(#id, 'Member', 'read')")
+	public List<AssetDTO> getMemberAssetsJson(@PathVariable UUID id, Model model, SecurityContextHolderAwareRequestWrapper security) {
+		List<Asset> assets = assetRepository.findAllByMembers(memberRepository.findOne(id));
+		List<AssetDTO> assetList = new ArrayList<>();
+		for (Asset asset : assets) {
+			AssetDTO dto = new AssetDTO();
+			dto.setId(asset.getId());
+			dto.setTitle(asset.getTitle());
+			
+			assetList.add(dto);
+		}
+		return assetList;
 	}
 
 	@RequestMapping(value = "/members/{id}", method = RequestMethod.GET)
@@ -50,8 +74,11 @@ public class MemberController {
 		} else {
 			model.addAttribute("members", Arrays.asList(new Member[] { memberRepository.findOne(id) }));
 		}
-
-		model.addAttribute("member", memberRepository.findOne(id));
+		
+		Member member = memberRepository.findOne(id);
+		model.addAttribute("member", member);
+		model.addAttribute("asset", assetRepository.findAllByMembers(member));
+		
 		return "members";
 	}
 
