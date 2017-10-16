@@ -36,7 +36,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
 
-	runtime('com.h2database:h2')
+	compile 'com.h2database:h2'
+	compile 'mysql:mysql-connector-java'
+	
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
 	compile group: 'org.webjars', name: 'bootstrap', version: '3.3.7-1'
